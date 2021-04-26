@@ -30,11 +30,4 @@ public class User {
     @OneToOne(fetch = FetchType.EAGER)
     private Client client;
 
-    /*@JoinColumn(name = "player_id")
-    @OneToOne(fetch = FetchType.EAGER)
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "person_id")
-    private List<Instrument> instrumentList;*/
-
-
 }
