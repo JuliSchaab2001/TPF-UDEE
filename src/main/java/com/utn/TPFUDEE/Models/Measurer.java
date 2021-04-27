@@ -15,6 +15,10 @@ public class Measurer {
     private Integer serialNumber;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "measurer_id")
+    @JoinColumn(name = "measurerType_id")
     private MeasurerType measurerType;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "address_id")
+    private Address address;
 }

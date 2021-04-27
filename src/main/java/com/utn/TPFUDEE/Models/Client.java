@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,9 +22,8 @@ public class Client {
     @NotNull(message = "El campo lastName es obligatorio")
     private String lastName;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "client_id")
-    private Address address;
+    @OneToMany(mappedBy = "client")
+    private List<Address> addressList;
 
 
 }

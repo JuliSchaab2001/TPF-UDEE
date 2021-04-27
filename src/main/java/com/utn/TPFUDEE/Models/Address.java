@@ -14,7 +14,7 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer address_id;
 
     @NotNull(message = "El campo Street es obligarorio")
     private String street;
@@ -23,11 +23,11 @@ public class Address {
     private Integer number;
 
     @OneToOne(fetch =  FetchType.EAGER)
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "tariff_id")
     private Tariff tariff;
 
-    @OneToOne(fetch =  FetchType.EAGER)
-    @JoinColumn(name = "address_id")
-    private Measurement measurement;
+    @ManyToOne(fetch =  FetchType.EAGER)
+    @JoinColumn(name = "client_id")
+    private Client client;
 
 }

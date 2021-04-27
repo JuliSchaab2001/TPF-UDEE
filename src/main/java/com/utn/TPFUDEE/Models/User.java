@@ -13,7 +13,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer user_id;
 
 
 
@@ -26,8 +26,8 @@ public class User {
     //Como vamos a setear esto? desde la bdd??
     private boolean isAdmin;
 
-    @JoinColumn(name = "user_id")
     @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "client_id")
     private Client client;
 
 }

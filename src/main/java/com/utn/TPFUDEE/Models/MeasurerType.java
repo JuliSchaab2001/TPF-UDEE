@@ -16,7 +16,7 @@ public class MeasurerType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer measurerType_id;
 
     @NotNull(message = "El campo model es obligaotorio")
     private String model;
