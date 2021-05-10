@@ -9,25 +9,30 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @Entity
+
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Integer user_id;
 
 
-
     @NotNull(message = "El campo userName es obligatorio")
+    @Column(name = "userName")
     private String userName;
 
     @NotNull(message = "El campo password es obligatorio")
+    @Column(name = "password")
     private String password;
 
     //Como vamos a setear esto? desde la bdd??
+    @Column(name = "isAdmin")
     private boolean isAdmin;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "client_id")
+    @OneToOne
+    @JoinColumn(name = "client_id",foreignKey = @ForeignKey(name = "fk_dni"))
     private Client client;
 
 }
