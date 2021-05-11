@@ -27,12 +27,12 @@ public class Address {
     @Column(name = "number")
     private Integer number;
 
-    @OneToOne //Googlear por que no mas fetchtype
-    @JoinColumn(name = "tariff_id", foreignKey = @ForeignKey(name = "fk_tariff_id"))
+    @ManyToOne
+    @JoinColumn(name = "tariff_id", referencedColumnName = "tariff_id")
     private Tariff tariff;
 
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "client_id", referencedColumnName = "dni")
     private Client client;
 
 }

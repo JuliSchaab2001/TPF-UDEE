@@ -1,32 +1,61 @@
 package com.utn.TPFUDEE.Models;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @Entity
+@Table(name = "bills")
 public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer bill_id;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "measurer_id")
-    private Measurer measurer;
+    @Column(name = "initial_measurement")
+    @NotNull
+    private Integer initialMeasurement;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "initial_measurement_id")
-    private Measurement initialMeasurement;
+    @Column(name = "final_measurement")
+    @NotNull
+    private Integer finalMeasurement;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "final_measurement_id")
-    private Measurement finalMeasurement;
+    @Column(name = "initial_date")
+    @NotNull
+    private LocalDateTime initialDate;
 
+    @Column(name = "final_date")
+    @NotNull
+    private LocalDateTime finalDate;
+
+    @Column(name = "consumed_kw")
+    @NotNull
     private Double kwConsumed;
-    private  boolean isPaid;
+
+    @Column(name = "total")
+    @NotNull
+    private double total;
+
+    @Column(name = "is_paid")
+    @NotNull
+    private Boolean isPaid;
+
+    @ManyToOne
+    @JoinColumn(name = "meter_serial_numer", referencedColumnName = "serial_number")
+    private Meter meter;
+
+    @OneToMany(mappedBy = "bills")
+    private List<Measurement> measurementList;
+
+
+
+
 
 
 
