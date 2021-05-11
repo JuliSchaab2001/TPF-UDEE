@@ -8,7 +8,8 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @Entity
-public class Measurer {
+@Table()
+public class Meter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

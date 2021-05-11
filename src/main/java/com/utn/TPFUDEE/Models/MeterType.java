@@ -3,15 +3,13 @@ package com.utn.TPFUDEE.Models;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
 @Entity
+@Table(name = "model_brand")
 public class MeasurerType {
 
     @Id
