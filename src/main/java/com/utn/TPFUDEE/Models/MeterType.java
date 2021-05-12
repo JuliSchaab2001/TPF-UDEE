@@ -15,6 +15,7 @@ public class MeterType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "model_brand_id")
     private Integer measurerType_id;
 
     @NotNull(message = "El campo model es obligaotorio")
@@ -25,6 +26,6 @@ public class MeterType {
     @Column(name = "brand")
     private String brand;
 
-    @OneToMany(mappedBy = "model_brand")
+    @OneToMany(mappedBy = "meterType")
     private List<Meter> meterList;
 }

@@ -1,11 +1,14 @@
 package com.utn.TPFUDEE.Services;
 
+import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Repositories.MeterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import sun.net.www.http.HttpClient;
+
+import java.util.List;
 
 @Service
 public class MeterService {

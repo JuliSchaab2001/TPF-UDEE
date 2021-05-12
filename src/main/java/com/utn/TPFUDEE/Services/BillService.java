@@ -1,11 +1,14 @@
 package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Controllers.BillController;
+import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Repositories.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.List;
 
 @Service
 public class BillService {

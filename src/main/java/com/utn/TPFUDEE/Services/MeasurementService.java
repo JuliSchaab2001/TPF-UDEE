@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Services;
 
+import com.utn.TPFUDEE.Models.Measurement;
 import com.utn.TPFUDEE.Repositories.MeasurementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,11 +23,12 @@ public class MeasurementService {
         return measurementRepository.findAll();
     }
 
-    public void save(Measurement measurement){
+    public void add(Measurement measurement){
         measurementRepository.save(measurement);
     }
 
     public Measurement getById(Integer id){
         return measurementRepository.findById(id).orElseThrow( () -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
     }
+
 }

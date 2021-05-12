@@ -15,7 +15,8 @@ public class Client {
 
     @Id
     @NotNull(message = "El campo dni es obligatorio") //Agregar restricciones en cuanto a los valores que puede tomar el dni
-    private Integer dni;                              //Como validamos que no se carguen dos DNI iguales?
+    @Column(name = "dni")
+    private Integer dni;                             //Como validamos que no se carguen dos DNI iguales?
 
     @Column(name = "name")
     @NotNull(message = "El campo name es obligatorio")
@@ -29,10 +30,10 @@ public class Client {
     @NotNull(message = "El campo lastName es obligatorio")
     private String lastName;
 
-    @OneToMany(mappedBy = "clients")
+    @OneToMany(mappedBy = "client")
     private List<Address> addressList;
 
-    @OneToOne(mappedBy = "clients")
+    @OneToOne(mappedBy = "client")
     private User user;
 
 

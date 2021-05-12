@@ -1,8 +1,11 @@
 package com.utn.TPFUDEE.Controllers;
 
+import com.utn.TPFUDEE.Models.MeterType;
 import com.utn.TPFUDEE.Services.MeterTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/meterType")
@@ -11,7 +14,7 @@ public class MeterTypeController {
     private MeterTypeService meterTypeService;
 
     @GetMapping("/")
-    public List<MeterType > getAll(){
+    public List<MeterType> getAll(){
         return meterTypeService.getAll();
     }
 

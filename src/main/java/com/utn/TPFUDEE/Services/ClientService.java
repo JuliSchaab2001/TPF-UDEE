@@ -1,10 +1,13 @@
 package com.utn.TPFUDEE.Services;
 
+import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.List;
 
 @Service
 public class ClientService {
@@ -25,7 +28,7 @@ public class ClientService {
     }
 
     public Client getById(Integer id){
-        return clientRepository.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND);
+        return clientRepository.findById(id).orElseThrow(() -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
     }
 
 

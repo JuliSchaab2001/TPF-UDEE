@@ -16,6 +16,7 @@ import java.util.List;
 public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bill_id")
     private Integer bill_id;
 
     @Column(name = "initial_measurement")
@@ -50,7 +51,7 @@ public class Bill {
     @JoinColumn(name = "meter_id", referencedColumnName = "meter_id")
     private Meter meter;
 
-    @OneToMany(mappedBy = "bills")
+    @OneToMany(mappedBy = "bill")
     private List<Measurement> measurementList;
 
 

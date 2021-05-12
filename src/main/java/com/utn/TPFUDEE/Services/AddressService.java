@@ -1,10 +1,13 @@
 package com.utn.TPFUDEE.Services;
 
+import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Repositories.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.List;
 
 @Service
 public class AddressService {

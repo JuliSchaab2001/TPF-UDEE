@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Repositories;
 
+import com.utn.TPFUDEE.Models.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

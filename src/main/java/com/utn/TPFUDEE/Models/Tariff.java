@@ -26,6 +26,6 @@ public class Tariff {
     private Double price;
 
     @NotNull(message = "El campo es obligatorio")
-    @OneToMany(mappedBy = "tariffs")
+    @OneToMany(mappedBy = "tariff")
     private List<Address> address;
 }

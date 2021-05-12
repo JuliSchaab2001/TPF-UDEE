@@ -1,8 +1,11 @@
 package com.utn.TPFUDEE.Controllers;
 
+import com.utn.TPFUDEE.Models.Measurement;
 import com.utn.TPFUDEE.Services.MeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/measurement")
@@ -11,7 +14,7 @@ public class MeasurementController {
     private MeasurementService measurementService;
 
     @GetMapping("/")
-    public List<Measurement > getAll(){
+    public List<Measurement> getAll(){
         return measurementService.getAll();
     }
 

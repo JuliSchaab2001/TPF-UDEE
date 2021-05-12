@@ -15,6 +15,7 @@ import java.time.LocalTime;
 public class Measurement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "measurments_id")
     private Integer measurement_id;
 
     @NotNull(message = "El campo es obligatorio")

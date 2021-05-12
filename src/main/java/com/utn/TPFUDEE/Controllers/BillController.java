@@ -1,9 +1,12 @@
 package com.utn.TPFUDEE.Controllers;
 
 
+import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Services.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/bill")
@@ -12,7 +15,7 @@ public class BillController {
     private BillService billService;
 
     @GetMapping("/")
-    public List<Bill > getAll(){
+    public List<Bill> getAll(){
         return billService.getAll();
     }
 

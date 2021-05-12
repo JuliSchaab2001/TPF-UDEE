@@ -16,6 +16,7 @@ public class Meter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "meter_id")
     private Integer meter_id;
 
     @NotNull(message = "El campo es obligatorio")
@@ -30,10 +31,10 @@ public class Meter {
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
 
-    @OneToMany(mappedBy = "meters")
+    @OneToMany(mappedBy = "meter")
     private List<Bill> billList;
 
-    @OneToMany(mappedBy = "meters")
+    @OneToMany(mappedBy = "meter")
     private List<Measurement> measurementList;
 
 
