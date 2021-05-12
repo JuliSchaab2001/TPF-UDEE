@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.mapping.Join;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
@@ -15,8 +16,11 @@ public class Meter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer serialNumber;
+    private Integer meter_id;
 
+    @NotNull(message = "El campo es obligatorio")
+    @Column(name = "serial_number")
+    private Integer serialNumber;
 
     @ManyToOne
     @JoinColumn(name = "model_brand_id", referencedColumnName = "model_brand_id")

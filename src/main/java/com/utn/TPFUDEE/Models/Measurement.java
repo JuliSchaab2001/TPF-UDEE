@@ -26,7 +26,7 @@ public class Measurement {
     private Integer kw;
 
     @ManyToOne
-    @JoinColumn(name = "meter_serial_number", referencedColumnName = "serial_number")
+    @JoinColumn(name = "meter_id", referencedColumnName = "meter_id")
     private Meter meter;
 
     @ManyToOne

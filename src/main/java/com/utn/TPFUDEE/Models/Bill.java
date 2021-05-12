@@ -47,7 +47,7 @@ public class Bill {
     private Boolean isPaid;
 
     @ManyToOne
-    @JoinColumn(name = "meter_serial_numer", referencedColumnName = "serial_number")
+    @JoinColumn(name = "meter_id", referencedColumnName = "meter_id")
     private Meter meter;
 
     @OneToMany(mappedBy = "bills")
