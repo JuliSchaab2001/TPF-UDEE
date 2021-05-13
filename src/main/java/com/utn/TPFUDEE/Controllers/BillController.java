@@ -4,6 +4,8 @@ package com.utn.TPFUDEE.Controllers;
 import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Services.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,17 +17,18 @@ public class BillController {
     private BillService billService;
 
     @GetMapping("/")
-    public List<Bill> getAll(){
-        return billService.getAll();
+    public ResponseEntity<List<Bill>> getAll(){
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(billService.getAll());
     }
 
     @GetMapping("/{id}")
-    public Bill getById(@PathVariable Integer id){
-        return billService.getById(id);
+    public ResponseEntity<Bill> getById(@PathVariable Integer id){
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(billService.getById(id));
     }
 
     @PostMapping("/")
-    public void add(@RequestBody Bill bill){
+    public ResponseEntity add(@RequestBody Bill bill){
         billService.add(bill);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
     }
 }
