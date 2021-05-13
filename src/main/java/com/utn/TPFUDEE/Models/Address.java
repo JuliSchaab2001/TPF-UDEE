@@ -32,7 +32,7 @@ public class Address {
     private Tariff tariff;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "dni")
+    @JoinColumn(name = "dni", referencedColumnName = "dni")
     private Client client;
 
 }

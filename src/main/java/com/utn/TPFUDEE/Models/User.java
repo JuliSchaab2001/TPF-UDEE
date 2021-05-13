@@ -28,7 +28,7 @@ public class User {
     private String password;
 
     //Como vamos a setear esto? desde la bdd??//How to set a default valor? DEA TIRABA COMENTARIO EN INGLES
-    @Column(name = "isAdmin")
+    @Column(name = "is_employee")
     private boolean isAdmin;
 
     @OneToOne
