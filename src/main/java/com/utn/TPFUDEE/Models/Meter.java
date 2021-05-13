@@ -2,7 +2,7 @@ package com.utn.TPFUDEE.Models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.mapping.Join;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
