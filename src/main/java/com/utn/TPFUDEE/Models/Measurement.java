@@ -12,7 +12,6 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 @Entity
-@Builder
 @Table(name = "measurements")
 public class Measurement {
     @Id

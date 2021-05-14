@@ -1,7 +1,6 @@
 package com.utn.TPFUDEE.Controllers;
 
 import com.utn.TPFUDEE.Exceptions.ClientExistException;
-import com.utn.TPFUDEE.Exceptions.ExistsException;
 import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @Entity
-@Builder
 @Table(name = "addresses")
 public class Address {
 

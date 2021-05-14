@@ -1,7 +1,7 @@
 package com.utn.TPFUDEE.Controllers;
 
 
-import com.utn.TPFUDEE.Exceptions.ExistsException;
+
 import com.utn.TPFUDEE.Exceptions.TariffExistException;
 import com.utn.TPFUDEE.Models.Tariff;
 import com.utn.TPFUDEE.Services.TariffService;

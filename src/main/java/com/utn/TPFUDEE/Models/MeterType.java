@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
-@Builder
 @Table(name = "model_brand")
 public class MeterType {
 

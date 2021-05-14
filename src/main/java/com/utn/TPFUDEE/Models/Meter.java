@@ -12,7 +12,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
-@Builder
 @Table(name = "meters")
 public class Meter {
 

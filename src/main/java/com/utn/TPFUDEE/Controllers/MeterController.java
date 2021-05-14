@@ -1,6 +1,6 @@
 package com.utn.TPFUDEE.Controllers;
 
-import com.utn.TPFUDEE.Exceptions.ExistsException;
+
 import com.utn.TPFUDEE.Exceptions.MeterExistException;
 import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Services.MeterService;

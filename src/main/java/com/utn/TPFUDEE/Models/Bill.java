@@ -12,7 +12,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
-@Builder
 @Table(name = "bills")
 public class Bill {
     @Id
