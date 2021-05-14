@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Models;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @Entity
-
+@Builder
 @Table(name = "users")
 public class User {
 

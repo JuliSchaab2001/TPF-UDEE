@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Models;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "measurements")
 public class Measurement {
     @Id

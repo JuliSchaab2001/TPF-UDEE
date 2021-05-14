@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Models;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "tariffs")
 public class Tariff {
     @Id
