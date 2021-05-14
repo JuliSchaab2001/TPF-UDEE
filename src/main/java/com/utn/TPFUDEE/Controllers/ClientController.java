@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Controllers;
 
+import com.utn.TPFUDEE.Exceptions.ClientExistException;
 import com.utn.TPFUDEE.Exceptions.ExistsException;
 import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Services.ClientService;
@@ -28,7 +29,7 @@ public class ClientController {
     }
 
     @PostMapping("/")
-    public ResponseEntity add(@RequestBody Client client) throws ExistsException {
+    public ResponseEntity add(@RequestBody Client client) throws ClientExistException {
         clientService.add(client);
         return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
     }

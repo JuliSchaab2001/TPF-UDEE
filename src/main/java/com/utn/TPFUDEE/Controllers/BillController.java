@@ -1,6 +1,7 @@
 package com.utn.TPFUDEE.Controllers;
 
 
+import com.utn.TPFUDEE.Exceptions.BillExistException;
 import com.utn.TPFUDEE.Exceptions.ExistsException;
 import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Services.BillService;
@@ -28,7 +29,7 @@ public class BillController {
     }
 
     @PostMapping("/")
-    public ResponseEntity add(@RequestBody Bill bill) throws ExistsException {
+    public ResponseEntity add(@RequestBody Bill bill) throws BillExistException {
         billService.add(bill);
         return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
     }

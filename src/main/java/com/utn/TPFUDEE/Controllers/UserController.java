@@ -2,6 +2,7 @@ package com.utn.TPFUDEE.Controllers;
 
 
 import com.utn.TPFUDEE.Exceptions.ExistsException;
+import com.utn.TPFUDEE.Exceptions.UserExistException;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity add(@RequestBody User user) throws ExistsException {
+    public ResponseEntity add(@RequestBody User user) throws UserExistException {
         userService.add(user);
         return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
     }

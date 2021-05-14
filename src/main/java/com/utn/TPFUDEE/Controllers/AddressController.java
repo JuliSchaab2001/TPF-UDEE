@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Controllers;
 
+import com.utn.TPFUDEE.Exceptions.AddressExistException;
 import com.utn.TPFUDEE.Exceptions.ExistsException;
 import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Services.AddressService;
@@ -28,7 +29,7 @@ public class AddressController {
     }
 
     @PostMapping("/")
-    public ResponseEntity add(@RequestBody Address address) throws ExistsException {
+    public ResponseEntity add(@RequestBody Address address) throws AddressExistException {
         addressService.add(address);
         return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
     }

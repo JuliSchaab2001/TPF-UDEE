@@ -1,6 +1,7 @@
 package com.utn.TPFUDEE.Controllers;
 
 import com.utn.TPFUDEE.Exceptions.ExistsException;
+import com.utn.TPFUDEE.Exceptions.MeterTypeExistException;
 import com.utn.TPFUDEE.Models.MeterType;
 import com.utn.TPFUDEE.Services.MeterTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class MeterTypeController {
     }
 
     @PostMapping("/")
-    public ResponseEntity add(@RequestBody MeterType meterType) throws ExistsException {
+    public ResponseEntity add(@RequestBody MeterType meterType) throws MeterTypeExistException {
         meterTypeService.add(meterType);
         return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
     }

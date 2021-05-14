@@ -1,6 +1,7 @@
 package com.utn.TPFUDEE.Controllers;
 
 import com.utn.TPFUDEE.Exceptions.ExistsException;
+import com.utn.TPFUDEE.Exceptions.MeasurementExistException;
 import com.utn.TPFUDEE.Models.Measurement;
 import com.utn.TPFUDEE.Services.MeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class MeasurementController {
     }
 
     @PostMapping("/")
-    public ResponseEntity add(@RequestBody Measurement measurement) throws ExistsException {
+    public ResponseEntity add(@RequestBody Measurement measurement) throws MeasurementExistException {
         measurementService.add(measurement);
         return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
     }

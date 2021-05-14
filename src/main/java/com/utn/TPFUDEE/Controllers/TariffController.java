@@ -2,6 +2,7 @@ package com.utn.TPFUDEE.Controllers;
 
 
 import com.utn.TPFUDEE.Exceptions.ExistsException;
+import com.utn.TPFUDEE.Exceptions.TariffExistException;
 import com.utn.TPFUDEE.Models.Tariff;
 import com.utn.TPFUDEE.Services.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class TariffController {
     }
 
     @PostMapping("/")
-    public ResponseEntity add(@RequestBody Tariff tariff) throws ExistsException {
+    public ResponseEntity add(@RequestBody Tariff tariff) throws TariffExistException {
         tariffService.add(tariff);
         return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
     }
