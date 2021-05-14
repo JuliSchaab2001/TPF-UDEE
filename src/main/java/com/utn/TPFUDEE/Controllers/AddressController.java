@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Controllers;
 
+import com.utn.TPFUDEE.Exceptions.ExistsException;
 import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Services.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ public class AddressController {
     }
 
     @PostMapping("/")
-    public ResponseEntity add(@RequestBody Address address){
+    public ResponseEntity add(@RequestBody Address address) throws ExistsException {
         addressService.add(address);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
     }
 }

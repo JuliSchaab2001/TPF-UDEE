@@ -1,9 +1,12 @@
 package com.utn.TPFUDEE.Controllers;
 
 
+import com.utn.TPFUDEE.Exceptions.ExistsException;
 import com.utn.TPFUDEE.Models.Tariff;
 import com.utn.TPFUDEE.Services.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,17 +18,18 @@ public class TariffController {
     private TariffService tariffService;
 
     @GetMapping("/")
-    public List<Tariff> getAll(){
-        return tariffService.getAll();
+    public ResponseEntity<List<Tariff>> getAll(){
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(tariffService.getAll());
     }
 
     @GetMapping("/{id}")
-    public Tariff getById(@PathVariable Integer id){
-        return tariffService.getById(id);
+    public ResponseEntity<Tariff> getById(@PathVariable Integer id){
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( tariffService.getById(id));
     }
 
     @PostMapping("/")
-    public void add(@RequestBody Tariff tariff){
+    public ResponseEntity add(@RequestBody Tariff tariff) throws ExistsException {
         tariffService.add(tariff);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
     }
 }

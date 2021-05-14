@@ -1,8 +1,11 @@
 package com.utn.TPFUDEE.Controllers;
 
+import com.utn.TPFUDEE.Exceptions.ExistsException;
 import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,17 +17,19 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping("/")
-    public List<Client> getAll(){
-        return clientService.getAll();
+    public ResponseEntity<List<Client>> getAll(){
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(clientService.getAll());
     }
 
     @GetMapping("/{id}")
-    public Client getById(@PathVariable Integer id){
-        return clientService.getById(id);
+    public ResponseEntity<Client> getById(@PathVariable Integer id){
+
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(clientService.getById(id));
     }
 
     @PostMapping("/")
-    public void add(@RequestBody Client client){
+    public ResponseEntity add(@RequestBody Client client) throws ExistsException {
         clientService.add(client);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
     }
 }

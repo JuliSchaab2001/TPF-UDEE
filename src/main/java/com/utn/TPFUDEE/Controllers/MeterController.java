@@ -1,8 +1,11 @@
 package com.utn.TPFUDEE.Controllers;
 
+import com.utn.TPFUDEE.Exceptions.ExistsException;
 import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Services.MeterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,17 +17,17 @@ public class MeterController {
     private MeterService meterService;
 
     @GetMapping("/")
-    public List<Meter> getAll(){
-        return meterService.getAll();
+    public ResponseEntity<List<Meter>> getAll(){
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(meterService.getAll());
     }
 
     @GetMapping("/{id}")
-    public Meter getById(@PathVariable Integer id){
-        return meterService.getById(id);
+    public ResponseEntity<Meter> getById(@PathVariable Integer id){
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(meterService.getById(id));
     }
 
     @PostMapping("/")
-    public void add(@RequestBody Meter meter){
+    public ResponseEntity add(@RequestBody Meter meter) throws ExistsException {
         meterService.add(meter);
-    }
+        return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();    }
 }

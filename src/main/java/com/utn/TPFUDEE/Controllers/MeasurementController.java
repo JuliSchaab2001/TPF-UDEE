@@ -1,8 +1,11 @@
 package com.utn.TPFUDEE.Controllers;
 
+import com.utn.TPFUDEE.Exceptions.ExistsException;
 import com.utn.TPFUDEE.Models.Measurement;
 import com.utn.TPFUDEE.Services.MeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,17 +17,18 @@ public class MeasurementController {
     private MeasurementService measurementService;
 
     @GetMapping("/")
-    public List<Measurement> getAll(){
-        return measurementService.getAll();
+    public ResponseEntity<List<Measurement>> getAll(){
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(measurementService.getAll());
     }
 
     @GetMapping("/{id}")
-    public Measurement getById(@PathVariable Integer id){
-        return measurementService.getById(id);
+    public ResponseEntity<Measurement> getById(@PathVariable Integer id){
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(measurementService.getById(id));
     }
 
     @PostMapping("/")
-    public void add(@RequestBody Measurement measurement){
+    public ResponseEntity add(@RequestBody Measurement measurement) throws ExistsException {
         measurementService.add(measurement);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
     }
 }
