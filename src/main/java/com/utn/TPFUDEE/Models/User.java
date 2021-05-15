@@ -30,7 +30,7 @@ public class User {
 
     //Como vamos a setear esto? desde la bdd??//How to set a default valor? DEA TIRABA COMENTARIO EN INGLES
     @Column(name = "is_employee")
-    private boolean isAdmin;
+    private boolean isEmployee;
 
     @OneToOne
     @JoinColumn(name = "dni",referencedColumnName = "dni")
