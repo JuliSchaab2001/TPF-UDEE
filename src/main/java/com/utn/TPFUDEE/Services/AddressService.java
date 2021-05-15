@@ -53,5 +53,10 @@ public class AddressService {
         return addressRepository.findById(id).orElseThrow(() -> new AddressNotFoundException());
     }
 
+    public void deleteById(Integer id) throws AddressNotFoundException{
+        this.getById(id);
+        addressRepository.deleteById(id);
+    }
+
 
 }

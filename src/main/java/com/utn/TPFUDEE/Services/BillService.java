@@ -52,4 +52,9 @@ public class BillService {
     public Bill getById(Integer id) throws BillNotFoundException{
         return billRepository.findById(id).orElseThrow( () -> new BillNotFoundException());
     }
+
+    public void deleteById(Integer id) throws BillNotFoundException{
+        this.getById(id);
+        billRepository.deleteById(id);
+    }
 }

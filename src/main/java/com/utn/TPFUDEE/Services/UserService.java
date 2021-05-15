@@ -2,6 +2,7 @@ package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Exceptions.Exist.UserExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.UserNoContentException;
+import com.utn.TPFUDEE.Exceptions.NotFound.MeterNotFoundException;
 import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Repositories.UserRepository;
@@ -45,6 +46,11 @@ public class UserService {
 
     public User getById(Integer id) throws UserNotFoundException {
         return userRepository.findById(id).orElseThrow(()-> new UserNotFoundException());
+    }
+
+    public void deleteById(Integer id) throws UserNotFoundException {
+        this.getById(id);
+        userRepository.deleteById(id);
     }
 
 }

@@ -3,6 +3,7 @@ package com.utn.TPFUDEE.Services;
 import com.utn.TPFUDEE.Exceptions.Exist.MeasurementExistException;
 import com.utn.TPFUDEE.Exceptions.Exist.UserExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.MeasurementNoContentException;
+import com.utn.TPFUDEE.Exceptions.NotFound.ClientNotFoundException;
 import com.utn.TPFUDEE.Exceptions.NotFound.MeasurementNotFoundException;
 import com.utn.TPFUDEE.Models.Measurement;
 import com.utn.TPFUDEE.Models.User;
@@ -49,6 +50,11 @@ public class MeasurementService {
 
     public Measurement getById(Integer id) throws MeasurementNotFoundException {
         return measurementRepository.findById(id).orElseThrow( () -> new MeasurementNotFoundException());
+    }
+
+    public void deleteById(Integer id) throws MeasurementNotFoundException {
+        this.getById(id);
+        measurementRepository.deleteById(id);
     }
 
 }

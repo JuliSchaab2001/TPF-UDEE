@@ -2,6 +2,7 @@ package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Exceptions.Exist.TariffExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.TariffNoContentException;
+import com.utn.TPFUDEE.Exceptions.NotFound.MeterNotFoundException;
 import com.utn.TPFUDEE.Exceptions.NotFound.TariffNotFoundException;
 import com.utn.TPFUDEE.Models.Tariff;
 import com.utn.TPFUDEE.Repositories.TariffRepository;
@@ -45,5 +46,10 @@ public class TariffService {
 
     public Tariff getById(Integer id) throws TariffNotFoundException {
         return tariffRepository.findById(id).orElseThrow(()-> new TariffNotFoundException());
+    }
+
+    public void deleteById(Integer id) throws TariffNotFoundException {
+        this.getById(id);
+        tariffRepository.deleteById(id);
     }
 }

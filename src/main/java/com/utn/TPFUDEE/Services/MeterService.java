@@ -2,6 +2,7 @@ package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Exceptions.Exist.MeterExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.MeterNoContentException;
+import com.utn.TPFUDEE.Exceptions.NotFound.MeasurementNotFoundException;
 import com.utn.TPFUDEE.Exceptions.NotFound.MeterNotFoundException;
 import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Repositories.MeterRepository;
@@ -46,5 +47,10 @@ public class MeterService {
 
     public Meter getById(Integer id) throws MeterNotFoundException {
         return meterRepository.findById(id).orElseThrow(()-> new MeterNotFoundException());
+    }
+
+    public void deleteById(Integer id) throws MeterNotFoundException {
+        this.getById(id);
+        meterRepository.deleteById(id);
     }
 }

@@ -4,6 +4,7 @@ import com.utn.TPFUDEE.Exceptions.Exist.ClientExistException;
 import com.utn.TPFUDEE.Exceptions.Exist.UserExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.ClientNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.BillNotFoundException;
+import com.utn.TPFUDEE.Exceptions.NotFound.ClientNotFoundException;
 import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Repositories.ClientRepository;
@@ -46,8 +47,13 @@ public class ClientService {
         }
     }
 
-    public Client getById(Integer id) throws BillNotFoundException {
-        return clientRepository.findById(id).orElseThrow(() -> new BillNotFoundException());
+    public Client getById(Integer id) throws ClientNotFoundException {
+        return clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException());
+    }
+
+    public void deleteById(Integer id) throws ClientNotFoundException{
+        this.getById(id);
+        clientRepository.deleteById(id);
     }
 
 

@@ -4,6 +4,7 @@ package com.utn.TPFUDEE.Controllers;
 import com.utn.TPFUDEE.Exceptions.Exist.MeterExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.MeterNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.MeterNotFoundException;
+import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
 import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Services.MeterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,13 @@ public class MeterController {
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Meter meter) throws MeterExistException {
         meterService.add(meter);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();    }
+        return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteById(@PathVariable Integer id) throws MeterNotFoundException {
+        meterService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
+    }
 }

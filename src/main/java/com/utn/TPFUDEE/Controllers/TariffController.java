@@ -5,6 +5,7 @@ package com.utn.TPFUDEE.Controllers;
 import com.utn.TPFUDEE.Exceptions.Exist.TariffExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.TariffNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.TariffNotFoundException;
+import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
 import com.utn.TPFUDEE.Models.Tariff;
 import com.utn.TPFUDEE.Services.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,11 @@ public class TariffController {
     public ResponseEntity add(@RequestBody Tariff tariff) throws TariffExistException {
         tariffService.add(tariff);
         return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteById(@PathVariable Integer id) throws UserNotFoundException {
+        userService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
 }
