@@ -1,6 +1,8 @@
 package com.utn.TPFUDEE.Services;
 
+import com.utn.TPFUDEE.Exceptions.*;
 import com.utn.TPFUDEE.Models.Meter;
+import com.utn.TPFUDEE.Models.MeterType;
 import com.utn.TPFUDEE.Repositories.MeterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,15 +22,31 @@ public class MeterService {
         this.meterRepository = meterRepository;
     }
 
-    public List<Meter> getAll(){
-        return meterRepository.findAll();
+    public List<Meter> getAll() throws MeterNoContentException {
+        List<Meter> meterList = meterRepository.findAll();
+
+        if(meterList.isEmpty()) {
+            System.out.println(meterList);
+            throw new MeterNoContentException();
+        }
+        return meterList;
     }
 
-    public void add(Meter meter){
-        meterRepository.save(meter);
+    public void add(Meter meter) throws MeterExistException {
+        boolean flag = false;
+        for(Meter var : this.meterRepository.findAll()){
+            if(var.getSerialNumber().equals(meter.getSerialNumber())){
+                flag = true;
+            }
+        }
+        if(flag){
+            throw new MeterExistException();
+        }else{
+            meterRepository.save(meter);
+        }
     }
 
-    public Meter getById(Integer id){
-        return meterRepository.findById(id).orElseThrow(()-> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+    public Meter getById(Integer id) throws MeterNotFoundException {
+        return meterRepository.findById(id).orElseThrow(()-> new MeterNotFoundException());
     }
 }

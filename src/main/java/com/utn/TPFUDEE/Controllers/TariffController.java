@@ -3,6 +3,8 @@ package com.utn.TPFUDEE.Controllers;
 
 
 import com.utn.TPFUDEE.Exceptions.TariffExistException;
+import com.utn.TPFUDEE.Exceptions.TariffNoContentException;
+import com.utn.TPFUDEE.Exceptions.TariffNotFoundException;
 import com.utn.TPFUDEE.Models.Tariff;
 import com.utn.TPFUDEE.Services.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +21,12 @@ public class TariffController {
     private TariffService tariffService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Tariff>> getAll(){
+    public ResponseEntity<List<Tariff>> getAll() throws TariffNoContentException {
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(tariffService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Tariff> getById(@PathVariable Integer id){
+    public ResponseEntity<Tariff> getById(@PathVariable Integer id) throws TariffNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( tariffService.getById(id));
     }
 

@@ -3,6 +3,8 @@ package com.utn.TPFUDEE.Controllers;
 
 
 import com.utn.TPFUDEE.Exceptions.UserExistException;
+import com.utn.TPFUDEE.Exceptions.UserNoContentException;
+import com.utn.TPFUDEE.Exceptions.UserNotFoundException;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +21,17 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> getAll(){
+    public ResponseEntity<List<User>> getAll() throws UserNoContentException {
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( userService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getById(@PathVariable Integer id){
+    public ResponseEntity<User> getById(@PathVariable Integer id) throws UserNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( userService.getById(id));
     }
 
     @PostMapping("/")
-    public ResponseEntity add(@RequestBody User user) throws UserExistException {
+    public ResponseEntity add(@RequestBody User user) throws UserExistException, UserNoContentException {
         userService.add(user);
         return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
     }

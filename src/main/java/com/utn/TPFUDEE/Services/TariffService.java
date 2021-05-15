@@ -1,6 +1,8 @@
 package com.utn.TPFUDEE.Services;
 
+import com.utn.TPFUDEE.Exceptions.*;
 import com.utn.TPFUDEE.Models.Tariff;
+import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Repositories.TariffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,15 +21,30 @@ public class TariffService {
         this.tariffRepository = tariffRepository;
     }
 
-    public List<Tariff> getAll(){
-        return tariffRepository.findAll();
+    public List<Tariff> getAll() throws TariffNoContentException {
+        List<Tariff> tariffList = tariffRepository.findAll();
+
+        if(tariffList.isEmpty()) {
+            throw new TariffNoContentException();
+        }
+        return tariffList;
     }
 
-    public void add(Tariff tariff){
-        tariffRepository.save(tariff);
+    public void add(Tariff tariff) throws TariffExistException {
+        boolean flag = false;
+        for(Tariff var : this.tariffRepository.findAll()){
+            if(var.getType().equals(tariff.getType())){
+                flag = true;
+            }
+        }
+        if(flag){
+            throw new TariffExistException();
+        }else{
+            tariffRepository.save(tariff);
+        }
     }
 
-    public Tariff getById(Integer id){
-        return tariffRepository.findById(id).orElseThrow( () -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+    public Tariff getById(Integer id) throws TariffNotFoundException {
+        return tariffRepository.findById(id).orElseThrow(()-> new TariffNotFoundException());
     }
 }

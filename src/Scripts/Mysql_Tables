@@ -1,32 +1,23 @@
 create database if not exists UDEE;
 
+use UDEE;
+
 CREATE TABLE IF NOT EXISTS clients (
                                        dni INT NOT NULL,
                                        name VARCHAR(30) NOT NULL,
-    lastName VARCHAR(30) NOT NULL,
+    last_name VARCHAR(30) NOT NULL,
     mail VARCHAR(100),
     CONSTRAINT pk_dni PRIMARY KEY (dni)
     );
 
 CREATE TABLE IF NOT EXISTS users (
                                      user_id INT NOT NULL AUTO_INCREMENT,
-                                     dni INT,
-                                     userName VARCHAR(30) NOT NULL,
+                                     dni INT UNIQUE,
+                                     user_name VARCHAR(30) NOT NULL,
     password VARCHAR(64) NOT NULL,
-    isAdmin BOOLEAN NOT NULL,
+    is_employee BOOLEAN NOT NULL,
     CONSTRAINT pk_user_id PRIMARY KEY (user_id),
-    CONSTRAINT fk_dni FOREIGN KEY (dni)
-    REFERENCES clients (dni)
-    );
-
-CREATE TABLE IF NOT EXISTS addresses (
-                                         address_id INT NOT NULL AUTO_INCREMENT,
-                                         street VARCHAR(30) NOT NULL,
-    number INTEGER NOT NULL,
-    tariff_id INT NOT NULL,
-    dni INT NOT NULL,
-    CONSTRAINT pk_address_id PRIMARY KEY (address_id),
-    CONSTRAINT fk_client_id FOREIGN KEY (dni)
+    CONSTRAINT fk_user_client FOREIGN KEY (dni)
     REFERENCES clients (dni)
     );
 
@@ -37,6 +28,19 @@ CREATE TABLE IF NOT EXISTS tariffs (
     CONSTRAINT pk_tariff_id PRIMARY KEY (tariff_id)
     );
 
+CREATE TABLE IF NOT EXISTS addresses (
+                                         address_id INT NOT NULL AUTO_INCREMENT,
+                                         street VARCHAR(30) NOT NULL,
+    number INTEGER NOT NULL,
+    tariff_id INT NOT NULL,
+    dni INT NOT NULL,
+    CONSTRAINT pk_address_id PRIMARY KEY (address_id),
+    CONSTRAINT fk_address_client FOREIGN KEY (dni)
+    REFERENCES clients (dni),
+    CONSTRAINT fk_address_tariff FOREIGN KEY (tariff_id)
+    REFERENCES tariffs (tariff_id)
+    );
+
 CREATE TABLE IF NOT EXISTS model_brand (
                                            model_brand_id INT NOT NULL AUTO_INCREMENT,
                                            model VARCHAR(30) NOT NULL,
@@ -44,39 +48,44 @@ CREATE TABLE IF NOT EXISTS model_brand (
     CONSTRAINT pk_model_brand_id PRIMARY KEY (model_brand_id)
     );
 
-CREATE TABLE IF NOT EXISTS measurers (
-                                         serial_number INT NOT NULL AUTO_INCREMENT,
-                                         model_brand_id INT NOT NULL,
-                                         address_id INT NOT NULL,
-                                         CONSTRAINT pk_serial_number PRIMARY KEY (serial_number),
-    CONSTRAINT fk_model_brand_id FOREIGN KEY (model_brand_id)
+CREATE TABLE IF NOT EXISTS meters (
+                                      meter_id INT NOT NULL AUTO_INCREMENT,
+                                      password VARCHAR(64) NOT NULL,
+    serial_number VARCHAR(10) NOT NULL,
+    model_brand_id INT NOT NULL,
+    address_id INT NOT NULL UNIQUE,
+    CONSTRAINT pk_meter_id PRIMARY KEY (meter_id),
+    CONSTRAINT fk_meter_model_brand FOREIGN KEY (model_brand_id)
     REFERENCES model_brand (model_brand_id),
-    CONSTRAINT fk_address_id FOREIGN KEY (address_id)
-    REFERENCES addresses (address_id)
+    CONSTRAINT fk_address_address FOREIGN KEY (address_id)
+    REFERENCES addresses (address_id) ON DELETE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS bills (
+                                     bill_id INT NOT NULL AUTO_INCREMENT,
+                                     meter_id INT NOT NULL,
+                                     initial_date DATE NOT NULL,
+                                     final_date DATE NOT NULL,
+                                     initial_measurement INT NOT NULL,
+                                     final_measurement INT NOT NULL,
+                                     consumed_kw DOUBLE NOT NULL,
+                                     total DOUBLE NOT NULL,
+                                     is_paid BOOLEAN NOT NULL,
+                                     CONSTRAINT pk_bills_id PRIMARY KEY (bill_id),
+    CONSTRAINT fk_bill_meter FOREIGN KEY (meter_id)
+    REFERENCES meters(meter_id)
     );
 
 CREATE TABLE IF NOT EXISTS measurements (
                                             measurements_id INT NOT NULL AUTO_INCREMENT,
+                                            meter_id INT NOT NULL,
                                             date DATETIME NOT NULL,
                                             kw DOUBLE NOT NULL,
-                                            CONSTRAINT pk_measurements_id PRIMARY KEY (measurements_id)
+                                            bill_id INT,
+                                            CONSTRAINT pk_measurements_id PRIMARY KEY (measurements_id),
+    CONSTRAINT fk_measurement_meter FOREIGN KEY (meter_id)
+    REFERENCES meters (meter_id),
+    CONSTRAINT fk_measurement_bill FOREIGN KEY (bill_id)
+    REFERENCES bills(bill_id)
     );
-
-CREATE TABLE IF NOT EXISTS bills (
-                                     bills_id INT NOT NULL AUTO_INCREMENT,
-                                     initial_measurement_id INT NOT NULL,
-                                     final_measurement_id INT NOT NULL,
-                                     measurer_id INT NOT NULL,
-                                     consumed_kw DOUBLE NOT NULL,
-                                     total DOUBLE NOT NULL,
-                                     is_paid BOOLEAN NOT NULL,
-                                     CONSTRAINT pk_bills_id PRIMARY KEY (bills_id),
-    CONSTRAINT fk_initial_measurement_id FOREIGN KEY (initial_measurement_id)
-    REFERENCES measurements (measurements_id),
-    CONSTRAINT fk_final_measurement_id FOREIGN KEY (final_measurement_id)
-    REFERENCES measurements (measurements_id),
-    CONSTRAINT fk_measurer_id FOREIGN KEY (measurer_id)
-    REFERENCES measurers (serial_number)
-    );
-
 

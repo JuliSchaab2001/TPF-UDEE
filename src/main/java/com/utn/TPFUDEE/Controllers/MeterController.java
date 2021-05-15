@@ -1,7 +1,7 @@
 package com.utn.TPFUDEE.Controllers;
 
 
-import com.utn.TPFUDEE.Exceptions.MeterExistException;
+import com.utn.TPFUDEE.Exceptions.*;
 import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Services.MeterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +18,12 @@ public class MeterController {
     private MeterService meterService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Meter>> getAll(){
+    public ResponseEntity<List<Meter>> getAll() throws  MeterNoContentException {
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(meterService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Meter> getById(@PathVariable Integer id){
+    public ResponseEntity<Meter> getById(@PathVariable Integer id) throws MeterNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(meterService.getById(id));
     }
 
