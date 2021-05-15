@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @RestController
@@ -21,11 +22,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    //Pureba con pageable
+    @GetMapping("/")
+    public ResponseEntity<List<User>> getAll(Pageable pageable) throws UserNoContentException {
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( userService.getAll(pageable));
+    }
+    /*
     @GetMapping("/")
     public ResponseEntity<List<User>> getAll() throws UserNoContentException {
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( userService.getAll());
     }
-
+    */
     @GetMapping("/{id}")
     public ResponseEntity<User> getById(@PathVariable Integer id) throws UserNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( userService.getById(id));

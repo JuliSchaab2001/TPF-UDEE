@@ -38,8 +38,8 @@ public class TariffController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteById(@PathVariable Integer id) throws UserNotFoundException {
-        userService.deleteById(id);
+    public ResponseEntity deleteById(@PathVariable Integer id) throws TariffNotFoundException {
+        tariffService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
 }

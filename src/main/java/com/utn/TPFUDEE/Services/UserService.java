@@ -9,6 +9,7 @@ import com.utn.TPFUDEE.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -21,6 +22,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    //Prueba con pageable
+    public List<User> getAll(Pageable pageable){
+        return userRepository.findAll(pageable);
+    }
+    /*
     public List<User> getAll() throws UserNoContentException {
         List<User> userList = userRepository.findAll();
 
@@ -29,7 +35,7 @@ public class UserService {
         }
         return userList;
     }
-
+    */
     public void add(User user) throws UserExistException {
         boolean flag = false;
         for(User var : this.userRepository.findAll()){
