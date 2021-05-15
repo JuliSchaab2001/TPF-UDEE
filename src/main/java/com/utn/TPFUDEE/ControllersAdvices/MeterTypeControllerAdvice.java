@@ -1,8 +1,10 @@
 package com.utn.TPFUDEE.ControllersAdvices;
 
 import com.utn.TPFUDEE.Exceptions.*;
+import com.utn.TPFUDEE.Exceptions.Exist.MeterTypeExistException;
+import com.utn.TPFUDEE.Exceptions.NoContent.MeterTypeNoContentException;
+import com.utn.TPFUDEE.Exceptions.NotFound.MeterTypeNotFoundException;
 import com.utn.TPFUDEE.Models.MeterType;
-import com.utn.TPFUDEE.Models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

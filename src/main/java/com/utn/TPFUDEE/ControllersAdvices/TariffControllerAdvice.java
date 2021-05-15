@@ -1,8 +1,10 @@
 package com.utn.TPFUDEE.ControllersAdvices;
 
 import com.utn.TPFUDEE.Exceptions.*;
+import com.utn.TPFUDEE.Exceptions.Exist.TariffExistException;
+import com.utn.TPFUDEE.Exceptions.NoContent.TariffNoContentException;
+import com.utn.TPFUDEE.Exceptions.NotFound.TariffNotFoundException;
 import com.utn.TPFUDEE.Models.Tariff;
-import com.utn.TPFUDEE.Models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

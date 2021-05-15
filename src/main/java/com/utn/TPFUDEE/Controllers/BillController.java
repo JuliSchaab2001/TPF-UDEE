@@ -1,7 +1,7 @@
 package com.utn.TPFUDEE.Controllers;
 
 
-import com.utn.TPFUDEE.Exceptions.BillExistException;
+import com.utn.TPFUDEE.Exceptions.Exist.BillExistException;
 import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Services.BillService;
 import org.springframework.beans.factory.annotation.Autowired;

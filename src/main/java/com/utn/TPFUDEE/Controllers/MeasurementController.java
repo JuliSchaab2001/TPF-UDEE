@@ -1,7 +1,7 @@
 package com.utn.TPFUDEE.Controllers;
 
 
-import com.utn.TPFUDEE.Exceptions.MeasurementExistException;
+import com.utn.TPFUDEE.Exceptions.Exist.MeasurementExistException;
 import com.utn.TPFUDEE.Models.Measurement;
 import com.utn.TPFUDEE.Services.MeasurementService;
 import org.springframework.beans.factory.annotation.Autowired;

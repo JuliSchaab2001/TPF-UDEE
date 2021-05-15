@@ -1,6 +1,8 @@
 package com.utn.TPFUDEE.Controllers;
 
-import com.utn.TPFUDEE.Exceptions.AddressExistException;
+import com.utn.TPFUDEE.Exceptions.Exist.AddressExistException;
+import com.utn.TPFUDEE.Exceptions.NoContent.AddressNoContentException;
+import com.utn.TPFUDEE.Exceptions.NotFound.AddressNotFoundException;
 import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Services.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,13 @@ public class AddressController {
     private AddressService addressService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Address>> getAll(){
+    public ResponseEntity<List<Address>> getAll() throws AddressNoContentException {
+
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(addressService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Address> getById(@PathVariable Integer id){
+    public ResponseEntity<Address> getById(@PathVariable Integer id) throws AddressNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("nombre", "Cuerpo").body( addressService.getById(id));
     }
 

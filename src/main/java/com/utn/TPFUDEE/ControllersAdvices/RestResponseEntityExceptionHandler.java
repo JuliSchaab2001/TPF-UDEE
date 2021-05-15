@@ -1,6 +1,7 @@
-package com.utn.TPFUDEE.Exceptions;
+package com.utn.TPFUDEE.ControllersAdvices;
 
 
+import com.utn.TPFUDEE.Exceptions.ApiError;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

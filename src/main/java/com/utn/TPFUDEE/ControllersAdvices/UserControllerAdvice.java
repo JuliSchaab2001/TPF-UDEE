@@ -1,9 +1,9 @@
 package com.utn.TPFUDEE.ControllersAdvices;
 
 import com.utn.TPFUDEE.Exceptions.ErrorMessage;
-import com.utn.TPFUDEE.Exceptions.UserExistException;
-import com.utn.TPFUDEE.Exceptions.UserNoContentException;
-import com.utn.TPFUDEE.Exceptions.UserNotFoundException;
+import com.utn.TPFUDEE.Exceptions.Exist.UserExistException;
+import com.utn.TPFUDEE.Exceptions.NoContent.UserNoContentException;
+import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
 import com.utn.TPFUDEE.Models.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

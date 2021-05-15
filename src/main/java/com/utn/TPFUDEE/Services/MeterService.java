@@ -1,13 +1,12 @@
 package com.utn.TPFUDEE.Services;
 
-import com.utn.TPFUDEE.Exceptions.*;
+import com.utn.TPFUDEE.Exceptions.Exist.MeterExistException;
+import com.utn.TPFUDEE.Exceptions.NoContent.MeterNoContentException;
+import com.utn.TPFUDEE.Exceptions.NotFound.MeterNotFoundException;
 import com.utn.TPFUDEE.Models.Meter;
-import com.utn.TPFUDEE.Models.MeterType;
 import com.utn.TPFUDEE.Repositories.MeterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 
 import java.util.List;
@@ -26,7 +25,6 @@ public class MeterService {
         List<Meter> meterList = meterRepository.findAll();
 
         if(meterList.isEmpty()) {
-            System.out.println(meterList);
             throw new MeterNoContentException();
         }
         return meterList;

@@ -2,9 +2,9 @@ package com.utn.TPFUDEE.Controllers;
 
 
 
-import com.utn.TPFUDEE.Exceptions.UserExistException;
-import com.utn.TPFUDEE.Exceptions.UserNoContentException;
-import com.utn.TPFUDEE.Exceptions.UserNotFoundException;
+import com.utn.TPFUDEE.Exceptions.Exist.UserExistException;
+import com.utn.TPFUDEE.Exceptions.NoContent.UserNoContentException;
+import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
 package com.utn.TPFUDEE.Controllers;
 
 
-import com.utn.TPFUDEE.Exceptions.MeterTypeExistException;
-import com.utn.TPFUDEE.Exceptions.MeterTypeNoContentException;
+import com.utn.TPFUDEE.Exceptions.Exist.MeterTypeExistException;
+import com.utn.TPFUDEE.Exceptions.NoContent.MeterTypeNoContentException;
 import com.utn.TPFUDEE.Exceptions.MeterTypeNotFoundException;
 import com.utn.TPFUDEE.Models.MeterType;
 import com.utn.TPFUDEE.Services.MeterTypeService;

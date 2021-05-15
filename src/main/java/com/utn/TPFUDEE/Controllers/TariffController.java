@@ -2,9 +2,9 @@ package com.utn.TPFUDEE.Controllers;
 
 
 
-import com.utn.TPFUDEE.Exceptions.TariffExistException;
-import com.utn.TPFUDEE.Exceptions.TariffNoContentException;
-import com.utn.TPFUDEE.Exceptions.TariffNotFoundException;
+import com.utn.TPFUDEE.Exceptions.Exist.TariffExistException;
+import com.utn.TPFUDEE.Exceptions.NoContent.TariffNoContentException;
+import com.utn.TPFUDEE.Exceptions.NotFound.TariffNotFoundException;
 import com.utn.TPFUDEE.Models.Tariff;
 import com.utn.TPFUDEE.Services.TariffService;
 import org.springframework.beans.factory.annotation.Autowired;

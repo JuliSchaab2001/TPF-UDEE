@@ -1,14 +1,12 @@
 package com.utn.TPFUDEE.Services;
 
-import com.utn.TPFUDEE.Exceptions.UserExistException;
-import com.utn.TPFUDEE.Exceptions.UserNoContentException;
-import com.utn.TPFUDEE.Exceptions.UserNotFoundException;
+import com.utn.TPFUDEE.Exceptions.Exist.UserExistException;
+import com.utn.TPFUDEE.Exceptions.NoContent.UserNoContentException;
+import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -26,7 +24,6 @@ public class UserService {
         List<User> userList = userRepository.findAll();
 
         if(userList.isEmpty()) {
-            System.out.println(userList);
             throw new UserNoContentException();
         }
         return userList;

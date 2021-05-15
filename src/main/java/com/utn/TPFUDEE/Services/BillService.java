@@ -1,7 +1,12 @@
 package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Controllers.BillController;
+import com.utn.TPFUDEE.Exceptions.Exist.BillExistException;
+import com.utn.TPFUDEE.Exceptions.Exist.ClientExistException;
+import com.utn.TPFUDEE.Exceptions.NoContent.BillNoContentException;
+import com.utn.TPFUDEE.Exceptions.NotFound.BillNotFoundException;
 import com.utn.TPFUDEE.Models.Bill;
+import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Repositories.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,15 +26,30 @@ public class BillService {
         this.billRepository = billRepository;
     }
 
-    public List<Bill> getAll(){
-        return billRepository.findAll();
+    public List<Bill> getAll() throws BillNoContentException{
+        List<Bill> billList= billRepository.findAll();
+
+        if(billList.isEmpty()){
+            throw new BillNoContentException();
+        }
+        return billList;
     }
 
-    public void add(Bill bill){
-        billRepository.save(bill);
+    public void add(Bill bill) throws BillExistException{
+        boolean flag = false;
+        for(Bill var : this.billRepository.findAll()){
+            if(var.getInitialDate().equals(bill.getInitialDate()) && var.getFinalDate().equals(bill.getFinalDate()) && var.getMeter().getMeter_id().equals(bill.getMeter().getMeter_id())){
+                flag = true;
+            }
+        }
+        if(flag){
+            throw new BillExistException();
+        }else{
+            billRepository.save(bill);
+        }
     }
 
-    public Bill getById(Integer id){
-        return billRepository.findById(id).orElseThrow( () -> new HttpClientErrorException(HttpStatus.NOT_FOUND));
+    public Bill getById(Integer id) throws BillNotFoundException{
+        return billRepository.findById(id).orElseThrow( () -> new BillNotFoundException());
     }
 }
