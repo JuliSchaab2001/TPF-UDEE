@@ -1,6 +1,4 @@
 package com.utn.TPFUDEE.Models;
-
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
