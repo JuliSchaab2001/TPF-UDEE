@@ -5,8 +5,11 @@ import com.utn.TPFUDEE.Exceptions.NoContent.ClientNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.ClientNotFoundException;
 import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
 import com.utn.TPFUDEE.Models.Client;
+import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +23,9 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Client>> getAll() throws ClientNoContentException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(clientService.getAll());
-    }
+    public ResponseEntity<List<Client>> getAll(Pageable pageable) throws ClientNoContentException {
+        Page<Client> p = clientService.getAll(pageable);
+        return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Client> getById(@PathVariable Integer id) throws ClientNotFoundException {

@@ -1,19 +1,14 @@
 package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Exceptions.Exist.MeasurementExistException;
-import com.utn.TPFUDEE.Exceptions.Exist.UserExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.MeasurementNoContentException;
-import com.utn.TPFUDEE.Exceptions.NotFound.ClientNotFoundException;
 import com.utn.TPFUDEE.Exceptions.NotFound.MeasurementNotFoundException;
 import com.utn.TPFUDEE.Models.Measurement;
-import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Repositories.MeasurementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-
-import java.util.List;
 
 @Service
 public class MeasurementService {
@@ -25,8 +20,8 @@ public class MeasurementService {
         this.measurementRepository = measurementRepository;
     }
 
-    public List<Measurement> getAll() throws MeasurementNoContentException {
-        List<Measurement> measurementList= measurementRepository.findAll();
+    public Page<Measurement> getAll(Pageable pageable) throws MeasurementNoContentException {
+        Page<Measurement> measurementList= measurementRepository.findAll(pageable);
         if(measurementList.isEmpty()){
             throw new MeasurementNoContentException();
         }

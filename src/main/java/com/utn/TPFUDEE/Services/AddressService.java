@@ -7,6 +7,8 @@ import com.utn.TPFUDEE.Exceptions.NotFound.AddressNotFoundException;
 import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Repositories.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -24,6 +26,13 @@ public class AddressService {
         this.addressRepository = addressRepository;
     }
 
+    public Page<Address> getAll(Pageable pageable) throws AddressNoContentException{
+        Page<Address> addressList = addressRepository.findAll(pageable);
+        if(addressList.isEmpty()){
+            throw new AddressNoContentException();
+        }
+        return addressList;
+    }
 
     public void add(Address address) throws AddressExistException {
         boolean flag = false;
@@ -38,16 +47,6 @@ public class AddressService {
             addressRepository.save(address);
         }
     }
-
-
-    public List<Address> getAll() throws AddressNoContentException{
-        List<Address> addressList = addressRepository.findAll();
-        if(addressList.isEmpty()){
-            throw new AddressNoContentException();
-        }
-        return addressRepository.findAll();
-    }
-
 
     public Address getById(Integer id) throws AddressNotFoundException{
         return addressRepository.findById(id).orElseThrow(() -> new AddressNotFoundException());

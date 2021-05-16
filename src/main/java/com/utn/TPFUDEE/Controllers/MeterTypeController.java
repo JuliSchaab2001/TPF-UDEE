@@ -7,6 +7,8 @@ import com.utn.TPFUDEE.Exceptions.NotFound.MeterTypeNotFoundException;
 import com.utn.TPFUDEE.Models.MeterType;
 import com.utn.TPFUDEE.Services.MeterTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +22,9 @@ public class MeterTypeController {
     private MeterTypeService meterTypeService;
 
     @GetMapping("/")
-    public ResponseEntity<List<MeterType>> getAll() throws MeterTypeNoContentException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(meterTypeService.getAll());
+    public ResponseEntity<List<MeterType>> getAll(Pageable pageable) throws MeterTypeNoContentException {
+        Page<MeterType> p = meterTypeService.getAll(pageable);
+        return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());
     }
 
     @GetMapping("/{id}")
