@@ -1,19 +1,16 @@
 package com.utn.TPFUDEE.Controllers;
 
-
-
 import com.utn.TPFUDEE.Exceptions.Exist.UserExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.UserNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Services.UserService;
-import org.hibernate.validator.constraints.ParameterScriptAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
+
 import java.util.List;
 
 @RestController
@@ -22,17 +19,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    //Pureba con pageable
-    @GetMapping("/")
-    public ResponseEntity<List<User>> getAll(Pageable pageable) throws UserNoContentException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( userService.getAll(pageable));
-    }
-    /*
     @GetMapping("/")
     public ResponseEntity<List<User>> getAll() throws UserNoContentException {
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( userService.getAll());
     }
-    */
+
     @GetMapping("/{id}")
     public ResponseEntity<User> getById(@PathVariable Integer id) throws UserNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( userService.getById(id));

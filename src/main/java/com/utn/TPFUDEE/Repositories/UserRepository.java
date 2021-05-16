@@ -7,6 +7,5 @@ import java.awt.print.Pageable;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    //Prueba con pageable
-    List<User> findAll(Pageable pageable);
+
 }
