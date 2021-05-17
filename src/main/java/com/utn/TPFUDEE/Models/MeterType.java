@@ -1,9 +1,7 @@
 package com.utn.TPFUDEE.Models;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -29,4 +27,9 @@ public class MeterType {
 
     @OneToMany(mappedBy = "meterType")
     private List<Meter> meterList;
+
+    public void setMeter(List<Meter> meterList){
+        this.meterList = meterList;
+        this.meterList.forEach(o -> o.setMeterType(this));
+    }
 }

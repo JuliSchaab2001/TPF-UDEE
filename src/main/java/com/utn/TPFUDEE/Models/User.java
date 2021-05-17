@@ -1,9 +1,7 @@
 package com.utn.TPFUDEE.Models;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
