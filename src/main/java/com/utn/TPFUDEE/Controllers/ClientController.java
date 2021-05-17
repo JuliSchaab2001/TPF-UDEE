@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Controllers;
 
+import com.utn.TPFUDEE.DTO.ClientDTO;
 import com.utn.TPFUDEE.Exceptions.Exist.ClientExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.ClientNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.ClientNotFoundException;
@@ -20,14 +21,14 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Client>> getAll() throws ClientNoContentException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(clientService.getAll());
+    public ResponseEntity<List<ClientDTO>> getAll() throws ClientNoContentException {
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(ClientDTO.mapClientListToDTO(clientService.getAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Client> getById(@PathVariable Integer id) throws ClientNotFoundException {
+    public ResponseEntity<ClientDTO> getById(@PathVariable Integer id) throws ClientNotFoundException {
 
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(clientService.getById(id));
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(ClientDTO.mapClientToDTO(clientService.getById(id)));
     }
 
     @PostMapping("/")

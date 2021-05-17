@@ -1,6 +1,7 @@
 package com.utn.TPFUDEE.Controllers;
 
 
+import com.utn.TPFUDEE.DTO.BillDTO;
 import com.utn.TPFUDEE.Exceptions.Exist.BillExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.BillNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.BillNotFoundException;
@@ -21,13 +22,13 @@ public class BillController {
     private BillService billService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Bill>> getAll() throws BillNoContentException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(billService.getAll());
+    public ResponseEntity<List<BillDTO>> getAll() throws BillNoContentException {
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(BillDTO.mapBillListToDTO(billService.getAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Bill> getById(@PathVariable Integer id) throws BillNotFoundException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(billService.getById(id));
+    public ResponseEntity<BillDTO> getById(@PathVariable Integer id) throws BillNotFoundException {
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(BillDTO.mapBillToDTO(billService.getById(id)));
     }
 
     @PostMapping("/")

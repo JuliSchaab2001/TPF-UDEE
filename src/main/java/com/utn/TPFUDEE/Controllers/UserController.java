@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Controllers;
 
+import com.utn.TPFUDEE.DTO.UserDTO;
 import com.utn.TPFUDEE.Exceptions.Exist.UserExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.UserNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
@@ -20,13 +21,13 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> getAll() throws UserNoContentException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( userService.getAll());
+    public ResponseEntity<List<UserDTO>> getAll() throws UserNoContentException {
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(UserDTO.mapUserToDTOList(userService.getAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getById(@PathVariable Integer id) throws UserNotFoundException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( userService.getById(id));
+    public ResponseEntity<UserDTO> getById(@PathVariable Integer id) throws UserNotFoundException {
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(UserDTO.mapUserToDTO(userService.getById(id)));
     }
 
     @PostMapping("/")

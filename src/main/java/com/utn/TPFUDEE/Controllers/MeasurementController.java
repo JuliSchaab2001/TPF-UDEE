@@ -1,6 +1,7 @@
 package com.utn.TPFUDEE.Controllers;
 
 
+import com.utn.TPFUDEE.DTO.MeasurementDTO;
 import com.utn.TPFUDEE.Exceptions.Exist.MeasurementExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.MeasurementNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.MeasurementNotFoundException;
@@ -21,13 +22,13 @@ public class MeasurementController {
     private MeasurementService measurementService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Measurement>> getAll() throws MeasurementNoContentException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(measurementService.getAll());
+    public ResponseEntity<List<MeasurementDTO>> getAll() throws MeasurementNoContentException {
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(MeasurementDTO.mapMeasurementToDTOList(measurementService.getAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Measurement> getById(@PathVariable Integer id) throws MeasurementNotFoundException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(measurementService.getById(id));
+    public ResponseEntity<MeasurementDTO> getById(@PathVariable Integer id) throws MeasurementNotFoundException {
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(MeasurementDTO.mapMeasurementToDTO(measurementService.getById(id)));
     }
 
     @PostMapping("/")

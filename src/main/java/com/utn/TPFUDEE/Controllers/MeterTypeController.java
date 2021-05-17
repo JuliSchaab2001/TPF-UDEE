@@ -1,6 +1,7 @@
 package com.utn.TPFUDEE.Controllers;
 
 
+import com.utn.TPFUDEE.DTO.MeterTypeDTO;
 import com.utn.TPFUDEE.Exceptions.Exist.MeterTypeExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.MeterTypeNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.MeterTypeNotFoundException;
@@ -20,13 +21,13 @@ public class MeterTypeController {
     private MeterTypeService meterTypeService;
 
     @GetMapping("/")
-    public ResponseEntity<List<MeterType>> getAll() throws MeterTypeNoContentException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(meterTypeService.getAll());
+    public ResponseEntity<List<MeterTypeDTO>> getAll() throws MeterTypeNoContentException {
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(MeterTypeDTO.mapMeterTypeToPDOList(meterTypeService.getAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MeterType> getById(@PathVariable Integer id) throws MeterTypeNotFoundException{
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(meterTypeService.getById(id));
+    public ResponseEntity<MeterTypeDTO> getById(@PathVariable Integer id) throws MeterTypeNotFoundException{
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(MeterTypeDTO.mapMeterTypeToPDO(meterTypeService.getById(id)));
     }
 
     @PostMapping("/")

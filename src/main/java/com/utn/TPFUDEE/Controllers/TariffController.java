@@ -2,6 +2,7 @@ package com.utn.TPFUDEE.Controllers;
 
 
 
+import com.utn.TPFUDEE.DTO.TariffDTO;
 import com.utn.TPFUDEE.Exceptions.Exist.TariffExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.TariffNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.TariffNotFoundException;
@@ -22,13 +23,13 @@ public class TariffController {
     private TariffService tariffService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Tariff>> getAll() throws TariffNoContentException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(tariffService.getAll());
+    public ResponseEntity<List<TariffDTO>> getAll() throws TariffNoContentException {
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(TariffDTO.mapTariffListToDTO(tariffService.getAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Tariff> getById(@PathVariable Integer id) throws TariffNotFoundException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( tariffService.getById(id));
+    public ResponseEntity<TariffDTO> getById(@PathVariable Integer id) throws TariffNotFoundException {
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(TariffDTO.mapTariffToDTO(tariffService.getById(id)));
     }
 
     @PostMapping("/")

@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Models;
 
+import com.utn.TPFUDEE.DTO.TariffDTO;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,4 +30,5 @@ public class Tariff {
     @NotNull(message = "El campo es obligatorio")
     @OneToMany(mappedBy = "tariff")
     private List<Address> address;
+
 }
