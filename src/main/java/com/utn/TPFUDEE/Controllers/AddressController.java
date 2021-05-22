@@ -3,10 +3,11 @@ package com.utn.TPFUDEE.Controllers;
 import com.utn.TPFUDEE.Exceptions.Exist.AddressExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.AddressNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.AddressNotFoundException;
-import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
 import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Services.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +22,9 @@ public class AddressController {
     private AddressService addressService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Address>> getAll() throws AddressNoContentException {
-
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(addressService.getAll());
-    }
+    public ResponseEntity<List<Address>> getAll(Pageable pageable) throws AddressNoContentException {
+        Page<Address> p = addressService.getAll(pageable);
+        return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());}
 
     @GetMapping("/{id}")
     public ResponseEntity<Address> getById(@PathVariable Integer id) throws AddressNotFoundException {

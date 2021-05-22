@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -32,5 +31,10 @@ public class Tariff {
 
     @JsonIgnore
     @OneToMany(mappedBy = "tariff")
-    private List<Address> address;
+    private List<Address> addressList;
+
+    public void setAddress(List<Address> addressList){
+        this.addressList = addressList;
+        this.addressList.forEach(o -> o.setTariff(this));
+    }
 }

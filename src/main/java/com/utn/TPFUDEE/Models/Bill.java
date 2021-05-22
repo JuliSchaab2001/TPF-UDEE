@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -57,7 +56,10 @@ public class Bill {
     @OneToMany(mappedBy = "bill")
     private List<Measurement> measurementList;
 
-
+    public void setMeasurement(List<Measurement> measurementList){
+        this.measurementList = measurementList;
+        this.measurementList.forEach(o -> o.setBill(this));
+    }
 
 
 

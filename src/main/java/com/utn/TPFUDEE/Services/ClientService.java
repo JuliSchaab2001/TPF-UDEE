@@ -1,19 +1,14 @@
 package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Exceptions.Exist.ClientExistException;
-import com.utn.TPFUDEE.Exceptions.Exist.UserExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.ClientNoContentException;
-import com.utn.TPFUDEE.Exceptions.NotFound.BillNotFoundException;
 import com.utn.TPFUDEE.Exceptions.NotFound.ClientNotFoundException;
 import com.utn.TPFUDEE.Models.Client;
-import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-
-import java.util.List;
 
 @Service
 public class ClientService {
@@ -25,8 +20,8 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public List<Client> getAll()throws ClientNoContentException{
-        List<Client> clientList =  clientRepository.findAll();
+    public Page<Client> getAll(Pageable pageable)throws ClientNoContentException{
+        Page<Client> clientList =  clientRepository.findAll(pageable);
         if(clientList.isEmpty()){
             throw new ClientNoContentException();
         }

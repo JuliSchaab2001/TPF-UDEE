@@ -6,11 +6,11 @@ import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-
 import java.util.List;
 
 @RestController
@@ -20,8 +20,9 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> getAll() throws UserNoContentException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( userService.getAll());
+    public ResponseEntity<List<User>> getAll(Pageable pageable) throws UserNoContentException {
+        Page<User> p = userService.getAll(pageable);
+        return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());
     }
 
     @GetMapping("/{id}")
