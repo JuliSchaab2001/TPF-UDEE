@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -43,5 +42,9 @@ public class Client {
     @OneToOne(mappedBy = "client")
     private User user;
 
+    public void setAddress(List<Address> addressList){
+        this.addressList = addressList;
+        this.addressList.forEach(o -> o.setClient(this));
+    }
 
 }

@@ -4,10 +4,11 @@ package com.utn.TPFUDEE.Controllers;
 import com.utn.TPFUDEE.Exceptions.Exist.BillExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.BillNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.BillNotFoundException;
-import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
 import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Services.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +22,9 @@ public class BillController {
     private BillService billService;
 
     @GetMapping("/")
-    public ResponseEntity<List<Bill>> getAll() throws BillNoContentException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(billService.getAll());
+    public ResponseEntity<List<Bill>> getAll(Pageable pageable) throws BillNoContentException {
+        Page<Bill> p = billService.getAll(pageable);
+        return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());
     }
 
     @GetMapping("/{id}")

@@ -9,6 +9,8 @@ import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Repositories.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -26,8 +28,8 @@ public class BillService {
         this.billRepository = billRepository;
     }
 
-    public List<Bill> getAll() throws BillNoContentException{
-        List<Bill> billList= billRepository.findAll();
+    public Page<Bill> getAll(Pageable pageable) throws BillNoContentException{
+        Page<Bill> billList= billRepository.findAll(pageable);
 
         if(billList.isEmpty()){
             throw new BillNoContentException();

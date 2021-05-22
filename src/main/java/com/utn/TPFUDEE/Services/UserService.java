@@ -2,14 +2,14 @@ package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Exceptions.Exist.UserExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.UserNoContentException;
-import com.utn.TPFUDEE.Exceptions.NotFound.MeterNotFoundException;
 import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
@@ -22,8 +22,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAll() throws UserNoContentException {
-        List<User> userList = userRepository.findAll();
+    public Page<User> getAll(Pageable pageable) throws UserNoContentException {
+        Page<User> userList = userRepository.findAll(pageable);
 
         if(userList.isEmpty()) {
             throw new UserNoContentException();

@@ -2,14 +2,14 @@ package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Exceptions.Exist.TariffExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.TariffNoContentException;
-import com.utn.TPFUDEE.Exceptions.NotFound.MeterNotFoundException;
 import com.utn.TPFUDEE.Exceptions.NotFound.TariffNotFoundException;
 import com.utn.TPFUDEE.Models.Tariff;
 import com.utn.TPFUDEE.Repositories.TariffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class TariffService {
@@ -21,8 +21,8 @@ public class TariffService {
         this.tariffRepository = tariffRepository;
     }
 
-    public List<Tariff> getAll() throws TariffNoContentException {
-        List<Tariff> tariffList = tariffRepository.findAll();
+    public Page<Tariff> getAll(Pageable pageable) throws TariffNoContentException {
+        Page<Tariff> tariffList = tariffRepository.findAll(pageable);
 
         if(tariffList.isEmpty()) {
             throw new TariffNoContentException();

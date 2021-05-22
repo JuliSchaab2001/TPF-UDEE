@@ -2,14 +2,14 @@ package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Exceptions.Exist.MeterTypeExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.MeterTypeNoContentException;
-import com.utn.TPFUDEE.Exceptions.NotFound.MeterNotFoundException;
 import com.utn.TPFUDEE.Exceptions.NotFound.MeterTypeNotFoundException;
 import com.utn.TPFUDEE.Models.MeterType;
 import com.utn.TPFUDEE.Repositories.MeterTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class MeterTypeService {
@@ -21,8 +21,8 @@ public class MeterTypeService {
         this.meterTypeRepository = meterTypeRepository;
     }
 
-    public List<MeterType> getAll() throws MeterTypeNoContentException {
-        List<MeterType> meterTypeList = meterTypeRepository.findAll();
+    public Page<MeterType> getAll(Pageable pageable) throws MeterTypeNoContentException {
+        Page<MeterType> meterTypeList = meterTypeRepository.findAll(pageable);
 
         if(meterTypeList.isEmpty()) {
             throw new MeterTypeNoContentException();
