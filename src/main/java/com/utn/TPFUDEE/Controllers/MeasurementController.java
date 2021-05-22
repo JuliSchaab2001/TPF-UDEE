@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,9 @@ public class MeasurementController {
 
     @GetMapping("/")
     public ResponseEntity<List<Measurement>> getAll() throws MeasurementNoContentException {
+        System.out.println(LocalDateTime.now().toString());
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(measurementService.getAll());
+
     }
 
     @GetMapping("/{id}")

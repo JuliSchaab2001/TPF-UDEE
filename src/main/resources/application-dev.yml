@@ -3,7 +3,7 @@ spring:
     url: jdbc:mysql://localhost:3306/udee?serverTimezone=UTC
 
     username: root
-    password: boca852456
+    password: root
   jpa:
     show-sql: true
     hibernate:

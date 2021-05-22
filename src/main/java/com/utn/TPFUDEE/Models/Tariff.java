@@ -1,5 +1,7 @@
 package com.utn.TPFUDEE.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
+@AllArgsConstructor
+@Builder
 @Table(name = "tariffs")
 public class Tariff {
     @Id
@@ -26,7 +30,7 @@ public class Tariff {
     @Column(name = "price")
     private Double price;
 
-    @NotNull(message = "El campo es obligatorio")
+    @JsonIgnore
     @OneToMany(mappedBy = "tariff")
     private List<Address> address;
 }

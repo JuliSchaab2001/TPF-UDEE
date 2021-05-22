@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Models;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Entity
+@AllArgsConstructor
+@Builder
 @Table(name = "meters")
 public class Meter {
 
@@ -22,13 +25,17 @@ public class Meter {
 
     @NotNull(message = "El campo es obligatorio")
     @Column(name = "serial_number")
-    private Integer serialNumber;
+    private String serialNumber;
+
+    @NotNull(message = "El campo es obligatorio")
+    @Column(name = "password")
+    private String password;
 
     @ManyToOne
     @JoinColumn(name = "model_brand_id", referencedColumnName = "model_brand_id")
     private MeterType meterType;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
 

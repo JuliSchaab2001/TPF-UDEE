@@ -1,6 +1,7 @@
 package com.utn.TPFUDEE.Models;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,8 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @Entity
+@AllArgsConstructor
+@Builder
 @Table(name = "addresses")
 public class Address {
 
@@ -34,5 +37,9 @@ public class Address {
     @ManyToOne
     @JoinColumn(name = "dni", referencedColumnName = "dni")
     private Client client;
+
+    @OneToOne(mappedBy = "address")
+    private Meter meter;
+
 
 }
