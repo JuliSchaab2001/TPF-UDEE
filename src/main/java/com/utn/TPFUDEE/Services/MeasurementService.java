@@ -29,7 +29,7 @@ public class MeasurementService {
         return measurementList;
     }
 
-    public void add(Measurement measurement) throws MeasurementExistException{
+    public Measurement add(Measurement measurement) throws MeasurementExistException{
         boolean flag = false;
         for(Measurement var : this.measurementRepository.findAll()){
             if(var.getDateTime().equals(measurement.getDateTime()) && var.getMeter().getMeter_id().equals(measurement.getMeter().getMeter_id())){
@@ -39,7 +39,7 @@ public class MeasurementService {
         if(flag){
             throw new MeasurementExistException();
         }else{
-            measurementRepository.save(measurement);
+           return measurementRepository.save(measurement);
         }
     }
 

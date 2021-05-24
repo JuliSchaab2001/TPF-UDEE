@@ -31,7 +31,7 @@ public class UserService {
         return userList;
     }
 
-    public void add(User user) throws UserExistException {
+    public User add(User user) throws UserExistException {
         boolean flag = false;
         for(User var : this.userRepository.findAll()){
             if(var.getUserName().equals(user.getUserName())){
@@ -41,7 +41,7 @@ public class UserService {
         if(flag){
             throw new UserExistException();
         }else{
-            userRepository.save(user);
+            return userRepository.save(user);
         }
     }
 

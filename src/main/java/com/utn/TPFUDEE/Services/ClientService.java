@@ -28,7 +28,7 @@ public class ClientService {
         return clientList;
     }
 
-    public void add(Client client) throws ClientExistException{
+    public Client add(Client client) throws ClientExistException{
         boolean flag = false;
         for(Client var : this.clientRepository.findAll()){
             if(client.getDni().equals(var.getDni())){
@@ -38,7 +38,7 @@ public class ClientService {
         if(flag){
             throw new ClientExistException();
         }else{
-            clientRepository.save(client);
+            return clientRepository.save(client);
         }
     }
 

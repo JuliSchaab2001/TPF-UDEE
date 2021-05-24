@@ -5,6 +5,7 @@ import com.utn.TPFUDEE.Exceptions.NoContent.AddressNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.AddressNotFoundException;
 import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Services.AddressService;
+import com.utn.TPFUDEE.Utils.EntityURLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/address")
 public class AddressController {
+
+    private static final String ADDRESS_PATH = "address";
 
     @Autowired
     private AddressService addressService;
@@ -33,8 +36,7 @@ public class AddressController {
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Address address) throws AddressExistException {
-        addressService.add(address);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
+        return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(ADDRESS_PATH, addressService.add(address).getAddress_id())).build();
     }
 
     @DeleteMapping("/{id}")

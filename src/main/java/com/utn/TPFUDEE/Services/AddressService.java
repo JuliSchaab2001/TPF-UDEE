@@ -34,7 +34,7 @@ public class AddressService {
         return addressList;
     }
 
-    public void add(Address address) throws AddressExistException {
+    public Address add(Address address) throws AddressExistException {
         boolean flag = false;
         for(Address var : addressRepository.findAll()){
             if(address.getStreet().equals(var.getStreet()) && address.getNumber().equals(var.getNumber())){
@@ -44,7 +44,7 @@ public class AddressService {
         if(flag){
             throw new AddressExistException();
         }else{
-            addressRepository.save(address);
+            return addressRepository.save(address);
         }
     }
 

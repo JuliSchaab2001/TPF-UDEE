@@ -37,7 +37,7 @@ public class BillService {
         return billList;
     }
 
-    public void add(Bill bill) throws BillExistException{
+    public Bill add(Bill bill) throws BillExistException{
         boolean flag = false;
         for(Bill var : this.billRepository.findAll()){
             if(var.getInitialDate().equals(bill.getInitialDate()) && var.getFinalDate().equals(bill.getFinalDate()) && var.getMeter().getMeter_id().equals(bill.getMeter().getMeter_id())){
@@ -47,7 +47,7 @@ public class BillService {
         if(flag){
             throw new BillExistException();
         }else{
-            billRepository.save(bill);
+            return billRepository.save(bill);
         }
     }
 

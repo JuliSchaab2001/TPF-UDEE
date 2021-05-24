@@ -6,6 +6,7 @@ import com.utn.TPFUDEE.Exceptions.NoContent.MeterTypeNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.MeterTypeNotFoundException;
 import com.utn.TPFUDEE.Models.MeterType;
 import com.utn.TPFUDEE.Services.MeterTypeService;
+import com.utn.TPFUDEE.Utils.EntityURLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/meterType")
 public class MeterTypeController {
+
+    private static final String METERTYPE_PATH = "meterType";
+
     @Autowired
     private MeterTypeService meterTypeService;
 
@@ -34,8 +38,7 @@ public class MeterTypeController {
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody MeterType meterType) throws MeterTypeExistException {
-        meterTypeService.add(meterType);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
+        return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(METERTYPE_PATH,meterTypeService.add(meterType).getMeterType_id())).build();
     }
 
     @DeleteMapping("/{id}")

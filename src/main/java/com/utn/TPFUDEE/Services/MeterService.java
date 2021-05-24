@@ -29,7 +29,7 @@ public class MeterService {
         return meterList;
     }
 
-    public void add(Meter meter) throws MeterExistException {
+    public Meter add(Meter meter) throws MeterExistException {
         boolean flag = false;
         for(Meter var : this.meterRepository.findAll()){
             if(var.getSerialNumber().equals(meter.getSerialNumber())){
@@ -39,7 +39,7 @@ public class MeterService {
         if(flag){
             throw new MeterExistException();
         }else{
-            meterRepository.save(meter);
+            return meterRepository.save(meter);
         }
     }
 

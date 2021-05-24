@@ -30,7 +30,7 @@ public class TariffService {
         return tariffList;
     }
 
-    public void add(Tariff tariff) throws TariffExistException {
+    public Tariff add(Tariff tariff) throws TariffExistException {
         boolean flag = false;
         for(Tariff var : this.tariffRepository.findAll()){
             if(var.getType().equals(tariff.getType())){
@@ -40,7 +40,7 @@ public class TariffService {
         if(flag){
             throw new TariffExistException();
         }else{
-            tariffRepository.save(tariff);
+            return tariffRepository.save(tariff);
         }
     }
 

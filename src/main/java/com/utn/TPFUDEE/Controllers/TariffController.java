@@ -7,6 +7,7 @@ import com.utn.TPFUDEE.Exceptions.NoContent.TariffNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.TariffNotFoundException;
 import com.utn.TPFUDEE.Models.Tariff;
 import com.utn.TPFUDEE.Services.TariffService;
+import com.utn.TPFUDEE.Utils.EntityURLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/tariff")
 public class TariffController {
+
+    private static final String TARIFF_PATH = "tariff";
+
     @Autowired
     private TariffService tariffService;
 
@@ -34,8 +38,7 @@ public class TariffController {
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Tariff tariff) throws TariffExistException {
-        tariffService.add(tariff);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
+        return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(TARIFF_PATH,tariffService.add(tariff).getTariff_id())).build();
     }
 
     @DeleteMapping("/{id}")

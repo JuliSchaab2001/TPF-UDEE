@@ -6,6 +6,7 @@ import com.utn.TPFUDEE.Exceptions.NoContent.MeasurementNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.MeasurementNotFoundException;
 import com.utn.TPFUDEE.Models.Measurement;
 import com.utn.TPFUDEE.Services.MeasurementService;
+import com.utn.TPFUDEE.Utils.EntityURLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/measurement")
 public class MeasurementController {
+
+    private static final String MEASUREMENT_PATH = "measurement";
+
     @Autowired
     private MeasurementService measurementService;
 
@@ -33,8 +37,7 @@ public class MeasurementController {
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Measurement measurement) throws MeasurementExistException {
-        measurementService.add(measurement);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
+        return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(MEASUREMENT_PATH, measurementService.add(measurement).getMeasurement_id())).build();
     }
 
     @DeleteMapping("/{id}")

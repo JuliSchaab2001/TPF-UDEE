@@ -6,6 +6,7 @@ import com.utn.TPFUDEE.Exceptions.NoContent.BillNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.BillNotFoundException;
 import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Services.BillService;
+import com.utn.TPFUDEE.Utils.EntityURLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/bill")
 public class BillController {
+
+    private static final String BILL_PATH = "bill";
+
     @Autowired
     private BillService billService;
 
@@ -34,8 +38,7 @@ public class BillController {
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Bill bill) throws BillExistException {
-        billService.add(bill);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
+        return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(BILL_PATH, billService.add(bill).getBill_id())).build();
     }
 
     @DeleteMapping("/{id}")

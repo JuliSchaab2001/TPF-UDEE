@@ -6,6 +6,7 @@ import com.utn.TPFUDEE.Exceptions.NoContent.MeterNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.MeterNotFoundException;
 import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Services.MeterService;
+import com.utn.TPFUDEE.Utils.EntityURLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/meter")
 public class MeterController {
+
+    private static final String METER_PATH = "meter";
+
     @Autowired
     private MeterService meterService;
 
@@ -33,9 +37,7 @@ public class MeterController {
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Meter meter) throws MeterExistException {
-        System.out.println(meter.toString());
-        meterService.add(meter);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
+        return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(METER_PATH,meterService.add(meter).getMeter_id())).build();
     }
 
 

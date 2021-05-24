@@ -30,7 +30,7 @@ public class MeterTypeService {
         return meterTypeList;
     }
 
-    public void add(MeterType meterType) throws MeterTypeExistException {
+    public MeterType add(MeterType meterType) throws MeterTypeExistException {
         boolean flag = false;
         for(MeterType var : this.meterTypeRepository.findAll()){
             if(var.getBrand().equals(meterType.getBrand()) && var.getModel().equals(meterType)){
@@ -40,7 +40,7 @@ public class MeterTypeService {
         if(flag){
             throw new MeterTypeExistException();
         }else{
-            meterTypeRepository.save(meterType);
+            return meterTypeRepository.save(meterType);
         }
     }
 

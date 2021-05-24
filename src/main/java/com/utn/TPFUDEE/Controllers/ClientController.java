@@ -5,6 +5,7 @@ import com.utn.TPFUDEE.Exceptions.NoContent.ClientNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.ClientNotFoundException;
 import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Services.ClientService;
+import com.utn.TPFUDEE.Utils.EntityURLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/client")
 public class ClientController {
+
+    private static final String CLIENT_PATH = "client";
+
     @Autowired
     private ClientService clientService;
 
@@ -33,8 +37,7 @@ public class ClientController {
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Client client) throws ClientExistException {
-        clientService.add(client);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).header("Cuerpo", "Aca habria que poner un header location").build();
+        return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(CLIENT_PATH, clientService.add(client).getDni())).build();
     }
 
     @DeleteMapping("/{id}")
