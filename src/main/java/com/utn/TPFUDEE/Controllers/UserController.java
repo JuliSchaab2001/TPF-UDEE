@@ -4,9 +4,11 @@ import com.utn.TPFUDEE.Exceptions.Exist.UserExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.UserNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
 import com.utn.TPFUDEE.Models.User;
+import com.utn.TPFUDEE.Projections.UsersClients;
 import com.utn.TPFUDEE.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,19 @@ public class UserController {
         Page<User> p = userService.getAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());
     }
+
+    @GetMapping("/projection")
+    public ResponseEntity<List<UsersClients>> getUsersClients(Pageable pageable) throws UserNoContentException{
+        Page<UsersClients> p = userService.getUsersClients(pageable);
+        return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());
+    }
+    //Prueba de otra forma, mismo resultado
+   /* @GetMapping("/projection")
+    public ResponseEntity<Page<UsersClients>> getUsersClients(@RequestParam(defaultValue = "0") int page,
+                                                              @RequestParam(defaultValue = "2") int size) throws UserNoContentException{
+        Page<UsersClients> p = userService.getUsersClients(PageRequest.of(page, size));
+        return new ResponseEntity<Page<UsersClients>>(p, HttpStatus.OK);
+    }*/
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getById(@PathVariable Integer id) throws UserNotFoundException {

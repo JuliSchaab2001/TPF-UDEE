@@ -3,7 +3,7 @@ create database if not exists UDEE;
 use UDEE;
 
 CREATE TABLE IF NOT EXISTS clients (
-                                       dni INT NOT NULL,
+                                       dni INT NOT NULL UNIQUE,
                                        name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     mail VARCHAR(100),
