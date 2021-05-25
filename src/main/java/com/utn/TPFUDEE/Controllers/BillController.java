@@ -25,13 +25,7 @@ public class BillController {
     @Autowired
     private BillService billService;
 
-    /*@GetMapping("/")
-    public ResponseEntity<List<Bill>> getAll(Pageable pageable) throws BillNoContentException {
-        Page<Bill> p = billService.getAll(pageable);
-        return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());
-    }*/
-
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<Bill> getById(@PathVariable Integer id) throws BillNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(billService.getById(id));
     }
@@ -45,5 +39,5 @@ public class BillController {
     public ResponseEntity deleteById(@PathVariable Integer id) throws BillNotFoundException {
         billService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
-    }
+    }* PUEDE QUE ESTE SI POR ALGUNA EXTRAÑA RAZON QUE QUIERA BORRAR UNA FACTURA/
 }

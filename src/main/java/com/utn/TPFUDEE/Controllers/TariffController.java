@@ -26,15 +26,12 @@ public class TariffController {
     @Autowired
     private TariffService tariffService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<Tariff>> getAll(Pageable pageable) throws TariffNoContentException {
-        Page<Tariff> p = tariffService.getAll(pageable);
-        return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());    }
-
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<Tariff> getById(@PathVariable Integer id) throws TariffNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( tariffService.getById(id));
-    }
+    }*/
+
+    //Agregar Modificaciones
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Tariff tariff) throws TariffExistException {

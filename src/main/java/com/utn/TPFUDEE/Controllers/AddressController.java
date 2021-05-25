@@ -25,15 +25,10 @@ public class AddressController {
     @Autowired
     private AddressService addressService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<Address>> getAll(Pageable pageable) throws AddressNoContentException {
-        Page<Address> p = addressService.getAll(pageable);
-        return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());}
-
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<Address> getById(@PathVariable Integer id) throws AddressNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("nombre", "Cuerpo").body( addressService.getById(id));
-    }
+    }*/
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Address address) throws AddressExistException {

@@ -23,16 +23,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<User>> getAll(Pageable pageable) throws UserNoContentException {
-        Page<User> p = userService.getAll(pageable);
-        return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());
-    }
-
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<User> getById(@PathVariable Integer id) throws UserNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( userService.getById(id));
-    }
+    }*/
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody User user) throws UserExistException, UserNoContentException {

@@ -24,16 +24,11 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<Client>> getAll(Pageable pageable) throws ClientNoContentException {
-        Page<Client> p = clientService.getAll(pageable);
-        return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());    }
-
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<Client> getById(@PathVariable Integer id) throws ClientNotFoundException {
 
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(clientService.getById(id));
-    }
+    }*/
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Client client) throws ClientExistException {

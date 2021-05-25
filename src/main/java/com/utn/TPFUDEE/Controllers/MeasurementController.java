@@ -25,24 +25,8 @@ public class MeasurementController {
     @Autowired
     private MeasurementService measurementService;
 
-    /*@GetMapping("/")
-    public ResponseEntity<List<Measurement>> getAll(Pageable pageable) throws MeasurementNoContentException {
-        Page<Measurement> p = measurementService.getAll(pageable);
-        return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());    }*/
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Measurement> getById(@PathVariable Integer id) throws MeasurementNotFoundException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(measurementService.getById(id));
-    }
-
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Measurement measurement) throws MeasurementExistException {
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(MEASUREMENT_PATH, measurementService.add(measurement).getMeasurement_id())).build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteById(@PathVariable Integer id) throws MeasurementNotFoundException {
-        measurementService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
 }

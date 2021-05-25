@@ -25,15 +25,12 @@ public class MeterController {
     @Autowired
     private MeterService meterService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<Meter>> getAll(Pageable pageable) throws MeterNoContentException {
-        Page<Meter> p = meterService.getAll(pageable);
-        return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());    }
-
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<Meter> getById(@PathVariable Integer id) throws MeterNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(meterService.getById(id));
-    }
+    }*/
+
+    //agregar modificacion de medidor
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Meter meter) throws MeterExistException {
