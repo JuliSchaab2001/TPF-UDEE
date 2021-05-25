@@ -5,6 +5,7 @@ import com.utn.TPFUDEE.Exceptions.Exist.UserExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.AddressNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.AddressNotFoundException;
 import com.utn.TPFUDEE.Models.Address;
+import com.utn.TPFUDEE.Projections.addressProjection;
 import com.utn.TPFUDEE.Repositories.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -48,12 +49,12 @@ public class AddressService {
         }
     }
 
-    public Address getById(Integer id) throws AddressNotFoundException{
-        return addressRepository.findById(id).orElseThrow(() -> new AddressNotFoundException());
+    public addressProjection getById(String street) throws AddressNotFoundException{
+        return addressRepository.findByStreet2(street);
     }
 
     public void deleteById(Integer id) throws AddressNotFoundException{
-        this.getById(id);
+        //this.getById(id);
         addressRepository.deleteById(id);
     }
 

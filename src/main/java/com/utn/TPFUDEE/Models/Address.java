@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,6 +37,7 @@ public class Address {
     @JoinColumn(name = "dni", referencedColumnName = "dni")
     private Client client;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "address")
     private Meter meter;
 
