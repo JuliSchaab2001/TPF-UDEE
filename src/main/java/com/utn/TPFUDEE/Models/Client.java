@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -45,6 +49,16 @@ public class Client {
     public void setAddress(List<Address> addressList){
         this.addressList = addressList;
         this.addressList.forEach(o -> o.setClient(this));
+    }
+
+    @GetMapping("/{id}/billUnPaid")
+    public ResponseEntity<DevolcerProyeccion> getClientBillUnPaid(@PathVariable Integer id){
+        return ResponseEntity;
+    }
+
+    @GetMapping("/topTen/")
+    public ResponseEntity<DevolcerProjection> getTopTenMostConsumers(){
+        return ResponseEntity;
     }
 
 }

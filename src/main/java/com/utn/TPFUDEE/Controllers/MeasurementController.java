@@ -25,10 +25,10 @@ public class MeasurementController {
     @Autowired
     private MeasurementService measurementService;
 
-    @GetMapping("/")
+    /*@GetMapping("/")
     public ResponseEntity<List<Measurement>> getAll(Pageable pageable) throws MeasurementNoContentException {
         Page<Measurement> p = measurementService.getAll(pageable);
-        return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());    }
+        return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());    }*/
 
     @GetMapping("/{id}")
     public ResponseEntity<Measurement> getById(@PathVariable Integer id) throws MeasurementNotFoundException {

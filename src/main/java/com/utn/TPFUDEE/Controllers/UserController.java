@@ -44,4 +44,12 @@ public class UserController {
         userService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
+
+    // Esta bien que sea get? esta bien recibir asi userName y password?
+    @GetMapping("/login")
+    public void login(@RequestBody /*USER DTO*/ ){
+
+    }
+
+
 }

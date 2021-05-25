@@ -6,6 +6,7 @@ import com.utn.TPFUDEE.Exceptions.NotFound.AddressNotFoundException;
 import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Services.AddressService;
 import com.utn.TPFUDEE.Utils.EntityURLBuilder;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,4 +45,31 @@ public class AddressController {
         addressService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
+    //
+
+    //Devolver Facturas //Innvestigar regex fecha o como se escriba
+    @GetMapping("/{id}/bill")
+    public ResponseEntity<DevolcerProyeccion> getAddressBills(@PathVariable Integer id, @RequestParam String from, @RequestParam String to){
+        return ResponseEntity;
+    }
+
+    //Devolver consumo //Innvestigar regex para fecha o como se escriba
+    @GetMapping("/{id}/consume")
+    public ResponseEntity<DevolcerProyeccion> getAddressMeasurement(@PathVariable Integer id, @RequestParam String from, @RequestParam String to){
+        return ResponseEntity;
+    }
+
+    //Devolver consumo //Innvestigar regex para fecha o como se escriba
+    @GetMapping("/{id}/measurement")
+    public ResponseEntity<DevolcerProyeccion> getAddressMeasurement(@PathVariable Integer id, @RequestParam String from, @RequestParam String to){
+        return ResponseEntity;
+    }
+
+    @GetMapping("/{id}/billUnPaid")
+    public ResponseEntity<DevolcerProyeccion> getAddressBillUnPaid(@PathVariable Integer id){
+        return ResponseEntity;
+    }
+
+
+
 }

@@ -25,11 +25,11 @@ public class BillController {
     @Autowired
     private BillService billService;
 
-    @GetMapping("/")
+    /*@GetMapping("/")
     public ResponseEntity<List<Bill>> getAll(Pageable pageable) throws BillNoContentException {
         Page<Bill> p = billService.getAll(pageable);
         return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());
-    }
+    }*/
 
     @GetMapping("/{id}")
     public ResponseEntity<Bill> getById(@PathVariable Integer id) throws BillNotFoundException {

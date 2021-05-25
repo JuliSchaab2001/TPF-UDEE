@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/meterType")
 public class MeterTypeController {
 
-    private static final String METERTYPE_PATH = "meterType";
+    /*private static final String METERTYPE_PATH = "meterType";
 
     @Autowired
     private MeterTypeService meterTypeService;
@@ -45,5 +45,5 @@ public class MeterTypeController {
     public ResponseEntity deleteById(@PathVariable Integer id) throws MeterTypeNotFoundException {
         meterTypeService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
-    }
+    }*/
 }
