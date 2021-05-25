@@ -4,6 +4,8 @@ import com.utn.TPFUDEE.Exceptions.Exist.ClientExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.ClientNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.ClientNotFoundException;
 import com.utn.TPFUDEE.Models.Client;
+import com.utn.TPFUDEE.Models.Projections.BillProjection;
+import com.utn.TPFUDEE.Services.BillService;
 import com.utn.TPFUDEE.Services.ClientService;
 import com.utn.TPFUDEE.Utils.EntityURLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ public class ClientController {
 
     @Autowired
     private ClientService clientService;
+    private BillService billService;
 
     /*@GetMapping("/{id}")
     public ResponseEntity<Client> getById(@PathVariable Integer id) throws ClientNotFoundException {
@@ -40,4 +43,10 @@ public class ClientController {
         clientService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
+
+    @GetMapping("/{id}/billUnPaid")
+    public ResponseEntity<List<BillProjection>> getAddressBillUnPaid(@PathVariable Integer id){
+        return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByAddress(id));
+    }
+
 }

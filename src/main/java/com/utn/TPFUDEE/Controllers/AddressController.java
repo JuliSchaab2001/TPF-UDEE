@@ -4,7 +4,11 @@ import com.utn.TPFUDEE.Exceptions.Exist.AddressExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.AddressNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.AddressNotFoundException;
 import com.utn.TPFUDEE.Models.Address;
+import com.utn.TPFUDEE.Models.Projections.BillProjection;
+import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
 import com.utn.TPFUDEE.Services.AddressService;
+import com.utn.TPFUDEE.Services.BillService;
+import com.utn.TPFUDEE.Services.MeasurementService;
 import com.utn.TPFUDEE.Utils.EntityURLBuilder;
 import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,8 @@ public class AddressController {
 
     @Autowired
     private AddressService addressService;
+    private MeasurementService measurementService;
+    private BillService billService;
 
     /*@GetMapping("/{id}")
     public ResponseEntity<Address> getById(@PathVariable Integer id) throws AddressNotFoundException {
@@ -40,7 +46,12 @@ public class AddressController {
         addressService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
-    //
+
+    //Devolver mediciones //Innvestigar regex para fecha o como se escriba // PONER PAGINABLE
+    @GetMapping("/{id}/measurement")
+    public ResponseEntity<List<MeasurementProjection>> getAddressMeasurement(@PathVariable Integer id, @RequestParam String from, @RequestParam String to){
+        return ResponseEntity.status(HttpStatus.OK).header("Todo ok").body(measurementService.getAllByDate(id, from, to));
+    }
 
     //Devolver Facturas //Innvestigar regex fecha o como se escriba
     @GetMapping("/{id}/bill")
@@ -48,21 +59,16 @@ public class AddressController {
         return ResponseEntity;
     }
 
-    //Devolver consumo //Innvestigar regex para fecha o como se escriba
+    //Devolver consumo //Innvestigar regex para fecha o como se escriba// Queda a hacer por complejidad de las tarifa "vieja"
     @GetMapping("/{id}/consume")
-    public ResponseEntity<DevolcerProyeccion> getAddressMeasurement(@PathVariable Integer id, @RequestParam String from, @RequestParam String to){
+    public ResponseEntity<DevolcerProyeccion> getAddressMasurement(@PathVariable Integer id, @RequestParam String from, @RequestParam String to){
         return ResponseEntity;
     }
 
-    //Devolver consumo //Innvestigar regex para fecha o como se escriba
-    @GetMapping("/{id}/measurement")
-    public ResponseEntity<DevolcerProyeccion> getAddressMeasurement(@PathVariable Integer id, @RequestParam String from, @RequestParam String to){
-        return ResponseEntity;
-    }
 
     @GetMapping("/{id}/billUnPaid")
-    public ResponseEntity<DevolcerProyeccion> getAddressBillUnPaid(@PathVariable Integer id){
-        return ResponseEntity;
+    public ResponseEntity<List<BillProjection>> getAddressBillUnPaid(@PathVariable Integer id){
+        return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByAddress(id));
     }
 
 

@@ -51,4 +51,8 @@ public class MeterService {
         this.getById(id);
         meterRepository.deleteById(id);
     }
+
+    public Meter getBySerialNumber(String serialNumber){
+        return meterRepository.findBySerialNumber(serialNumber);
+    }
 }

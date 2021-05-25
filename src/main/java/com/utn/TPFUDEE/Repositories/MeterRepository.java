@@ -7,4 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface MeterRepository extends CrudRepository<Meter, Integer> {
     Page<Meter> findAll(Pageable pageable);
+
+    Meter findBySerialNumber(String serialNumber); //deberia de funcionar solo, checkear
 }

@@ -7,6 +7,7 @@ import com.utn.TPFUDEE.Exceptions.NoContent.BillNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.BillNotFoundException;
 import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Models.Client;
+import com.utn.TPFUDEE.Models.Projections.BillProjection;
 import com.utn.TPFUDEE.Repositories.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,5 +59,13 @@ public class BillService {
     public void deleteById(Integer id) throws BillNotFoundException{
         this.getById(id);
         billRepository.deleteById(id);
+    }
+
+    public List<BillProjection> getUnPaidBillsByAddress(Integer id){
+        return billRepository.getUnPaidBillsByAddress(id);
+    }
+
+    public List<BillProjection> getUnPaidBillsByClient(Integer id){
+        return billRepository.getUnPaidBillsByClient(id);
     }
 }
