@@ -4,6 +4,7 @@ import com.utn.TPFUDEE.Exceptions.Exist.AddressExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.AddressNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.AddressNotFoundException;
 import com.utn.TPFUDEE.Models.Address;
+import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Models.Projections.BillProjection;
 import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
 import com.utn.TPFUDEE.Services.AddressService;
@@ -47,16 +48,16 @@ public class AddressController {
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
 
-    //Devolver mediciones //Innvestigar regex para fecha o como se escriba // PONER PAGINABLE
+    //Devolver mediciones //Innvestigar regex para fecha o como se escriba // PONER PAGINABLE // punto 5
     @GetMapping("/{id}/measurement")
     public ResponseEntity<List<MeasurementProjection>> getAddressMeasurement(@PathVariable Integer id, @RequestParam String from, @RequestParam String to){
         return ResponseEntity.status(HttpStatus.OK).header("Todo ok").body(measurementService.getAllByDate(id, from, to));
     }
 
-    //Devolver Facturas //Innvestigar regex fecha o como se escriba
+    //Devolver Facturas //Innvestigar regex fecha o como se escriba //punto 2
     @GetMapping("/{id}/bill")
-    public ResponseEntity<DevolcerProyeccion> getAddressBills(@PathVariable Integer id, @RequestParam String from, @RequestParam String to){
-        return ResponseEntity;
+    public ResponseEntity<List<BillProjection>> getBillsByDates(@PathVariable Integer id, @RequestParam String from, @RequestParam String to){
+        return ResponseEntity.status(HttpStatus.OK).header("Tuty ok").body(billService.getBillsByDates(id, from, to));
     }
 
     //Devolver consumo //Innvestigar regex para fecha o como se escriba// Queda a hacer por complejidad de las tarifa "vieja"
@@ -65,7 +66,7 @@ public class AddressController {
         return ResponseEntity;
     }
 
-
+    //punto 3
     @GetMapping("/{id}/billUnPaid")
     public ResponseEntity<List<BillProjection>> getAddressBillUnPaid(@PathVariable Integer id){
         return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByAddress(id));

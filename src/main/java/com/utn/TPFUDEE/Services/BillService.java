@@ -68,4 +68,8 @@ public class BillService {
     public List<BillProjection> getUnPaidBillsByClient(Integer id){
         return billRepository.getUnPaidBillsByClient(id);
     }
+
+    public List<BillProjection> getBillsByDates(Integer id, String from, String to){
+        return billRepository.getBillsByDates(id, from, to);
+    }
 }

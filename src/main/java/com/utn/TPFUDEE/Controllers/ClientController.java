@@ -44,6 +44,7 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
 
+    //punto 4
     @GetMapping("/{id}/billUnPaid")
     public ResponseEntity<List<BillProjection>> getAddressBillUnPaid(@PathVariable Integer id){
         return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByAddress(id));
