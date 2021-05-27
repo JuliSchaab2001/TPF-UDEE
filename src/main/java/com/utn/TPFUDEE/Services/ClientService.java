@@ -4,11 +4,14 @@ import com.utn.TPFUDEE.Exceptions.Exist.ClientExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.ClientNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.ClientNotFoundException;
 import com.utn.TPFUDEE.Models.Client;
+import com.utn.TPFUDEE.Models.Projections.ClientProjection;
 import com.utn.TPFUDEE.Repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ClientService {
@@ -52,4 +55,7 @@ public class ClientService {
     }
 
 
+    public List<ClientProjection> getTopTenMostConsumers() {
+        return clientRepository.getTopTenMostConsumers();
+    }
 }

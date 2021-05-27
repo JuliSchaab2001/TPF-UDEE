@@ -5,6 +5,7 @@ import com.utn.TPFUDEE.Exceptions.NoContent.ClientNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.ClientNotFoundException;
 import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Models.Projections.BillProjection;
+import com.utn.TPFUDEE.Models.Projections.ClientProjection;
 import com.utn.TPFUDEE.Services.BillService;
 import com.utn.TPFUDEE.Services.ClientService;
 import com.utn.TPFUDEE.Utils.EntityURLBuilder;
@@ -48,6 +49,12 @@ public class ClientController {
     @GetMapping("/{id}/billUnPaid")
     public ResponseEntity<List<BillProjection>> getAddressBillUnPaid(@PathVariable Integer id){
         return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByAddress(id));
+    }
+
+    @GetMapping("/topTen/")
+    public ResponseEntity<List<ClientProjection>> getTopTenMostConsumers(){
+
+        return ResponseEntity.status(HttpStatus.OK).header("Nice").body(clientService.getTopTenMostConsumers());
     }
 
 }

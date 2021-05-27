@@ -51,14 +51,6 @@ public class Client {
         this.addressList.forEach(o -> o.setClient(this));
     }
 
-    @GetMapping("/{id}/billUnPaid")
-    public ResponseEntity<DevolcerProyeccion> getClientBillUnPaid(@PathVariable Integer id){
-        return ResponseEntity;
-    }
 
-    @GetMapping("/topTen/")
-    public ResponseEntity<DevolcerProjection> getTopTenMostConsumers(){
-        return ResponseEntity;
-    }
 
 }
