@@ -2,9 +2,12 @@ package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Exceptions.Exist.MeasurementExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.MeasurementNoContentException;
+import com.utn.TPFUDEE.Exceptions.NotFound.AddressNotFoundException;
 import com.utn.TPFUDEE.Exceptions.NotFound.MeasurementNotFoundException;
 import com.utn.TPFUDEE.Models.Measurement;
+import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
+import com.utn.TPFUDEE.Models.Projections.MoneyAndKwProjection;
 import com.utn.TPFUDEE.Repositories.MeasurementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +22,7 @@ import java.util.List;
 public class MeasurementService {
 
     private MeasurementRepository measurementRepository;
+    private AddressService addressService;
 
     @Autowired
     public MeasurementService(MeasurementRepository measurementRepository) {
@@ -48,8 +52,13 @@ public class MeasurementService {
         }
     }
 
-    public List<MeasurementProjection> getAllByDate(Integer id, String from, String to){
-        List<MeasurementProjection> projectionList = measurementRepository.getAlltByDate(id, from, to);
+    public Page<MeasurementProjection> getAllByDate(Integer id, String from, String to, Pageable pageable) throws AddressNotFoundException {
+        Meter meter = addressService.getById(id).getMeter();
+        Page<MeasurementProjection> projectionList= null;
+        if(meter != null)
+            projectionList = measurementRepository.findByMeter_idAndDateBetween(meter.getMeter_id(), from, to, pageable);
+        else
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "invalid Address");
         if(!projectionList.isEmpty()){
             return projectionList;
         }else{
@@ -67,4 +76,11 @@ public class MeasurementService {
         measurementRepository.deleteById(id);
     }
 
+    public MoneyAndKwProjection getAddressConsumes(Integer id, String from, String to) throws AddressNotFoundException {
+        Meter meter = addressService.getById(id).getMeter();
+        if(meter!=null)
+            return measurementRepository.getAddressConsumes(id,from,to);
+        else
+            throw  new AddressNotFoundException();
+    }
 }

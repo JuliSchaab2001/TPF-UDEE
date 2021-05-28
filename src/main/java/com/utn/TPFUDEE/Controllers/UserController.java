@@ -3,6 +3,7 @@ package com.utn.TPFUDEE.Controllers;
 import com.utn.TPFUDEE.Exceptions.Exist.UserExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.UserNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
+import com.utn.TPFUDEE.Models.DTO.UserDTO;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Services.UserService;
 import com.utn.TPFUDEE.Utils.EntityURLBuilder;
@@ -40,8 +41,9 @@ public class UserController {
     }
 
     // Esta bien que sea get? esta bien recibir asi userName y password?
-    @GetMapping("/login")
-    public void login(@RequestBody /*USER DTO*/ ){
+    @PostMapping("/login")
+    public void login(@RequestBody UserDTO userDTO){
+        User user = userService.getUserByUserNameAndPassword(userDTO.getUserName(), userDTO.getPassword());
 
     }
 

@@ -39,5 +39,6 @@ public class BillController {
     public ResponseEntity deleteById(@PathVariable Integer id) throws BillNotFoundException {
         billService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
-    }* PUEDE QUE ESTE SI POR ALGUNA EXTRAÑA RAZON QUE QUIERA BORRAR UNA FACTURA/
+    }* PUEDE QUE ESTE SI POR ALGUNA EXTRAÑA RAZON QUE QUIERA BORRAR UNA FACTURA/*/
+
 }
