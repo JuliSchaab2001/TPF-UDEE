@@ -6,6 +6,8 @@ import com.utn.TPFUDEE.Exceptions.Exist.ClientExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.BillNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.AddressNotFoundException;
 import com.utn.TPFUDEE.Exceptions.NotFound.BillNotFoundException;
+import com.utn.TPFUDEE.Exceptions.NotFound.ClientNotFoundException;
+import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Models.Meter;
@@ -26,6 +28,7 @@ public class BillService {
 
     private BillRepository billRepository;
     private AddressService addressService;
+    private ClientService clientService;
 
 
     @Autowired
@@ -70,6 +73,22 @@ public class BillService {
         Page<BillProjection> billProjections = null;
         if(meter != null)
             billProjections = billRepository.getBillByMeter_idAndIsPaid(meter.getMeter_id(),0,pageable);
+        else
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "invalid Address");
+        if(!billProjections.isEmpty())
+            return billProjections;
+        else
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No hay facturas Inpagas");
+
+    }
+
+    public Page<BillProjection> getUnPaidBillsByClient(Integer id, Pageable pageable) throws AddressNotFoundException, ClientNotFoundException {
+        Client client = clientService.getById(id);
+
+        //Guarda aca como lo hacemos
+        Page<BillProjection> billProjections = null;
+        if(Client != null)
+            billProjections = billRepository.getUnPaidBillsByClient(id);
         else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "invalid Address");
         if(!billProjections.isEmpty())
