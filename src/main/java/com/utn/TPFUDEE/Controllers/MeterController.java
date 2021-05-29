@@ -43,4 +43,10 @@ public class MeterController {
         meterService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
+
+    //Agregar Modificaciones
+    @PutMapping("/")
+    public ResponseEntity modify(){
+        return null;
+    }
 }

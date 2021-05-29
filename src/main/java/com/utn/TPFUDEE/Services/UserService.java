@@ -55,6 +55,6 @@ public class UserService {
     }
 
     public User getUserByUserNameAndPassword(String userName, String password) {
-        return null;
+        return userRepository.getUserByUserNameAndPassword(userName, password);
     }
 }

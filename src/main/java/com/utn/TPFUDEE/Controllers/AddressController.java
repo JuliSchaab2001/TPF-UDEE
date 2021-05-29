@@ -16,6 +16,7 @@ import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,15 +39,23 @@ public class AddressController {
         return ResponseEntity.status(HttpStatus.OK).header("nombre", "Cuerpo").body( addressService.getById(id));
     }*/
 
+    //Alta de Address
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Address address) throws AddressExistException {
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(ADDRESS_PATH, addressService.add(address).getAddress_id())).build();
     }
 
+    //Baja de Address
     @DeleteMapping("/{id}")
     public ResponseEntity deleteById(@PathVariable Integer id) throws AddressNotFoundException {
         addressService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
+    }
+
+    //Agregar Modificaciones
+    @PutMapping("/")
+    public ResponseEntity modify(){
+        return null;
     }
 
 
@@ -66,11 +75,11 @@ public class AddressController {
 
 
 
-    //Devolver Facturas //Innvestigar regex fecha o como se escriba //punto 2
+    //punto 2
     @GetMapping("/{id}/bill")
     public ResponseEntity<List<BillProjection>> getBillsByDates(@PathVariable Integer id,
-                                                                @RequestParam String from,
-                                                                @RequestParam String to,
+                                                                @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String from,
+                                                                @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String to,
                                                                 @RequestParam Pageable pageable)
     {
         return ResponseEntity.status(HttpStatus.OK).header("Tuty ok").body(billService.getBillsByDates(id, from, to, pageable).getContent());
@@ -78,7 +87,9 @@ public class AddressController {
 
     //Devolver consumo //Innvestigar regex para fecha o como se escriba// Queda a hacer por complejidad de las tarifa "vieja"
     @GetMapping("/{id}/consume")
-    public ResponseEntity<MoneyAndKwProjection> getAddressConsumes(@PathVariable Integer id, @RequestParam String from, @RequestParam String to) throws AddressNotFoundException {
+    public ResponseEntity<MoneyAndKwProjection> getAddressConsumes(@PathVariable Integer id,
+                                                                   @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String from,
+                                                                   @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String to,) throws AddressNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("Poner header").body(measurementService.getAddressConsumes(id, from, to));
     }
 

@@ -32,12 +32,21 @@ public class TariffController {
     }*/
 
     //Agregar Modificaciones
+    @PutMapping("/")
+    public ResponseEntity modify(){
+        return null;
+    }
 
+
+
+    //Alta de TarifF
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Tariff tariff) throws TariffExistException {
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(TARIFF_PATH,tariffService.add(tariff).getTariff_id())).build();
     }
 
+
+    //Baja de Tariff
     @DeleteMapping("/{id}")
     public ResponseEntity deleteById(@PathVariable Integer id) throws TariffNotFoundException {
         tariffService.deleteById(id);

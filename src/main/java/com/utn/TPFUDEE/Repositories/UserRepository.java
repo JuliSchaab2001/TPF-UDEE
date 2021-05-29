@@ -9,4 +9,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
     Page<User> findAll(Pageable pageable);
+
+    User getUserByUserNameAndPassword(String userName, String password);
 }
