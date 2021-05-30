@@ -32,13 +32,6 @@ public class UserController {
         Page<UsersClients> p = userService.getUsersClients(pageable);
         return ResponseEntity.status(HttpStatus.OK).header("X-Total-Count", Long.toString(p.getTotalElements())).header("X-Total-Pages", Long.toString(p.getTotalPages())).body(p.getContent());
     }
-    //Prueba de otra forma, mismo resultado
-   /* @GetMapping("/projection")
-    public ResponseEntity<Page<UsersClients>> getUsersClients(@RequestParam(defaultValue = "0") int page,
-                                                              @RequestParam(defaultValue = "2") int size) throws UserNoContentException{
-        Page<UsersClients> p = userService.getUsersClients(PageRequest.of(page, size));
-        return new ResponseEntity<Page<UsersClients>>(p, HttpStatus.OK);
-    }*/
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getById(@PathVariable Integer id) throws UserNotFoundException {
