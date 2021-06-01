@@ -48,8 +48,8 @@ public class ClientController {
 
     //punto 4
     @GetMapping("/{id}/billUnPaid")
-    public ResponseEntity<List<BillProjection>> getAddressBillUnPaid(@PathVariable Integer id, @RequestParam Pageable pageable) throws AddressNotFoundException {
-        return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByAddress(id, pageable).getContent());
+    public ResponseEntity<List<BillProjection>> getClientBillUnPaid(@PathVariable Integer id, @RequestParam Pageable pageable) throws  ClientNotFoundException {
+        return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByClient(id, pageable).getContent());
     }
 
     @GetMapping("/topTen/")

@@ -1,10 +1,8 @@
 package com.utn.TPFUDEE.Controllers;
 
 import com.utn.TPFUDEE.Exceptions.Exist.AddressExistException;
-import com.utn.TPFUDEE.Exceptions.NoContent.AddressNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.AddressNotFoundException;
 import com.utn.TPFUDEE.Models.Address;
-import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Models.Projections.BillProjection;
 import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
 import com.utn.TPFUDEE.Models.Projections.MoneyAndKwProjection;
@@ -12,9 +10,7 @@ import com.utn.TPFUDEE.Services.AddressService;
 import com.utn.TPFUDEE.Services.BillService;
 import com.utn.TPFUDEE.Services.MeasurementService;
 import com.utn.TPFUDEE.Utils.EntityURLBuilder;
-import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -42,7 +38,7 @@ public class AddressController {
     //Alta de Address
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Address address) throws AddressExistException {
-        return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(ADDRESS_PATH, addressService.add(address).getAddress_id())).build();
+        return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(ADDRESS_PATH, addressService.add(address).getAddressId())).build();
     }
 
     //Baja de Address

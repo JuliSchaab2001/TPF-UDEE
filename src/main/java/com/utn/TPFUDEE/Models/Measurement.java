@@ -18,11 +18,11 @@ public class Measurement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "measurements_id")
-    private Integer measurement_id;
+    private Integer measurementId;
 
     @NotNull(message = "El campo es obligatorio")
     @Column(name = "date")
-    private String dateTime;
+    private String date;
 
     @NotNull(message = "El campo es obligatorio")
     @Column(name = "kw")

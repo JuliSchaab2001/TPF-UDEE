@@ -1,20 +1,10 @@
 package com.utn.TPFUDEE.Controllers;
 
 
-import com.utn.TPFUDEE.Exceptions.Exist.BillExistException;
-import com.utn.TPFUDEE.Exceptions.NoContent.BillNoContentException;
-import com.utn.TPFUDEE.Exceptions.NotFound.BillNotFoundException;
-import com.utn.TPFUDEE.Models.Bill;
-import com.utn.TPFUDEE.Services.BillService;
-import com.utn.TPFUDEE.Utils.EntityURLBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.utn.TPFUDEE.Services.BillService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/bill")

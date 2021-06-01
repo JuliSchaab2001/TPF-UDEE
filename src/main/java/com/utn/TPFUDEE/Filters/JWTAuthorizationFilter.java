@@ -89,8 +89,6 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter{
         } catch (JsonProcessingException e) {
             SecurityContextHolder.clearContext();
         }
-
-
     }
 
     private boolean containsJWT(HttpServletRequest request, HttpServletResponse res) {

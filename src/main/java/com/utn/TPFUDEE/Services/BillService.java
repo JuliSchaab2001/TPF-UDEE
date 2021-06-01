@@ -1,8 +1,6 @@
 package com.utn.TPFUDEE.Services;
 
-import com.utn.TPFUDEE.Controllers.BillController;
 import com.utn.TPFUDEE.Exceptions.Exist.BillExistException;
-import com.utn.TPFUDEE.Exceptions.Exist.ClientExistException;
 import com.utn.TPFUDEE.Exceptions.NoContent.BillNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.AddressNotFoundException;
 import com.utn.TPFUDEE.Exceptions.NotFound.BillNotFoundException;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -50,7 +47,7 @@ public class BillService {
     public Bill add(Bill bill) throws BillExistException{
         boolean flag = false;
         for(Bill var : this.billRepository.findAll()){
-            if(var.getInitialDate().equals(bill.getInitialDate()) && var.getFinalDate().equals(bill.getFinalDate()) && var.getMeter().getMeter_id().equals(bill.getMeter().getMeter_id())){
+            if(var.getInitialDate().equals(bill.getInitialDate()) && var.getFinalDate().equals(bill.getFinalDate()) && var.getMeter().getMeterId().equals(bill.getMeter().getMeterId())){
                 flag = true;
             }
         }
@@ -74,7 +71,7 @@ public class BillService {
         Meter meter =  addressService.getById(id).getMeter();
         Page<BillProjection> billProjections = null;
         if(meter != null)
-            billProjections = billRepository.getBillByMeter_idAndIsPaid(meter.getMeter_id(),0,pageable);
+            billProjections = billRepository.getBillByMeterAndIsPaid(meter.getMeterId(),0,pageable);
         else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "invalid Address");
         if(!billProjections.isEmpty())
@@ -89,9 +86,9 @@ public class BillService {
         List<Integer> meterIds = new ArrayList<>();
 
         for(Address address: client.getAddressList()){
-            meterIds.add(address.getMeter().getMeter_id());
+            meterIds.add(address.getMeter().getMeterId());
         }
-        return billRepository.getBillByByMeter_idInAndIsPaid(meterIds,0, pageable);
+        return billRepository.getBillByMeterInAndIsPaid(meterIds,0, pageable);
     }
 
     /*public Page<BillProjection> getUnPaidBillsByClient(Integer id, Pageable pageable) throws AddressNotFoundException, ClientNotFoundException {
@@ -112,6 +109,6 @@ public class BillService {
 
 
     public Page<BillProjection> getBillsByDates(Integer id, String from, String to, Pageable pageable){
-        return billRepository.getBillByBill_idAndFinalDateBetween(id, from, to, pageable);
+        return billRepository.getBillByBillIdAndFinalDateBetween(id, from, to, pageable);
     }
 }

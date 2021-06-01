@@ -18,7 +18,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Integer user_id;
+    private Integer userId;
 
 
     @NotNull(message = "El campo userName es obligatorio")

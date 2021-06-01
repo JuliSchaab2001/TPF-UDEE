@@ -6,6 +6,7 @@ import com.utn.TPFUDEE.Exceptions.NoContent.UserNoContentException;
 import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
 import com.utn.TPFUDEE.Models.DTO.LoginResponseDTO;
 import com.utn.TPFUDEE.Models.DTO.LoginUserDTO;
+import com.utn.TPFUDEE.Models.DTO.UserDTO;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Services.UserService;
 import com.utn.TPFUDEE.Utils.EntityURLBuilder;
@@ -50,7 +51,7 @@ public class UserController {
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody User user) throws UserExistException, UserNoContentException {
-        return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(USER_PATH,userService.add(user).getUser_id())).build();
+        return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(USER_PATH,userService.add(user).getUserId())).build();
     }
 
     @DeleteMapping("/{id}")
@@ -61,19 +62,17 @@ public class UserController {
 
     // Esta bien que sea get? esta bien recibir asi userName y password?
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginUserDTO userDTO){
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginUserDTO userDTO){
         User user = userService.getUserByUserNameAndPassword(userDTO.getUserName(), userDTO.getPassword());
         if(user!=null){
             return ResponseEntity.ok(LoginResponseDTO.builder().token(this.generateToken(user)).build());
         }else{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
     }
 
     private String generateToken(User user) {
         try {
-
             List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
             if(user.isEmployee())
@@ -84,7 +83,7 @@ public class UserController {
                     .builder()
                     .setId("JWT")
                     .setSubject(user.getUserName())
-                    .claim("user", objectMapper.writeValueAsString(user))/*Aca tengo que usar un converter de moddelMapper* asi no devuelvo la contraseña, No puedo pasar el dto directamente por que no tengo que devolver el isEmployee*/
+                    .claim("user", objectMapper.writeValueAsString(modelMapper.map(user, UserDTO.class)))/*Aca tengo que usar un converter de moddelMapper* asi no devuelvo la contraseña, No puedo pasar el dto directamente por que no tengo que devolver el isEmployee*/
                     .claim("authorities",grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                     .setIssuedAt(new Date(System.currentTimeMillis()))
                     .setExpiration(new Date(System.currentTimeMillis() + 1000000))

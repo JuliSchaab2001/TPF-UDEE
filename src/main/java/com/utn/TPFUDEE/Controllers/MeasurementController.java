@@ -18,8 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/measurement")
 public class MeasurementController {
@@ -35,7 +33,7 @@ public class MeasurementController {
         Meter meter= meterService.getBySerialNumber(measurement.getSerialNumber());
 
         if(meter.getPassword().equals(measurement.getPassword())) {
-            return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(MEASUREMENT_PATH, measurementService.add(Measurement.builder().dateTime(measurement.getDateTime()).kw(measurement.getKw()).meter(meter).build()).getMeasurement_id())).build();
+            return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(MEASUREMENT_PATH, measurementService.add(Measurement.builder().date(measurement.getDateTime()).kw(measurement.getKw()).meter(meter).build()).getMeasurementId())).build();
         }else{
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Meter Password");
         }

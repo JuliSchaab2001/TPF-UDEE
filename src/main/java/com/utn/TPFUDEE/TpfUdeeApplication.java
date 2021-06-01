@@ -26,7 +26,7 @@ public class TpfUdeeApplication {
 			http.csrf().disable()
 					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
-					.antMatchers(HttpMethod.POST, "/login").permitAll()
+					.antMatchers(HttpMethod.POST, "/user/login").permitAll()
 					.anyRequest().authenticated();
 		}
 

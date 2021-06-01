@@ -19,7 +19,7 @@ public class Meter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "meter_id")
-    private Integer meter_id;
+    private Integer meterId;
 
     @NotNull(message = "El campo es obligatorio")
     @Column(name = "serial_number")

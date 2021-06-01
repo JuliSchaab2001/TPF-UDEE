@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
 
 @Service
 public class MeasurementService {
@@ -41,7 +40,7 @@ public class MeasurementService {
     public Measurement add(Measurement measurement) throws MeasurementExistException{
         boolean flag = false;
         for(Measurement var : this.measurementRepository.findAll()){
-            if(var.getDateTime().equals(measurement.getDateTime()) && var.getMeter().getMeter_id().equals(measurement.getMeter().getMeter_id())){
+            if(var.getDate().equals(measurement.getDate()) && var.getMeter().getMeterId().equals(measurement.getMeter().getMeterId())){
                 flag = true;
             }
         }
@@ -56,7 +55,7 @@ public class MeasurementService {
         Meter meter = addressService.getById(id).getMeter();
         Page<MeasurementProjection> projectionList= null;
         if(meter != null)
-            projectionList = measurementRepository.findByMeter_idAndDateBetween(meter.getMeter_id(), from, to, pageable);
+            projectionList = measurementRepository.findByMeterAndDateBetween(meter.getMeterId(), from, to, pageable);
         else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "invalid Address");
         if(!projectionList.isEmpty()){

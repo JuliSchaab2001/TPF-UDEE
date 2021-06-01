@@ -19,7 +19,7 @@ public class Tariff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tariff_id")
-    private Integer tariff_id;
+    private Integer tariffId;
 
     @NotNull(message = "El campo es obligatorio")
     @Column(name = "type")

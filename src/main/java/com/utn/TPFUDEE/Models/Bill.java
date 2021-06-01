@@ -19,7 +19,7 @@ public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bill_id")
-    private Integer bill_id;
+    private Integer billId;
 
     @Column(name = "initial_measurement")
     @NotNull

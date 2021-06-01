@@ -19,7 +19,7 @@ public class MeterType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "model_brand_id")
-    private Integer meterType_id;
+    private Integer meterTypeId;
 
     @NotNull(message = "El campo model es obligaotorio")
     @Column(name = "model")
