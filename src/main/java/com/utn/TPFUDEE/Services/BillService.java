@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,6 +30,7 @@ public class BillService {
     private BillRepository billRepository;
     private AddressService addressService;
     private ClientService clientService;
+    private MeterService meterService;
 
 
     @Autowired
@@ -82,13 +84,23 @@ public class BillService {
 
     }
 
-    public Page<BillProjection> getUnPaidBillsByClient(Integer id, Pageable pageable) throws AddressNotFoundException, ClientNotFoundException {
+    public Page<BillProjection> getUnPaidBillsByClient(Integer id, Pageable pageable) throws ClientNotFoundException {
+        Client client = clientService.getById(id);
+        List<Integer> meterIds = new ArrayList<>();
+
+        for(Address address: client.getAddressList()){
+            meterIds.add(address.getMeter().getMeter_id());
+        }
+        return billRepository.getBillByByMeter_idInAndIsPaid(meterIds,0, pageable);
+    }
+
+    /*public Page<BillProjection> getUnPaidBillsByClient(Integer id, Pageable pageable) throws AddressNotFoundException, ClientNotFoundException {
         Client client = clientService.getById(id);
 
         //Guarda aca como lo hacemos
         Page<BillProjection> billProjections = null;
-        if(Client != null)
-            billProjections = billRepository.getUnPaidBillsByClient(id);
+        if(client != null)
+            billProjections = billRepository.getUnPaidBillsByClient(id, pageable);
         else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "invalid Address");
         if(!billProjections.isEmpty())
@@ -96,11 +108,8 @@ public class BillService {
         else
             throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No hay facturas Inpagas");
 
-    }
+    }*/
 
-    public List<BillProjection> getUnPaidBillsByClient(Integer id){
-        return billRepository.getUnPaidBillsByClient(id);
-    }
 
     public Page<BillProjection> getBillsByDates(Integer id, String from, String to, Pageable pageable){
         return billRepository.getBillByBill_idAndFinalDateBetween(id, from, to, pageable);

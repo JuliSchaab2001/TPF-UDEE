@@ -89,7 +89,7 @@ public class AddressController {
     @GetMapping("/{id}/consume")
     public ResponseEntity<MoneyAndKwProjection> getAddressConsumes(@PathVariable Integer id,
                                                                    @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String from,
-                                                                   @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String to,) throws AddressNotFoundException {
+                                                                   @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String to) throws AddressNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("Poner header").body(measurementService.getAddressConsumes(id, from, to));
     }
 

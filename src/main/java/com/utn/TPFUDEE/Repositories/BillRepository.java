@@ -15,7 +15,9 @@ public interface BillRepository extends JpaRepository<Bill,Integer> {
 
     Page<BillProjection> getBillByMeter_idAndIsPaid(Integer id, Integer isPaid, Pageable pageable);
 
-    @Query(value= "SELECT \n" +
+    Page<BillProjection> getBillByByMeter_idInAndIsPaid(List<Integer> meterIds, Integer isPaid, Pageable pageable);
+
+    /*@Query(value= "SELECT \n" +
             "    b.bill_id AS id,\n" +
             "    b.initial_measurement AS initialMeasurement,\n" +
             "    b.final_measurement AS finalMeasurement,\n" +
@@ -41,7 +43,7 @@ public interface BillRepository extends JpaRepository<Bill,Integer> {
             "WHERE\n" +
             "    c.dni = ?1\n" +
             "        AND b.is_paid = 0", nativeQuery = true)
-    List<BillProjection> getUnPaidBillsByClient(Integer id);
+    Page<BillProjection> getUnPaidBillsByClient(Integer id, Pageable pageable);*/
 
 
     Page<BillProjection> getBillByBill_idAndFinalDateBetween(Integer id, String from, String to, Pageable pageable);

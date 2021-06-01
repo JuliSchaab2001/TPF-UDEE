@@ -11,6 +11,6 @@ import java.time.LocalDateTime;
 public class MeasurementDTO {
     private String password;
     private String serialNumber;
-    private String date;
+    private String dateTime;
     private Integer kw;
 }
