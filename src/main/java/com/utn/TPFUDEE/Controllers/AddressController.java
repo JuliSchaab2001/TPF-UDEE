@@ -1,7 +1,5 @@
 package com.utn.TPFUDEE.Controllers;
 
-import com.utn.TPFUDEE.Exceptions.Exist.AddressExistException;
-import com.utn.TPFUDEE.Exceptions.NotFound.AddressNotFoundException;
 import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Models.Projections.BillProjection;
 import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
@@ -31,17 +29,17 @@ public class AddressController {
     private BillService billService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Address> getById(@PathVariable Integer id) throws AddressNotFoundException {
+    public ResponseEntity<Address> getById(@PathVariable Integer id){
         return ResponseEntity.status(HttpStatus.OK).header("nombre", "Cuerpo").body( addressService.getById(id));
     }
 
     @PostMapping("/")
-    public ResponseEntity add(@RequestBody Address address) throws AddressExistException {
+    public ResponseEntity add(@RequestBody Address address){
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(ADDRESS_PATH, addressService.add(address).getAddressId())).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteById(@PathVariable Integer id) throws AddressNotFoundException {
+    public ResponseEntity deleteById(@PathVariable Integer id){
         addressService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
@@ -50,7 +48,7 @@ public class AddressController {
     public ResponseEntity<List<MeasurementProjection>> getAddressMeasurement(@PathVariable Integer id,
                                                                              @RequestParam String from,
                                                                              @RequestParam String to,
-                                                                             @RequestParam Pageable pageable) throws AddressNotFoundException {
+                                                                             @RequestParam Pageable pageable){
 
         return ResponseEntity.status(HttpStatus.OK).header("Todo ok").body(measurementService.getAllByDate(id, from, to, pageable).getContent());
 
@@ -68,12 +66,12 @@ public class AddressController {
     @GetMapping("/{id}/consume")
     public ResponseEntity<MoneyAndKwProjection> getAddressConsumes(@PathVariable Integer id,
                                                                    @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String from,
-                                                                   @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String to) throws AddressNotFoundException {
+                                                                   @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String to){
         return ResponseEntity.status(HttpStatus.OK).header("Poner header").body(measurementService.getAddressConsumes(id, from, to));
     }
 
     @GetMapping("/{id}/billUnPaid")
-    public ResponseEntity<List<BillProjection>> getAddressBillUnPaid(@PathVariable Integer id, @RequestParam Pageable pageable) throws AddressNotFoundException {
+    public ResponseEntity<List<BillProjection>> getAddressBillUnPaid(@PathVariable Integer id, @RequestParam Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByAddress(id, pageable).getContent());
     }
 

@@ -1,7 +1,5 @@
 package com.utn.TPFUDEE.Controllers;
 
-import com.utn.TPFUDEE.Exceptions.Exist.MeterExistException;
-import com.utn.TPFUDEE.Exceptions.NotFound.MeterNotFoundException;
 import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Services.MeterService;
 import com.utn.TPFUDEE.Utils.EntityURLBuilder;
@@ -21,12 +19,12 @@ public class MeterController {
     //agregar modificacion de medidor
 
     @PostMapping("/")
-    public ResponseEntity add(@RequestBody Meter meter) throws MeterExistException {
+    public ResponseEntity add(@RequestBody Meter meter){
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(METER_PATH,meterService.add(meter).getMeterId())).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteById(@PathVariable Integer id) throws MeterNotFoundException {
+    public ResponseEntity deleteById(@PathVariable Integer id){
         meterService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }

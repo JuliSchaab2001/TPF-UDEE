@@ -1,7 +1,5 @@
 package com.utn.TPFUDEE.Controllers;
 
-import com.utn.TPFUDEE.Exceptions.Exist.TariffExistException;
-import com.utn.TPFUDEE.Exceptions.NotFound.TariffNotFoundException;
 import com.utn.TPFUDEE.Models.Tariff;
 import com.utn.TPFUDEE.Services.TariffService;
 import com.utn.TPFUDEE.Utils.EntityURLBuilder;
@@ -27,12 +25,12 @@ public class TariffController {
 
 
     @PostMapping("/")
-    public ResponseEntity add(@RequestBody Tariff tariff) throws TariffExistException {
+    public ResponseEntity add(@RequestBody Tariff tariff){
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(TARIFF_PATH,tariffService.add(tariff).getTariffId())).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteById(@PathVariable Integer id) throws TariffNotFoundException {
+    public ResponseEntity deleteById(@PathVariable Integer id){
         tariffService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
