@@ -30,34 +30,22 @@ public class AddressController {
     private MeasurementService measurementService;
     private BillService billService;
 
-    /*@GetMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Address> getById(@PathVariable Integer id) throws AddressNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("nombre", "Cuerpo").body( addressService.getById(id));
-    }*/
+    }
 
-    //Alta de Address
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Address address) throws AddressExistException {
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(ADDRESS_PATH, addressService.add(address).getAddressId())).build();
     }
 
-    //Baja de Address
     @DeleteMapping("/{id}")
     public ResponseEntity deleteById(@PathVariable Integer id) throws AddressNotFoundException {
         addressService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
 
-    //Agregar Modificaciones
-    @PutMapping("/")
-    public ResponseEntity modify(){
-        return null;
-    }
-
-
-
-
-    //Devolver mediciones //Innvestigar regex para fecha o como se escriba // PONER PAGINABLE // punto 5
     @GetMapping("/{id}/measurement")
     public ResponseEntity<List<MeasurementProjection>> getAddressMeasurement(@PathVariable Integer id,
                                                                              @RequestParam String from,
@@ -69,19 +57,14 @@ public class AddressController {
 
     }
 
-
-
-    //punto 2
     @GetMapping("/{id}/bill")
     public ResponseEntity<List<BillProjection>> getBillsByDates(@PathVariable Integer id,
                                                                 @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String from,
                                                                 @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String to,
-                                                                @RequestParam Pageable pageable)
-    {
+                                                                @RequestParam Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).header("Tuty ok").body(billService.getBillsByDates(id, from, to, pageable).getContent());
     }
 
-    //Devolver consumo //Innvestigar regex para fecha o como se escriba// Queda a hacer por complejidad de las tarifa "vieja"
     @GetMapping("/{id}/consume")
     public ResponseEntity<MoneyAndKwProjection> getAddressConsumes(@PathVariable Integer id,
                                                                    @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String from,
@@ -89,7 +72,6 @@ public class AddressController {
         return ResponseEntity.status(HttpStatus.OK).header("Poner header").body(measurementService.getAddressConsumes(id, from, to));
     }
 
-    //punto 3
     @GetMapping("/{id}/billUnPaid")
     public ResponseEntity<List<BillProjection>> getAddressBillUnPaid(@PathVariable Integer id, @RequestParam Pageable pageable) throws AddressNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByAddress(id, pageable).getContent());

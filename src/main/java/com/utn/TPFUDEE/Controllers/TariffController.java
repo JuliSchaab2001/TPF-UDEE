@@ -20,27 +20,17 @@ public class TariffController {
     @Autowired
     private TariffService tariffService;
 
-    /*@GetMapping("/{id}")
-    public ResponseEntity<Tariff> getById(@PathVariable Integer id) throws TariffNotFoundException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( tariffService.getById(id));
-    }*/
-
-    //Agregar Modificaciones
     @PutMapping("/")
     public ResponseEntity modify(){
         return null;
     }
 
 
-
-    //Alta de TarifF
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Tariff tariff) throws TariffExistException {
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(TARIFF_PATH,tariffService.add(tariff).getTariffId())).build();
     }
 
-
-    //Baja de Tariff
     @DeleteMapping("/{id}")
     public ResponseEntity deleteById(@PathVariable Integer id) throws TariffNotFoundException {
         tariffService.deleteById(id);

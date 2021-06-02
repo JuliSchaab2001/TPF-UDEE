@@ -29,11 +29,11 @@ public class ClientController {
     private ClientService clientService;
     private BillService billService;
 
-    /*@GetMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Client> getById(@PathVariable Integer id) throws ClientNotFoundException {
 
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(clientService.getById(id));
-    }*/
+    }
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Client client) throws ClientExistException {
@@ -46,7 +46,6 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
 
-    //punto 4
     @GetMapping("/{id}/billUnPaid")
     public ResponseEntity<List<BillProjection>> getClientBillUnPaid(@PathVariable Integer id, @RequestParam Pageable pageable) throws  ClientNotFoundException {
         return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByClient(id, pageable).getContent());

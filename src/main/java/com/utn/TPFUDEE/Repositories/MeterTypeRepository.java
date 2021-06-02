@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MeterTypeRepository extends JpaRepository<MeterType, Integer> {
     Page<MeterType> findAll(Pageable pageable);
+
+    MeterType findByModelAndBrand(String model, String brand);
 }

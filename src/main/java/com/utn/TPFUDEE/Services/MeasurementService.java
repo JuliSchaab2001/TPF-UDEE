@@ -1,9 +1,5 @@
 package com.utn.TPFUDEE.Services;
 
-import com.utn.TPFUDEE.Exceptions.Exist.MeasurementExistException;
-import com.utn.TPFUDEE.Exceptions.NoContent.MeasurementNoContentException;
-import com.utn.TPFUDEE.Exceptions.NotFound.AddressNotFoundException;
-import com.utn.TPFUDEE.Exceptions.NotFound.MeasurementNotFoundException;
 import com.utn.TPFUDEE.Models.Measurement;
 import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
@@ -28,30 +24,21 @@ public class MeasurementService {
         this.measurementRepository = measurementRepository;
     }
 
-    public Page<Measurement> getAll(Pageable pageable) throws MeasurementNoContentException {
+    public Page<Measurement> getAll(Pageable pageable) {
         Page<Measurement> measurementList= measurementRepository.findAll(pageable);
         if(measurementList.isEmpty()){
-            throw new MeasurementNoContentException();
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Empty Measurement List");
         }
 
         return measurementList;
     }
 
-    public Measurement add(Measurement measurement) throws MeasurementExistException{
-        boolean flag = false;
-        for(Measurement var : this.measurementRepository.findAll()){
-            if(var.getDate().equals(measurement.getDate()) && var.getMeter().getMeterId().equals(measurement.getMeter().getMeterId())){
-                flag = true;
-            }
-        }
-        if(flag){
-            throw new MeasurementExistException();
-        }else{
+    public Measurement add(Measurement measurement){
+
            return measurementRepository.save(measurement);
-        }
     }
 
-    public Page<MeasurementProjection> getAllByDate(Integer id, String from, String to, Pageable pageable) throws AddressNotFoundException {
+    public Page<MeasurementProjection> getAllByDate(Integer id, String from, String to, Pageable pageable){
         Meter meter = addressService.getById(id).getMeter();
         Page<MeasurementProjection> projectionList= null;
         if(meter != null)
@@ -66,20 +53,20 @@ public class MeasurementService {
 
     }
 
-    public Measurement getById(Integer id) throws MeasurementNotFoundException {
-        return measurementRepository.findById(id).orElseThrow( () -> new MeasurementNotFoundException());
+    public Measurement getById(Integer id){
+        return measurementRepository.findById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Measurement Not Found"));
     }
 
-    public void deleteById(Integer id) throws MeasurementNotFoundException {
+    public void deleteById(Integer id){
         this.getById(id);
         measurementRepository.deleteById(id);
     }
 
-    public MoneyAndKwProjection getAddressConsumes(Integer id, String from, String to) throws AddressNotFoundException {
+    public MoneyAndKwProjection getAddressConsumes(Integer id, String from, String to){
         Meter meter = addressService.getById(id).getMeter();
         if(meter!=null)
             return measurementRepository.getAddressConsumes(id,from,to);
         else
-            throw  new AddressNotFoundException();
+            throw  new ResponseStatusException(HttpStatus.NOT_FOUND, "Address Not Found");
     }
 }

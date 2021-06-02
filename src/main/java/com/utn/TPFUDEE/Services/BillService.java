@@ -1,10 +1,5 @@
 package com.utn.TPFUDEE.Services;
 
-import com.utn.TPFUDEE.Exceptions.Exist.BillExistException;
-import com.utn.TPFUDEE.Exceptions.NoContent.BillNoContentException;
-import com.utn.TPFUDEE.Exceptions.NotFound.AddressNotFoundException;
-import com.utn.TPFUDEE.Exceptions.NotFound.BillNotFoundException;
-import com.utn.TPFUDEE.Exceptions.NotFound.ClientNotFoundException;
 import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Models.Client;
@@ -35,39 +30,25 @@ public class BillService {
         this.billRepository = billRepository;
     }
 
-    public Page<Bill> getAll(Pageable pageable) throws BillNoContentException{
+    public Page<Bill> getAll(Pageable pageable){
         Page<Bill> billList= billRepository.findAll(pageable);
 
         if(billList.isEmpty()){
-            throw new BillNoContentException();
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Empty Bill List");
         }
         return billList;
     }
 
-    public Bill add(Bill bill) throws BillExistException{
-        boolean flag = false;
-        for(Bill var : this.billRepository.findAll()){
-            if(var.getInitialDate().equals(bill.getInitialDate()) && var.getFinalDate().equals(bill.getFinalDate()) && var.getMeter().getMeterId().equals(bill.getMeter().getMeterId())){
-                flag = true;
-            }
-        }
-        if(flag){
-            throw new BillExistException();
-        }else{
-            return billRepository.save(bill);
-        }
+    public Bill getById(Integer id) {
+        return billRepository.findById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bill Not Found"));
     }
 
-    public Bill getById(Integer id) throws BillNotFoundException{
-        return billRepository.findById(id).orElseThrow( () -> new BillNotFoundException());
-    }
-
-    public void deleteById(Integer id) throws BillNotFoundException{
+    public void deleteById(Integer id){
         this.getById(id);
         billRepository.deleteById(id);
     }
 
-    public Page<BillProjection> getUnPaidBillsByAddress(Integer id, Pageable pageable) throws AddressNotFoundException {
+    public Page<BillProjection> getUnPaidBillsByAddress(Integer id, Pageable pageable) {
         Meter meter =  addressService.getById(id).getMeter();
         Page<BillProjection> billProjections = null;
         if(meter != null)
@@ -81,32 +62,19 @@ public class BillService {
 
     }
 
-    public Page<BillProjection> getUnPaidBillsByClient(Integer id, Pageable pageable) throws ClientNotFoundException {
+    public Page<BillProjection> getUnPaidBillsByClient(Integer id, Pageable pageable) {
         Client client = clientService.getById(id);
         List<Integer> meterIds = new ArrayList<>();
-
-        for(Address address: client.getAddressList()){
-            meterIds.add(address.getMeter().getMeterId());
+        if(client == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client Not Found");
+        }else{
+            for(Address address: client.getAddressList()){
+                meterIds.add(address.getMeter().getMeterId());
+            }
+            return billRepository.getBillByMeterInAndIsPaid(meterIds,0, pageable);
         }
-        return billRepository.getBillByMeterInAndIsPaid(meterIds,0, pageable);
+
     }
-
-    /*public Page<BillProjection> getUnPaidBillsByClient(Integer id, Pageable pageable) throws AddressNotFoundException, ClientNotFoundException {
-        Client client = clientService.getById(id);
-
-        //Guarda aca como lo hacemos
-        Page<BillProjection> billProjections = null;
-        if(client != null)
-            billProjections = billRepository.getUnPaidBillsByClient(id, pageable);
-        else
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "invalid Address");
-        if(!billProjections.isEmpty())
-            return billProjections;
-        else
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No hay facturas Inpagas");
-
-    }*/
-
 
     public Page<BillProjection> getBillsByDates(Integer id, String from, String to, Pageable pageable){
         return billRepository.getBillByBillIdAndFinalDateBetween(id, from, to, pageable);

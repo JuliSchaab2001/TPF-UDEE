@@ -24,7 +24,7 @@ public class Client {
     @Id
     @NotNull(message = "El campo dni es obligatorio") //Agregar restricciones en cuanto a los valores que puede tomar el dni
     @Column(name = "dni")
-    private Integer dni;                             //Como validamos que no se carguen dos DNI iguales?
+    private Integer dni;
 
     @Column(name = "name")
     @NotNull(message = "El campo name es obligatorio")

@@ -18,12 +18,6 @@ public class MeterController {
 
     @Autowired
     private MeterService meterService;
-
-    /*@GetMapping("/{id}")
-    public ResponseEntity<Meter> getById(@PathVariable Integer id) throws MeterNotFoundException {
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(meterService.getById(id));
-    }*/
-
     //agregar modificacion de medidor
 
     @PostMapping("/")
@@ -31,14 +25,12 @@ public class MeterController {
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(METER_PATH,meterService.add(meter).getMeterId())).build();
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity deleteById(@PathVariable Integer id) throws MeterNotFoundException {
         meterService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
 
-    //Agregar Modificaciones
     @PutMapping("/")
     public ResponseEntity modify(){
         return null;

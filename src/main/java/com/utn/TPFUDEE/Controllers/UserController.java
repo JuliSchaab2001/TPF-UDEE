@@ -1,9 +1,6 @@
 package com.utn.TPFUDEE.Controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.utn.TPFUDEE.Exceptions.Exist.UserExistException;
-import com.utn.TPFUDEE.Exceptions.NoContent.UserNoContentException;
-import com.utn.TPFUDEE.Exceptions.NotFound.UserNotFoundException;
 import com.utn.TPFUDEE.Models.DTO.LoginResponseDTO;
 import com.utn.TPFUDEE.Models.DTO.LoginUserDTO;
 import com.utn.TPFUDEE.Models.DTO.UserDTO;
@@ -44,23 +41,22 @@ public class UserController {
         this.modelMapper = modelMapper;
     }
 
-    /*@GetMapping("/{id}")
-    public ResponseEntity<User> getById(@PathVariable Integer id) throws UserNotFoundException {
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getById(@PathVariable Integer id){
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( userService.getById(id));
-    }*/
+    }
 
     @PostMapping("/")
-    public ResponseEntity add(@RequestBody User user) throws UserExistException, UserNoContentException {
+    public ResponseEntity add(@RequestBody User user){
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(USER_PATH,userService.add(user).getUserId())).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteById(@PathVariable Integer id) throws UserNotFoundException {
+    public ResponseEntity deleteById(@PathVariable Integer id){
         userService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
 
-    // Esta bien que sea get? esta bien recibir asi userName y password?
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginUserDTO userDTO){
         User user = userService.getUserByUserNameAndPassword(userDTO.getUserName(), userDTO.getPassword());
@@ -70,6 +66,9 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+
+
 
     private String generateToken(User user) {
         try {

@@ -8,4 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface TariffRepository extends JpaRepository<Tariff, Integer> {
     Page<Tariff> findAll(Pageable pageable);
+
+    Tariff findByType(String type);
 }

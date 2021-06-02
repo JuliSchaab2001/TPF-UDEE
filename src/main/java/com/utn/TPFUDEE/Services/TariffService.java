@@ -1,14 +1,13 @@
 package com.utn.TPFUDEE.Services;
 
-import com.utn.TPFUDEE.Exceptions.Exist.TariffExistException;
-import com.utn.TPFUDEE.Exceptions.NoContent.TariffNoContentException;
-import com.utn.TPFUDEE.Exceptions.NotFound.TariffNotFoundException;
 import com.utn.TPFUDEE.Models.Tariff;
 import com.utn.TPFUDEE.Repositories.TariffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Service
@@ -21,34 +20,29 @@ public class TariffService {
         this.tariffRepository = tariffRepository;
     }
 
-    public Page<Tariff> getAll(Pageable pageable) throws TariffNoContentException {
+    public Page<Tariff> getAll(Pageable pageable)  {
         Page<Tariff> tariffList = tariffRepository.findAll(pageable);
 
         if(tariffList.isEmpty()) {
-            throw new TariffNoContentException();
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Empty Tariff List");
         }
         return tariffList;
     }
 
-    public Tariff add(Tariff tariff) throws TariffExistException {
-        boolean flag = false;
-        for(Tariff var : this.tariffRepository.findAll()){
-            if(var.getType().equals(tariff.getType())){
-                flag = true;
-            }
-        }
-        if(flag){
-            throw new TariffExistException();
-        }else{
+    public Tariff add(Tariff tariff){
+
+        if((tariffRepository.findByType(tariff.getType()))!= null){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Tariff already Exist");
+        } else{
             return tariffRepository.save(tariff);
         }
     }
 
-    public Tariff getById(Integer id) throws TariffNotFoundException {
-        return tariffRepository.findById(id).orElseThrow(()-> new TariffNotFoundException());
+    public Tariff getById(Integer id) {
+        return tariffRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tariff Not Found"));
     }
 
-    public void deleteById(Integer id) throws TariffNotFoundException {
+    public void deleteById(Integer id){
         this.getById(id);
         tariffRepository.deleteById(id);
     }
