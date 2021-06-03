@@ -11,6 +11,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,6 +40,11 @@ public class UserController {
         this.userService = userService;
         this.objectMapper = objectMapper;
         this.modelMapper = modelMapper;
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<User>> getAll(@RequestParam Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(userService.getAll(pageable).getContent());
     }
 
     @GetMapping("/{id}")
@@ -85,7 +91,7 @@ public class UserController {
                     .claim("user", objectMapper.writeValueAsString(modelMapper.map(user, UserDTO.class)))/*Aca tengo que usar un converter de moddelMapper* asi no devuelvo la contraseña, No puedo pasar el dto directamente por que no tengo que devolver el isEmployee*/
                     .claim("authorities",grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                     .setIssuedAt(new Date(System.currentTimeMillis()))
-                    .setExpiration(new Date(System.currentTimeMillis() + 1000000))
+                    .setExpiration(new Date(System.currentTimeMillis() + 60000))
                     .signWith(SignatureAlgorithm.HS512, JWT_SECRET.getBytes()).compact();
             return  token;
         } catch(Exception e) {
