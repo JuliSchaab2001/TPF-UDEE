@@ -4,6 +4,7 @@ import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Models.Projections.BillProjection;
 import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
 import com.utn.TPFUDEE.Models.Projections.MoneyAndKwProjection;
+import com.utn.TPFUDEE.Models.Projections.addressProjection;
 import com.utn.TPFUDEE.Services.AddressService;
 import com.utn.TPFUDEE.Services.BillService;
 import com.utn.TPFUDEE.Services.MeasurementService;
@@ -29,12 +30,13 @@ public class AddressController {
     private BillService billService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Address> getById(@PathVariable Integer id){
-        return ResponseEntity.status(HttpStatus.OK).header("nombre", "Cuerpo").body( addressService.getById(id));
+    public ResponseEntity<addressProjection> getById(@PathVariable Integer id){
+        return ResponseEntity.status(HttpStatus.OK).header("nombre", "Cuerpo").body( addressService.getOnlyAddressById(id));
     }
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Address address){
+        System.out.println(address.toString());
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(ADDRESS_PATH, addressService.add(address).getAddressId())).build();
     }
 

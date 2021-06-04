@@ -38,7 +38,7 @@ public class Client {
     @NotNull(message = "El campo lastName es obligatorio")
     private String lastName;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "client")
     private List<Address> addressList;
 
