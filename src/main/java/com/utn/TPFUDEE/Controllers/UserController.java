@@ -91,7 +91,7 @@ public class UserController {
                     .claim("user", objectMapper.writeValueAsString(modelMapper.map(user, UserDTO.class)))/*Aca tengo que usar un converter de moddelMapper* asi no devuelvo la contraseña, No puedo pasar el dto directamente por que no tengo que devolver el isEmployee*/
                     .claim("authorities",grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                     .setIssuedAt(new Date(System.currentTimeMillis()))
-                    .setExpiration(new Date(System.currentTimeMillis() + 60000))
+                    .setExpiration(new Date(System.currentTimeMillis() + 600000))
                     .signWith(SignatureAlgorithm.HS512, JWT_SECRET.getBytes()).compact();
             return  token;
         } catch(Exception e) {
