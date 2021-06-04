@@ -26,7 +26,7 @@ public class Measurement {
 
     @NotNull(message = "El campo es obligatorio")
     @Column(name = "kw")
-    private Integer kw;
+    private float kw;
 
     @ManyToOne
     @JoinColumn(name = "meter_id", referencedColumnName = "meter_id")
