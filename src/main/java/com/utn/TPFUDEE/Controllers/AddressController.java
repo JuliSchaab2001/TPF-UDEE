@@ -36,6 +36,7 @@ public class AddressController {
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Address address){
+        System.out.println(address.toString());
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(ADDRESS_PATH, addressService.add(address).getAddressId())).build();
     }
 
