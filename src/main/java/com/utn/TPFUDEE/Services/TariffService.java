@@ -43,10 +43,8 @@ public class TariffService {
     }
 
     public void deleteById(Integer id){
-        if(this.getById(id)!=null)
-            tariffRepository.deleteById(id);
-        else
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Delete Not Found For Delete");
+        this.getById(id);
+        tariffRepository.deleteById(id);
     }
 
     public Tariff update(Tariff tariff){

@@ -41,11 +41,8 @@ public class MeterService {
     }
 
     public void deleteById(Integer id){
-        if(this.getById(id)!=null)
-            meterRepository.deleteById(id);
-        else
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Meter Not Found For Delete");
-
+        this.getById(id);
+        meterRepository.deleteById(id);
     }
 
     public Meter getBySerialNumber(String serialNumber){

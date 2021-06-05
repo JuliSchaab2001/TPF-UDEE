@@ -1,7 +1,6 @@
 package com.utn.TPFUDEE.Controllers;
 
 import com.utn.TPFUDEE.Models.Address;
-import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Models.Projections.BillProjection;
 import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
 import com.utn.TPFUDEE.Models.Projections.MoneyAndKwProjection;

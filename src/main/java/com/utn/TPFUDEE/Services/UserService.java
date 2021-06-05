@@ -44,11 +44,8 @@ public class UserService {
     }
 
     public void deleteById(Integer id){
-        if(this.getById(id)!=null)
-            userRepository.deleteById(id);
-        else
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found For Delete");
-
+        this.getById(id);
+        userRepository.deleteById(id);
     }
 
     public User getUserByUserNameAndPassword(String userName, String password) {
