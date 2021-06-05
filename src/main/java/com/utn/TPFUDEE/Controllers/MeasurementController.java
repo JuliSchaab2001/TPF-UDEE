@@ -18,10 +18,10 @@ public class MeasurementController {
 
     private static final String MEASUREMENT_PATH = "measurement";
 
-    @Autowired
     private MeasurementService measurementService;
     private MeterService meterService;
 
+    @Autowired
     public MeasurementController(MeasurementService measurementService, MeterService meterService) {
         this.measurementService = measurementService;
         this.meterService = meterService;

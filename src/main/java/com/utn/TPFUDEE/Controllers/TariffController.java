@@ -20,10 +20,10 @@ public class TariffController {
 
     private static final String TARIFF_PATH = "tariff";
 
-    @Autowired
     private TariffService tariffService;
     private UserService userService;
 
+    @Autowired
     public TariffController(TariffService tariffService, UserService userService) {
         this.tariffService = tariffService;
         this.userService = userService;
@@ -48,9 +48,7 @@ public class TariffController {
     public ResponseEntity update(Authentication authentication, @RequestBody Tariff tariff){
         if(!this.validateRol(authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
-        if(tariffService.getById(tariff.getTariffId()) != null)
-            return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(TARIFF_PATH,tariffService.update(tariff).getTariffId())).build();
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(TARIFF_PATH,tariffService.update(tariff).getTariffId())).build();
     }
 
     private boolean validateRol(Authentication authentication){

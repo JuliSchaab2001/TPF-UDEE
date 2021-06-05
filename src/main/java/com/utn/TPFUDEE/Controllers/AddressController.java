@@ -2,7 +2,6 @@ package com.utn.TPFUDEE.Controllers;
 
 import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Models.DTO.UserDTO;
-import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Models.Projections.BillProjection;
 import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
 import com.utn.TPFUDEE.Models.Projections.MoneyAndKwProjection;
@@ -30,12 +29,12 @@ public class AddressController {
 
     private static final String ADDRESS_PATH = "address";
 
-    @Autowired
     private AddressService addressService;
     private MeasurementService measurementService;
     private BillService billService;
     private UserService userService;
 
+    @Autowired
     public AddressController(AddressService addressService, MeasurementService measurementService, BillService billService, UserService userService) {
         this.addressService = addressService;
         this.measurementService = measurementService;
@@ -69,9 +68,7 @@ public class AddressController {
     public ResponseEntity update(Authentication authentication ,@RequestBody Address address){
         if(!this.validateRol(authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
-        if(addressService.getById(address.getAddressId()) != null)
-            return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(ADDRESS_PATH,addressService.update(address).getAddressId())).build();
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(ADDRESS_PATH,addressService.update(address).getAddressId())).build();
     }
 
     @GetMapping("/{id}/measurement")

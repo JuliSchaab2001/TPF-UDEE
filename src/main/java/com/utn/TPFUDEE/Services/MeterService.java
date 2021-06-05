@@ -50,6 +50,9 @@ public class MeterService {
     }
 
     public Meter update(Meter meter) {
-        return meterRepository.save(meter);
+        if(this.getById(meter.getMeterId()) != null)
+            return meterRepository.save(meter);
+        else
+            return null;
     }
 }

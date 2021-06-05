@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,9 +38,11 @@ public class Meter {
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "meter")
     private List<Bill> billList;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "meter")
     private List<Measurement> measurementList;
 

@@ -48,6 +48,8 @@ public class TariffService {
     }
 
     public Tariff update(Tariff tariff){
-        return tariffRepository.save(tariff);
+        if(this.getById(tariff.getTariffId()) != null)
+            return tariffRepository.save(tariff);
+        return null;
     }
 }

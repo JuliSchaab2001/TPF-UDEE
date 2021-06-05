@@ -1,7 +1,6 @@
 package com.utn.TPFUDEE.Controllers;
 
 import com.utn.TPFUDEE.Models.Client;
-import com.utn.TPFUDEE.Models.DTO.LoginUserDTO;
 import com.utn.TPFUDEE.Models.DTO.UserDTO;
 import com.utn.TPFUDEE.Models.Projections.BillProjection;
 import com.utn.TPFUDEE.Models.Projections.ClientProjection;
@@ -27,11 +26,11 @@ public class ClientController {
 
     private static final String CLIENT_PATH = "client";
 
-    @Autowired
     private ClientService clientService;
     private BillService billService;
     private UserService userService;
 
+    @Autowired
     public ClientController(ClientService clientService, BillService billService, UserService userService) {
         this.clientService = clientService;
         this.billService = billService;

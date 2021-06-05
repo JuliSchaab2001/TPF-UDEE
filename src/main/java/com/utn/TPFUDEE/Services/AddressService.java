@@ -48,14 +48,15 @@ public class AddressService {
     }
 
     public void deleteById(Integer id){
-        if((this.getById(id))!=null)
-            addressRepository.deleteById(id);
-        else
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Address Not Found For delete");
+        this.getById(id);
+        addressRepository.deleteById(id);
     }
 
     public Address update(Address address) {
-        return addressRepository.save(address);
+        if(this.getById(address.getAddressId()) != null)
+            return addressRepository.save(address);
+        else
+            return null;
     }
 
 

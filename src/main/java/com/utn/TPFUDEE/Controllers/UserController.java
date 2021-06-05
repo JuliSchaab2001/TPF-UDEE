@@ -30,7 +30,6 @@ public class UserController {
 
     private static final String USER_PATH = "user";
 
-    @Autowired
     private UserService userService;
     private final ObjectMapper objectMapper;
     private final ModelMapper modelMapper;

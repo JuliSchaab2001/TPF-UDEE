@@ -2,7 +2,6 @@ package com.utn.TPFUDEE.Controllers;
 
 import com.utn.TPFUDEE.Models.DTO.UserDTO;
 import com.utn.TPFUDEE.Models.Meter;
-import com.utn.TPFUDEE.Models.Tariff;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Services.MeterService;
 import com.utn.TPFUDEE.Services.UserService;
@@ -14,17 +13,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.net.Authenticator;
-
 @RestController
 @RequestMapping("/meter")
 public class MeterController {
 
     private static final String METER_PATH = "meter";
 
-    @Autowired
     private MeterService meterService;
     private UserService userService;
+
+    @Autowired
+    public MeterController(MeterService meterService, UserService userService) {
+        this.meterService = meterService;
+        this.userService = userService;
+    }
 
     @PostMapping("/")
     public ResponseEntity add(Authentication authentication, @RequestBody Meter meter){
@@ -45,13 +47,11 @@ public class MeterController {
     public ResponseEntity update(Authentication authentication,@RequestBody Meter meter){
         if(!this.validateRol(authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
-        if(meterService.getById(meter.getMeterId()) != null)
-            return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(METER_PATH,meterService.update(meter).getMeterId())).build();
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(METER_PATH,meterService.update(meter).getMeterId())).build();
     }
 
-    private boolean validateRol(Authentication authentication){
-        User user = userService.getById(((UserDTO)authentication.getPrincipal()).getUserId());
+    private boolean validateRol(Authentication authentication) {
+        User user = userService.getById(((UserDTO) authentication.getPrincipal()).getUserId());
         return user.isEmployee();
     }
 }

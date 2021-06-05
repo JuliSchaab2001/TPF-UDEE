@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MeterRepository extends JpaRepository<Meter, Integer> {
     Page<Meter> findAll(Pageable pageable);
 
-    Meter findBySerialNumber(String serialNumber); //deberia de funcionar solo, checkear
+    Meter findBySerialNumber(String serialNumber);
 }
