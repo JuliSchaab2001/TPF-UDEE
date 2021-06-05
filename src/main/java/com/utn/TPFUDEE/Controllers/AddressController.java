@@ -1,6 +1,7 @@
 package com.utn.TPFUDEE.Controllers;
 
 import com.utn.TPFUDEE.Models.Address;
+import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Models.Projections.BillProjection;
 import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
 import com.utn.TPFUDEE.Models.Projections.MoneyAndKwProjection;
@@ -44,6 +45,14 @@ public class AddressController {
     public ResponseEntity deleteById(@PathVariable Integer id){
         addressService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
+    }
+
+    @PutMapping("/")
+    public ResponseEntity update(@RequestBody Address address){
+        if(addressService.getById(address.getAddressId()) != null)
+            return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(ADDRESS_PATH,addressService.update(address).getAddressId())).build();
+        else
+            return this.add(address);
     }
 
     @GetMapping("/{id}/measurement")

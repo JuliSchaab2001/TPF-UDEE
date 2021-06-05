@@ -74,8 +74,6 @@ public class UserController {
     }
 
 
-
-
     private String generateToken(User user) {
         try {
             List<GrantedAuthority> grantedAuthorities = new ArrayList<>();

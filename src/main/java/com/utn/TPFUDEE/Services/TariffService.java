@@ -46,4 +46,8 @@ public class TariffService {
         this.getById(id);
         tariffRepository.deleteById(id);
     }
+
+    public Tariff update(Tariff tariff){
+        return tariffRepository.save(tariff);
+    }
 }

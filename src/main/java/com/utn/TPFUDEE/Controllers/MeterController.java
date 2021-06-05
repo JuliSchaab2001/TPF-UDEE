@@ -1,6 +1,7 @@
 package com.utn.TPFUDEE.Controllers;
 
 import com.utn.TPFUDEE.Models.Meter;
+import com.utn.TPFUDEE.Models.Tariff;
 import com.utn.TPFUDEE.Services.MeterService;
 import com.utn.TPFUDEE.Utils.EntityURLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,10 @@ public class MeterController {
     }
 
     @PutMapping("/")
-    public ResponseEntity modify(){
-        return null;
+    public ResponseEntity update(@RequestBody Meter meter){
+        if(meterService.getById(meter.getMeterId()) != null)
+            return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(METER_PATH,meterService.update(meter).getMeterId())).build();
+        else
+            return this.add(meter);
     }
 }

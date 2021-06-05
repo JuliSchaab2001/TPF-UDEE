@@ -18,14 +18,6 @@ public class TariffController {
     @Autowired
     private TariffService tariffService;
 
-
-
-    @PutMapping("/")
-    public ResponseEntity modify(){
-        return null;
-    }
-
-
     @PostMapping("/")
     public ResponseEntity add(@RequestBody Tariff tariff){
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(TARIFF_PATH,tariffService.add(tariff).getTariffId())).build();
@@ -35,5 +27,13 @@ public class TariffController {
     public ResponseEntity deleteById(@PathVariable Integer id){
         tariffService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
+    }
+
+    @PutMapping("/")
+    public ResponseEntity update(@RequestBody Tariff tariff){
+        if(tariffService.getById(tariff.getTariffId()) != null)
+            return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(TARIFF_PATH,tariffService.update(tariff).getTariffId())).build();
+        else
+            return this.add(tariff);
     }
 }

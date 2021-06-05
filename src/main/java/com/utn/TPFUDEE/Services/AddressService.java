@@ -1,6 +1,7 @@
 package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Models.Address;
+import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Models.Projections.addressProjection;
 import com.utn.TPFUDEE.Repositories.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,10 @@ public class AddressService {
             addressRepository.deleteById(id);
         else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Address Not Found For delete");
+    }
+
+    public Address update(Address address) {
+        return addressRepository.save(address);
     }
 
 

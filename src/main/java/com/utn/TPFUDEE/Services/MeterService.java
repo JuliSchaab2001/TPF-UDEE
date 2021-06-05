@@ -48,4 +48,8 @@ public class MeterService {
     public Meter getBySerialNumber(String serialNumber){
         return meterRepository.findBySerialNumber(serialNumber);
     }
+
+    public Meter update(Meter meter) {
+        return meterRepository.save(meter);
+    }
 }
