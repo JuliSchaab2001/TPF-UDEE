@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,6 +34,7 @@ public class User {
     @Column(name = "is_employee")
     private boolean isEmployee;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "dni",referencedColumnName = "dni")
     private Client client;

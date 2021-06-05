@@ -1,12 +1,17 @@
 package com.utn.TPFUDEE.Controllers;
 
+import com.utn.TPFUDEE.Models.DTO.UserDTO;
 import com.utn.TPFUDEE.Models.Tariff;
+import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Services.TariffService;
+import com.utn.TPFUDEE.Services.UserService;
 import com.utn.TPFUDEE.Utils.EntityURLBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @RestController
@@ -17,23 +22,39 @@ public class TariffController {
 
     @Autowired
     private TariffService tariffService;
+    private UserService userService;
+
+    public TariffController(TariffService tariffService, UserService userService) {
+        this.tariffService = tariffService;
+        this.userService = userService;
+    }
 
     @PostMapping("/")
-    public ResponseEntity add(@RequestBody Tariff tariff){
+    public ResponseEntity add(Authentication authentication, @RequestBody Tariff tariff){
+        if(!this.validateRol(authentication))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(TARIFF_PATH,tariffService.add(tariff).getTariffId())).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteById(@PathVariable Integer id){
+    public ResponseEntity deleteById(Authentication authentication, @PathVariable Integer id){
+        if(!this.validateRol(authentication))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
         tariffService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
 
     @PutMapping("/")
-    public ResponseEntity update(@RequestBody Tariff tariff){
+    public ResponseEntity update(Authentication authentication, @RequestBody Tariff tariff){
+        if(!this.validateRol(authentication))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
         if(tariffService.getById(tariff.getTariffId()) != null)
             return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(TARIFF_PATH,tariffService.update(tariff).getTariffId())).build();
-        else
-            return this.add(tariff);
+        return null;
+    }
+
+    private boolean validateRol(Authentication authentication){
+        User user = userService.getById(((UserDTO)authentication.getPrincipal()).getUserId());
+        return user.isEmployee();
     }
 }
