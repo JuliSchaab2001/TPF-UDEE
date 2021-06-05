@@ -42,7 +42,10 @@ public class MeterTypeService {
     }
 
     public void deleteById(Integer id){
-        this.getById(id);
-        meterTypeRepository.deleteById(id);
+        if(this.getById(id)!=null)
+            meterTypeRepository.deleteById(id);
+        else
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "MeterType Not Found For Delete");
+
     }
 }

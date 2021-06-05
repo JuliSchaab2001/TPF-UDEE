@@ -44,8 +44,11 @@ public class BillService {
     }
 
     public void deleteById(Integer id){
-        this.getById(id);
-        billRepository.deleteById(id);
+        if(this.getById(id)!=null)
+            billRepository.deleteById(id);
+        else
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Bill Not Found For Delete");
+
     }
 
     public Page<BillProjection> getUnPaidBillsByAddress(Integer id, Pageable pageable) {

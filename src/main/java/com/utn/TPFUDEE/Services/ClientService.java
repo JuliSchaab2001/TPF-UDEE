@@ -43,8 +43,10 @@ public class ClientService {
     }
 
     public void deleteById(Integer id){
-        this.getById(id);
-        clientRepository.deleteById(id);
+        if(this.getById(id)!=null)
+            clientRepository.deleteById(id);
+        else
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client Not Found For Delete");
     }
 
 

@@ -31,9 +31,6 @@ public class TariffController {
 
     @PutMapping("/")
     public ResponseEntity update(@RequestBody Tariff tariff){
-        if(tariffService.getById(tariff.getTariffId()) != null)
-            return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(TARIFF_PATH,tariffService.update(tariff).getTariffId())).build();
-        else
-            return this.add(tariff);
+        return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(TARIFF_PATH,tariffService.update(tariff).getTariffId())).build();
     }
 }

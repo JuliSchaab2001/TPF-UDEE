@@ -49,10 +49,7 @@ public class AddressController {
 
     @PutMapping("/")
     public ResponseEntity update(@RequestBody Address address){
-        if(addressService.getById(address.getAddressId()) != null)
-            return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(ADDRESS_PATH,addressService.update(address).getAddressId())).build();
-        else
-            return this.add(address);
+        return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(ADDRESS_PATH,addressService.update(address).getAddressId())).build();
     }
 
     @GetMapping("/{id}/measurement")

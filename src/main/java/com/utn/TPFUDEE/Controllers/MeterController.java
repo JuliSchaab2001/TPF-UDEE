@@ -34,9 +34,6 @@ public class MeterController {
 
     @PutMapping("/")
     public ResponseEntity update(@RequestBody Meter meter){
-        if(meterService.getById(meter.getMeterId()) != null)
-            return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(METER_PATH,meterService.update(meter).getMeterId())).build();
-        else
-            return this.add(meter);
+        return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(METER_PATH,meterService.update(meter).getMeterId())).build();
     }
 }
