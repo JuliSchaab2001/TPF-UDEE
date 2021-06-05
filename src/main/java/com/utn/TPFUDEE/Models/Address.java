@@ -33,7 +33,7 @@ public class Address {
     @JoinColumn(name = "tariff_id", referencedColumnName = "tariff_id")
     private Tariff tariff;
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "dni", referencedColumnName = "dni")
     private Client client;

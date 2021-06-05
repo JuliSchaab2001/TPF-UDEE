@@ -43,6 +43,7 @@ public class AddressService {
     }
 
     public addressProjection getOnlyAddressById(Integer id){
+        this.getById(id);
         return addressRepository.findById2(id);
     }
 

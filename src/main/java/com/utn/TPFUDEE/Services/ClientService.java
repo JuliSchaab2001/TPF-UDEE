@@ -31,7 +31,7 @@ public class ClientService {
     }
 
     public Client add(Client client){
-        if((clientRepository.findById(client.getDni())) == null){
+        if((clientRepository.findById(client.getDni())).orElse(null) == null){
             return clientRepository.save(client);
         }else{
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Client Already Exist");
