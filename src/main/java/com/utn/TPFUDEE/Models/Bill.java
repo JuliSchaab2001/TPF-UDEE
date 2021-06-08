@@ -37,6 +37,11 @@ public class Bill {
     @NotNull
     private LocalDateTime finalDate;
 
+
+    @Column(name = "expiration_date")
+    @NotNull
+    private LocalDateTime expirationDate;
+
     @Column(name = "consumed_kw")
     @NotNull
     private Double kwConsumed;

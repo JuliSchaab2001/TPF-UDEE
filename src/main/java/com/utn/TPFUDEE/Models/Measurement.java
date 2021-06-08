@@ -28,6 +28,9 @@ public class Measurement {
     @Column(name = "kw")
     private Float kw;
 
+    @Column(name = "measurement_price")
+    private Float measurement_price;
+
     @ManyToOne
     @JoinColumn(name = "meter_id", referencedColumnName = "meter_id")
     private Meter meter;
