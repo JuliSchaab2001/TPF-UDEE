@@ -1,4 +1,6 @@
 create database if not exists UDEE;
+drop database UDEE;
+use UDEE;
 
 CREATE TABLE IF NOT EXISTS clients (
                                        dni INT NOT NULL UNIQUE,
@@ -49,7 +51,7 @@ CREATE TABLE IF NOT EXISTS model_brand (
 CREATE TABLE IF NOT EXISTS meters (
                                       meter_id INT NOT NULL AUTO_INCREMENT,
                                       password VARCHAR(64) NOT NULL,
-                                      serial_number VARCHAR(10) NOT NULL UNIQUE,
+                                      serial_number VARCHAR(10) NOT NULL,
                                       model_brand_id INT ,
                                       address_id INT NOT NULL UNIQUE,
                                       CONSTRAINT pk_meter_id PRIMARY KEY (meter_id),
@@ -64,6 +66,7 @@ CREATE TABLE IF NOT EXISTS bills (
                                      meter_id INT ,
                                      initial_date DATE NOT NULL,
                                      final_date DATE NOT NULL,
+                                     expiration_date DATE NOT NULL,
                                      initial_measurement INT NOT NULL,
                                      final_measurement INT NOT NULL,
                                      consumed_kw DOUBLE NOT NULL,
@@ -81,6 +84,7 @@ CREATE TABLE IF NOT EXISTS measurements (
                                             date DATETIME NOT NULL,
                                             kw FLOAT NOT NULL,
                                             bill_id INT,
+                                            measurement_price FLOAT,
                                             CONSTRAINT pk_measurements_id PRIMARY KEY (measurements_id),
                                             CONSTRAINT fk_measurement_meter FOREIGN KEY (meter_id)
                                                 REFERENCES meters (meter_id),
