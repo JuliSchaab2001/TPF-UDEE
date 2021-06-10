@@ -1,0 +1,56 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `facturar_2`(IN p_meter_id INT)
+BEGIN
+	#-------------------------------------
+    DECLARE VbillId int;
+    DECLARE vInitialDate date default null;
+    DECLARE vFinalDate date default null;
+    DECLARE vExpirationDate date default null;
+    DECLARE vInitialMeasurement double default null;
+    DECLARE vFinalMeasurement double default null;
+    DECLARE vLastMeasurement double default (SELECT kw FROM measurements WHERE meter_id = p_meter_id and bill_id is not null order by date desc limit 1);
+    DECLARE vConsumedKw double default 0;
+    DECLARE vExplicitConsumedKw double default 0;
+    DECLARE vMeasurementPrice double default 0;
+    DECLARE vMeasurementId int;
+    DECLARE vTotal double default 0;
+    DECLARE vFechaCursor date;
+    DECLARE vTariffPrice double default(SELECT price FROM Tariffs t INNER JOIN Addresses a ON t.tariff_id = a.tariff_id INNER JOIN meters m ON a.address_id = m.address_id where m.meter_id = p_meter_id);
+    DECLARE vKwCursor double default 0;
+    DECLARE vFinished int DEFAULT 0;
+    DECLARE cur_measurements CURSOR FOR SELECT date ,kw, measurements_id from measurements where meter_id = p_meter_id and bill_id is null order by date asc;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET vFinished = 1;
+
+    INSERT INTO bills (meter_id,initial_date,final_date,expiration_date,initial_measurement,final_measurement,consumed_kw,total,is_paid)
+    VALUES (p_meter_id, "2021-01-01", "2021-01-01","2021-01-01", 0,0,0,0,0);
+
+
+    OPEN cur_measurements;
+    FETCH cur_measurements INTO vFechaCursor, vKwCursor, vMeasurementId;
+	SET vInitialDate = vFechaCursor;
+	SET vInitialMeasurement = vKwCursor;
+   WHILE (vFinished=0) DO
+
+
+		#CALCULO EL GASTO REAL DE LA MEDICION
+
+		SET vExplicitConsumedKw = (vKwCursor-IF(vLastMeasurement is null, 0, vLastMeasurement));
+        SET vMeasurementPrice = (vExplicitConsumedKw*vTariffPrice);
+        set vTotal = vTotal + vMeasurementPrice;
+        set vConsumedKw = vConsumedKw + vExplicitConsumedKw;
+		UPDATE measurements set bill_id = last_insert_id(), measurement_price = vMeasurementPrice where measurements_id = VmeasurementId;
+
+		#ACTUALIZO VALOR DE lastMeasurement
+        SET vLastMeasurement = vKwCursor;
+		FETCH cur_measurements INTO vFechaCursor, vKwCursor, vMeasurementId;
+    END while;
+    #WHILE--------------------------------
+    #EN LA ULTIMA ITERACION Y ANTES DE CERRAR EL CURSOR ME QUEDO CON LA ULTIMA FECHA Y LA ULTIMA MEDICION
+    SET vFinalDate = vFechaCursor;
+    SET vFinalMeasurement = vKwCursor;
+    UPDATE bills set initial_date = vInitialDate, final_date = vFinalDate ,initial_measurement = vInitialMeasurement, final_measurement = vFinalMeasurement, expiration_date = DATE_ADD(curdate(), INTERVAL 15 DAY),
+    consumed_kw = vConsumedKw, total = vTotal
+    where bill_id = last_insert_id();
+    CLOSE cur_measurements;
+
+
+END

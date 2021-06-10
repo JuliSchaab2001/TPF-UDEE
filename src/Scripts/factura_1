@@ -1,0 +1,30 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `facturar_1`()
+BEGIN
+    #---Var-----------------
+    DECLARE vAddress_id int;
+    DECLARE vMeter_id int;
+    DECLARE vInitialDate date;
+    DECLARE vFinalDate date;
+    DECLARE vBillId int;
+    DECLARE vInitialMeasurement int;
+    DECLARE vFinalMeasurement int;
+    DECLARE vConsumedKw int;
+    DECLARE vTotal double;
+    DECLARE vTariff double DEFAULT 100.0;
+    #---Cursor--------------
+    DECLARE vFinished int DEFAULT 0;
+    DECLARE cur_meters CURSOR FOR SELECT meter_id, address_id from meters;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET vFinished = 1;
+    #-----------------------
+
+    OPEN cur_meters;
+    FETCH cur_meters INTO vMeter_id, vAddress_id;
+     WHILE (vFinished=0) DO
+     #{
+        CALL facturar_2(vMeter_id);
+
+        FETCH cur_meters INTO vMeter_id,vAddress_id;
+    #}
+    END while;
+    CLOSE cur_meters;
+END
