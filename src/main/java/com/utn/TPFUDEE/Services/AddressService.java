@@ -1,8 +1,7 @@
 package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Models.Address;
-import com.utn.TPFUDEE.Models.Meter;
-import com.utn.TPFUDEE.Models.Projections.addressProjection;
+import com.utn.TPFUDEE.Models.Projections.AddressProjection;
 import com.utn.TPFUDEE.Repositories.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,7 +41,7 @@ public class AddressService {
         return addressRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Address Not Found"));
     }
 
-    public addressProjection getOnlyAddressById(Integer id){
+    public AddressProjection getOnlyAddressById(Integer id){
         this.getById(id);
         return addressRepository.findById2(id);
     }

@@ -5,7 +5,7 @@ import com.utn.TPFUDEE.Models.DTO.UserDTO;
 import com.utn.TPFUDEE.Models.Projections.BillProjection;
 import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
 import com.utn.TPFUDEE.Models.Projections.MoneyAndKwProjection;
-import com.utn.TPFUDEE.Models.Projections.addressProjection;
+import com.utn.TPFUDEE.Models.Projections.AddressProjection;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Services.AddressService;
 import com.utn.TPFUDEE.Services.BillService;
@@ -43,7 +43,7 @@ public class AddressController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<addressProjection> getById(Authentication authentication ,@PathVariable Integer id){
+    public ResponseEntity<AddressProjection> getById(Authentication authentication , @PathVariable Integer id){
         if(!this.validate(id, authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
         return ResponseEntity.status(HttpStatus.OK).header("nombre", "Cuerpo").body( addressService.getOnlyAddressById(id));
