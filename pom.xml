@@ -94,6 +94,16 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.2</version>
+				<configuration>
+					<excludes>
+						<exclude>**/com/utn/TPFUDEE/Config/*</exclude>
+						<exclude>**/com/utn/TPFUDEE/Converters/*</exclude>
+						<exclude>**/com/utn/TPFUDEE/Models/**</exclude>
+						<exclude>**/com/utn/TPFUDEE/Filters/*</exclude>
+						<exclude>**/com/utn/TPFUDEE/Utils/*</exclude>
+						<exclude>**/com/utn/TPFUDEE/*</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
@@ -136,6 +146,7 @@
 									</limits>
 								</rule>
 							</rules>
+
 						</configuration>
 					</execution>
 				</executions>

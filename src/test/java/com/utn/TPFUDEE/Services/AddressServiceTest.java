@@ -1,7 +1,6 @@
 package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Models.Address;
-import com.utn.TPFUDEE.Models.Projections.AddressProjection;
 import com.utn.TPFUDEE.Repositories.AddressRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,13 +26,12 @@ public class AddressServiceTest {
 
     @Test
     public void getById_ReturnAddress(){
-        //Arrange
         Integer id = 1;
         Address address = new Address(id, null, 1, null, null, null);
         Mockito.when(addressRepositoryMock.findById(id)).thenReturn(Optional.of(address));
-        //Act
+
         Address result = addressService.getById(id);
-        //Assert
+
         Assertions.assertNotNull(result);
         Assertions.assertEquals(address, result);
     }
