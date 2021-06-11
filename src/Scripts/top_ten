@@ -1,0 +1,22 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `top_ten_v1`(IN p_from DATETIME, IN p_to DATETIME)
+BEGIN
+	SELECT
+    c.dni, c.name, c.last_name, COUNT(me.kw)  as consumo_total
+FROM
+    measurements me
+        INNER JOIN
+    meters m ON me.meter_id = m.meter_id
+        INNER JOIN
+    addresses a ON a.address_id = m.address_id
+        INNER JOIN
+    clients c ON c.dni = a.dni
+		INNER JOIN
+	tariffs t ON t.tariff_id = a.tarifF_id()
+WHERE
+    date BETWEEN p_from AND p_to
+group by
+	c.dni
+Order by
+	COUNT(me.kw) desc
+LIMIT 10;
+END
