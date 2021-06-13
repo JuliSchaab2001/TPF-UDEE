@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Services;
 
+import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Repositories.BillRepository;
 import org.junit.jupiter.api.Assertions;
@@ -17,18 +18,20 @@ public class BillServiceTest {
 
     private BillService billService;
     private BillRepository billRepositoryMock;
+    private Bill bill;
+
 
     @BeforeAll
     public void setUp(){
         billRepositoryMock = mock(BillRepository.class);
         billService = new BillService(billRepositoryMock);
+        bill = new Bill(1, 1, 1, null, null, null, null, 1, null, null, null);
     }
 
     @Test
     public void getById_ReturnBill(){
         //Arrange
         Integer id = 1;
-        Bill bill = new Bill(id, 1, 1, null, null, null, null, 1, null, null, null);
         Mockito.when(billRepositoryMock.findById(id)).thenReturn(Optional.of(bill));
         //Act
         Bill result = billService.getById(id);
@@ -36,5 +39,6 @@ public class BillServiceTest {
         Assertions.assertNotNull(result);
         Assertions.assertEquals(bill, result);
     }
+
 
 }

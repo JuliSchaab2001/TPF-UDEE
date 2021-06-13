@@ -36,4 +36,15 @@ public class AddressServiceTest {
         Assertions.assertEquals(address, result);
     }
 
+    @Test
+    public void Add_ReturnAddress(){
+        Address address = new Address(1, "a", 1, null, null, null);
+        Mockito.when(addressRepositoryMock.save(address)).thenReturn(address);
+
+        Address result = addressService.add(address);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(address, result);
+    }
+
 }
