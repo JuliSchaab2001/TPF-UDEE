@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -48,7 +51,7 @@ public class ClientService {
     }
 
 
-    public List<ClientProjection> getTopTenMostConsumers() {
-        return clientRepository.getTopTenMostConsumers();
+    public List<ClientProjection> getTopTenMostConsumers(LocalDate from, LocalDate to) {
+        return clientRepository.getTopTenMostConsumers(from.atTime(LocalTime.MIN),to.atTime(LocalTime.MAX));
     }
 }

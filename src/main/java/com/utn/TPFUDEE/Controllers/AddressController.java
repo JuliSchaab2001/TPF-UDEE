@@ -74,8 +74,8 @@ public class AddressController {
     @GetMapping("/{id}/measurement")
     public ResponseEntity<List<MeasurementProjection>> getAddressMeasurement(Authentication authentication ,
                                                                              @PathVariable Integer id,
-                                                                             @RequestParam String from,
-                                                                             @RequestParam String to,
+                                                                             @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String from,
+                                                                             @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String to,
                                                                              @RequestParam Pageable pageable){
         if(!this.validate(id, authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");

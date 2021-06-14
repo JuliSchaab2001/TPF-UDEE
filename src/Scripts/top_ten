@@ -11,7 +11,7 @@ FROM
         INNER JOIN
     clients c ON c.dni = a.dni
 		INNER JOIN
-	tariffs t ON t.tariff_id = a.tarifF_id()
+	tariffs t ON t.tariff_id = a.tariff_id
 WHERE
     date BETWEEN p_from AND p_to
 group by

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -78,5 +79,10 @@ public class BillService {
 
     public Page<BillProjection> getBillsByDates(Integer id, String from, String to, Pageable pageable){
         return billRepository.getBillByBillIdAndFinalDateBetween(id, from, to, pageable);
+    }
+
+    @Scheduled(cron="0 0 0 1 1/1 *", zone = "America/Argentina")
+    private void bill_all(){
+        billRepository.bill_all();
     }
 }

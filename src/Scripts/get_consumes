@@ -1,0 +1,29 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_consumes`(IN p_address_id INT, IN p_from DATETIME, IN p_to DATETIME)
+BEGIN
+    DECLARE vConsumes double default 0;
+    DECLARE vTotal double default 0;
+    DECLARE vMeasurementPrice double default 0;
+    DECLARE vKwCursor double default 0;
+    DECLARE vTariff double default (SELECT price FROM tariffs t INNER JOIN addresses a ON a.tariff_id = t.tariff_id WHERE a.address_id = p_address_id);
+	DECLARE vFinished int DEFAULT 0;
+	DECLARE vMeterId int DEFAULT (SELECT meter_id FROM meters WHERE address_id = p_address_id);
+	DECLARE vLastMeasurement int DEFAULT (SELECT kw FROM measurements WHERE meter_id = vMeterId and date < p_from order by date desc limit 1);
+    DECLARE vExplicitConsumedKw double default 0;
+    DECLARE cur_measurements CURSOR FOR SELECT kw from measurements where meter_id = vMeterId and date between p_from and p_to order by date asc;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET vFinished = 1;
+
+    OPEN cur_measurements;
+    FETCH cur_measurements INTO vKwCursor;
+	WHILE (vFinished=0) DO
+
+		SET vExplicitConsumedKw = (vKwCursor-IF(vLastMeasurement is null, 0, vLastMeasurement));
+        SET vMeasurementPrice = (vExplicitConsumedKw*vTariff);
+        set vTotal = vTotal + vMeasurementPrice;
+        set vConsumes = vConsumes + vExplicitConsumedKw;
+
+        SET vLastMeasurement = vKwCursor;
+		FETCH cur_measurements INTO vKwCursor;
+    END while;
+
+    SELECT vConsumes,vTotal;
+END
