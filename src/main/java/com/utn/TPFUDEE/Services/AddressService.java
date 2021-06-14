@@ -30,7 +30,7 @@ public class AddressService {
     }
 
     public Address add(Address address){
-        if((addressRepository.findByStreetAndNumber(address.getStreet(), address.getNumber()))!=null){
+        if(addressRepository.findByStreetAndNumber(address.getStreet(), address.getNumber())!=null){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Address Already Exist");
         }else{
             return addressRepository.save(address);

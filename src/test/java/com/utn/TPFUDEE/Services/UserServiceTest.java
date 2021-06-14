@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Services;
 
+import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Models.MeterType;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Repositories.UserRepository;
@@ -8,7 +9,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.mock;
@@ -30,7 +38,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getById_ReturnUser(){
+    public void getByIdTest_ReturnUser(){
         Integer id = 1;
         Mockito.when(userRepositoryMock.findById(id)).thenReturn(Optional.of(user));
 
@@ -41,8 +49,31 @@ public class UserServiceTest {
     }
 
     @Test
-    public void Add_ReturnUser(){
+    public void getByIdTest_UserNotFound(){
+        Mockito.when(userRepositoryMock.findById(user.getUserId())).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            userService.getById(user.getUserId());
+        });
+    }
+
+    @Test
+    public void getPageTest(){
+        Pageable pageable = PageRequest.of(0, 1);
+        List<User> list = new ArrayList<>();
+        list.add(user);
+        Page<User> userPage = new PageImpl<>(list, pageable, pageable.getPageSize());
+        Mockito.when(userRepositoryMock.findAll(pageable)).thenReturn(userPage);
+
+        Page<User> result = userService.getAll(pageable);
+
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    public void addTest(){
         Mockito.when(userRepositoryMock.save(user)).thenReturn(user);
+        Mockito.when(userRepositoryMock.findById(user.getUserId())).thenReturn(Optional.empty());
 
         User result = userService.add(user);
 

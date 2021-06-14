@@ -34,8 +34,7 @@ public class MeasurementService {
     }
 
     public Measurement add(Measurement measurement){
-
-           return measurementRepository.save(measurement);
+        return measurementRepository.save(measurement);
     }
 
     public Page<MeasurementProjection> getAllByDate(Integer id, String from, String to, Pageable pageable){

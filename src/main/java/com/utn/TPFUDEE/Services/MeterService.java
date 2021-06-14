@@ -29,7 +29,7 @@ public class MeterService {
     }
 
     public Meter add(Meter meter){
-        if((meterRepository.findBySerialNumber(meter.getSerialNumber()))!=null){
+        if(meterRepository.findBySerialNumber(meter.getSerialNumber())!=null){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Meter Already Exist");
         }else{
             return meterRepository.save(meter);

@@ -30,7 +30,7 @@ public class MeterTypeService {
     }
 
     public MeterType add(MeterType meterType){
-        if((meterTypeRepository.findByModelAndBrand(meterType.getModel(), meterType.getBrand()))!= null){
+        if(meterTypeRepository.findByModelAndBrand(meterType.getModel(), meterType.getBrand())!= null){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "MeterType Already Exist");
         }else{
             return meterTypeRepository.save(meterType);

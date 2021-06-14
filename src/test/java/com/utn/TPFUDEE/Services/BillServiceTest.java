@@ -8,7 +8,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.mock;
@@ -29,7 +36,7 @@ public class BillServiceTest {
     }
 
     @Test
-    public void getById_ReturnBill(){
+    public void getByIdTest_ReturnBill(){
         //Arrange
         Integer id = 1;
         Mockito.when(billRepositoryMock.findById(id)).thenReturn(Optional.of(bill));
@@ -38,6 +45,27 @@ public class BillServiceTest {
         //Assert
         Assertions.assertNotNull(result);
         Assertions.assertEquals(bill, result);
+    }
+
+    @Test
+    public void getByIdTest_BillNotFound(){
+        Mockito.when(billRepositoryMock.findById(bill.getBillId())).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            billService.getById(bill.getBillId());
+        });
+    }
+    @Test
+    public void getPageTest(){
+        Pageable pageable = PageRequest.of(0, 1);
+        List<Bill> list = new ArrayList<>();
+        list.add(bill);
+        Page<Bill> billPage = new PageImpl<>(list, pageable, pageable.getPageSize());
+        Mockito.when(billRepositoryMock.findAll(pageable)).thenReturn(billPage);
+
+        Page<Bill> result = billService.getAll(pageable);
+
+        Assertions.assertNotNull(result);
     }
 
 

@@ -1,5 +1,6 @@
 package com.utn.TPFUDEE.Services;
 
+import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Models.Tariff;
 import com.utn.TPFUDEE.Repositories.TariffRepository;
@@ -8,9 +9,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.mock;
@@ -30,7 +37,7 @@ public class TariffServiceTest {
     }
 
     @Test
-    public void getById_ReturnTariff(){
+    public void getByIdTest_ReturnTariff(){
         Integer id = 1;
         Mockito.when(tariffRepositoryMock.findById(id)).thenReturn(Optional.of(tariff));
 
@@ -41,35 +48,36 @@ public class TariffServiceTest {
     }
 
     @Test
-    public void Add_ReturnClient(){
-        Mockito.when(tariffRepositoryMock.save(tariff)).thenReturn(tariff);
-        ResponseStatusException expectedExc = new ResponseStatusException(HttpStatus.CONFLICT, "Client Already Exist");
-        try{
-            Tariff result = tariffService.add(tariff);
+    public void getByIdTest_TariffNotFound(){
+        Mockito.when(tariffRepositoryMock.findById(tariff.getTariffId())).thenReturn(Optional.empty());
 
-            Assertions.assertNotNull(result);
-            Assertions.assertEquals(tariff, result);
-        }catch (ResponseStatusException e){
-            e = expectedExc;
-        }
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            tariffService.getById(tariff.getTariffId());
+        });
     }
-//Lo toy haciendo como el ojete
 
-/*    @Test
-    public void Add_NotReturnClient(){
-        ResponseStatusException expectedExc = null;
-        Mockito.when(tariffRepositoryMock.save(tariff)).thenReturn(null);
-        try{
-            Tariff result = tariffService.add(tariff);
+    @Test
+    public void getPageTest(){
+        Pageable pageable = PageRequest.of(0, 1);
+        List<Tariff> list = new ArrayList<>();
+        list.add(tariff);
+        Page<Tariff> tariffPage = new PageImpl<>(list, pageable, pageable.getPageSize());
+        Mockito.when(tariffRepositoryMock.findAll(pageable)).thenReturn(tariffPage);
 
-            Assertions.assertNotNull(result);
-            Assertions.assertNotEquals(tariff, result);
-        }catch (ResponseStatusException e){
-            expectedExc = e;
-        }
+        Page<Tariff> result = tariffService.getAll(pageable);
 
-        Assertions.assertEquals(HttpStatus.CONFLICT, expectedExc.getStatus());
-        Assertions.assertTrue(expectedExc instanceof ResponseStatusException);
-    }*/
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    public void addTest() {
+        Mockito.when(tariffRepositoryMock.save(tariff)).thenReturn(tariff);
+        Mockito.when(tariffRepositoryMock.findById(tariff.getTariffId())).thenReturn(Optional.empty());
+
+        Tariff result = tariffService.add(tariff);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(tariff, result);
+    }
 
 }

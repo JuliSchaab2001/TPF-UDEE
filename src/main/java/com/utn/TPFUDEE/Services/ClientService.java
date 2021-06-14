@@ -47,7 +47,6 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
 
-
     public List<ClientProjection> getTopTenMostConsumers() {
         return clientRepository.getTopTenMostConsumers();
     }

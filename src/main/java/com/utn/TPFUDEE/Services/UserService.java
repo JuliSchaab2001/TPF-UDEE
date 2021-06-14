@@ -32,7 +32,7 @@ public class UserService {
     }
 
     public User add(User user){
-        if((userRepository.findByUserName(user.getUserName()))!= null){
+        if(userRepository.findByUserName(user.getUserName())!= null){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User Already exist, try another userName");
         } else{
             return userRepository.save(user);
