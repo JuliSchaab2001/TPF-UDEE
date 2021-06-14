@@ -25,5 +25,5 @@ BEGIN
 		FETCH cur_measurements INTO vKwCursor;
     END while;
 
-    SELECT vConsumes,vTotal;
+    SELECT vConsumes as kw,vTotal as money;
 END
