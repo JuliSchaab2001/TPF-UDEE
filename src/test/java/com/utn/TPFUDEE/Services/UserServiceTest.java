@@ -71,6 +71,16 @@ public class UserServiceTest {
     }
 
     @Test
+    public void getPage_UserNotFound(){
+        Pageable pageable = PageRequest.of(0, 1);
+        Mockito.when(userRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            userService.getAll(pageable);
+        });
+    }
+
+    @Test
     public void addTest(){
         Mockito.when(userRepositoryMock.save(user)).thenReturn(user);
         Mockito.when(userRepositoryMock.findById(user.getUserId())).thenReturn(Optional.empty());

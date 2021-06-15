@@ -69,6 +69,16 @@ public class AddressServiceTest {
     }
 
     @Test
+    public void getPage_AddressNotFound(){
+        Pageable pageable = PageRequest.of(0, 1);
+        Mockito.when(addressRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            addressService.getAll(pageable);
+        });
+    }
+
+    @Test
     public void addTest(){
         Mockito.when(addressRepositoryMock.save(address)).thenReturn(address);
         Mockito.when(addressRepositoryMock.findByStreetAndNumber(address.getStreet(), address.getNumber())).thenReturn(null);
@@ -88,5 +98,23 @@ public class AddressServiceTest {
         });
     }
 
+    @Test
+    public void updateTest(){
+        Mockito.when(addressRepositoryMock.findById(address.getAddressId())).thenReturn(Optional.of(address));
+        Mockito.when(addressRepositoryMock.save(address)).thenReturn(address);
 
+        Address result = addressService.update(address);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(address, result);
+    }
+
+    @Test
+    public void updateTest_AddressNotFound(){
+        Mockito.when(addressRepositoryMock.findById(address.getAddressId())).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            addressService.getById(address.getAddressId());
+        });
+    }
 }

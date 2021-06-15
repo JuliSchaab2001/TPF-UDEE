@@ -70,6 +70,16 @@ public class TariffServiceTest {
     }
 
     @Test
+    public void getPage_TariffNotFound(){
+        Pageable pageable = PageRequest.of(0, 1);
+        Mockito.when(tariffRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            tariffService.getAll(pageable);
+        });
+    }
+
+    @Test
     public void addTest() {
         Mockito.when(tariffRepositoryMock.save(tariff)).thenReturn(tariff);
         Mockito.when(tariffRepositoryMock.findById(tariff.getTariffId())).thenReturn(Optional.empty());
@@ -78,6 +88,26 @@ public class TariffServiceTest {
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(tariff, result);
+    }
+
+    @Test
+    public void updateTest(){
+        Mockito.when(tariffRepositoryMock.findById(tariff.getTariffId())).thenReturn(Optional.of(tariff));
+        Mockito.when(tariffRepositoryMock.save(tariff)).thenReturn(tariff);
+
+        Tariff result = tariffService.update(tariff);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(tariff, result);
+    }
+
+    @Test
+    public void updateTest_TariffNotFound(){
+        Mockito.when(tariffRepositoryMock.findById(tariff.getTariffId())).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            tariffService.getById(tariff.getTariffId());
+        });
     }
 
 }

@@ -68,5 +68,15 @@ public class BillServiceTest {
         Assertions.assertNotNull(result);
     }
 
+    @Test
+    public void getPage_BillNotFound(){
+        Pageable pageable = PageRequest.of(0, 1);
+        Mockito.when(billRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            billService.getAll(pageable);
+        });
+    }
+
 
 }

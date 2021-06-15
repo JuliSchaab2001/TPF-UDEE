@@ -70,6 +70,16 @@ public class MeasurementServiceTest {
     }
 
     @Test
+    public void getPage_MeasurementNotFound(){
+        Pageable pageable = PageRequest.of(0, 1);
+        Mockito.when(measurementRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            measurementService.getAll(pageable);
+        });
+    }
+
+    @Test
     public void addTest(){
         Mockito.when(measurementRepositoryMock.save(measurement)).thenReturn(measurement);
         Mockito.when(measurementRepositoryMock.findById(measurement.getMeasurementId())).thenReturn(Optional.empty());

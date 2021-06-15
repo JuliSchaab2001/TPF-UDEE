@@ -74,6 +74,16 @@ public class ClientServiceTest {
     }
 
     @Test
+    public void getPage_ClientNotFound(){
+        Pageable pageable = PageRequest.of(0, 1);
+        Mockito.when(clientRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            clientService.getAll(pageable);
+        });
+    }
+
+    @Test
     public void addTest(){
         Mockito.when(clientRepositoryMock.save(client)).thenReturn(client);
         Mockito.when(clientRepositoryMock.findById(client.getDni())).thenReturn(Optional.empty());

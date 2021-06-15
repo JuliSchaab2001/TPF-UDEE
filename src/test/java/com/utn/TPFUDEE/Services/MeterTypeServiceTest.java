@@ -71,6 +71,16 @@ public class MeterTypeServiceTest {
     }
 
     @Test
+    public void getPage_MeterTypeNotFound(){
+        Pageable pageable = PageRequest.of(0, 1);
+        Mockito.when(meterTypeRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            meterTypeService.getAll(pageable);
+        });
+    }
+
+    @Test
     public void addTest(){
         Mockito.when(meterTypeRepositoryMock.save(meterType)).thenReturn(meterType);
         Mockito.when(meterTypeRepositoryMock.findByModelAndBrand(meterType.getModel(), meterType.getBrand())).thenReturn(null);

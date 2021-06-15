@@ -70,6 +70,16 @@ public class MeterServiceTest {
     }
 
     @Test
+    public void getPage_MeterNotFound(){
+        Pageable pageable = PageRequest.of(0, 1);
+        Mockito.when(meterRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            meterService.getAll(pageable);
+        });
+    }
+
+    @Test
     public void addTest(){
         Mockito.when(meterRepositoryMock.save(meter)).thenReturn(meter);
         Mockito.when(meterRepositoryMock.findBySerialNumber(meter.getSerialNumber())).thenReturn(null);
@@ -89,7 +99,25 @@ public class MeterServiceTest {
         });
     }
 
+    @Test
+    public void updateTest(){
+        Mockito.when(meterRepositoryMock.findById(meter.getMeterId())).thenReturn(Optional.of(meter));
+        Mockito.when(meterRepositoryMock.save(meter)).thenReturn(meter);
 
+        Meter result = meterService.update(meter);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(meter, result);
+    }
+
+    @Test
+    public void updateTest_MeterNotFound(){
+        Mockito.when(meterRepositoryMock.findById(meter.getMeterId())).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            meterService.getById(meter.getMeterId());
+        });
+    }
 
 
 }
