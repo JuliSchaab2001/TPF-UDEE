@@ -1,11 +1,13 @@
 package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Models.Address;
+import com.utn.TPFUDEE.Models.Projections.AddressProjection;
 import com.utn.TPFUDEE.Repositories.AddressRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -25,6 +27,8 @@ public class AddressServiceTest {
     private AddressService addressService;
     private AddressRepository addressRepositoryMock;
     private Address address;
+    @Mock
+    private AddressProjection addressProjection;
 
 
     @BeforeAll
@@ -54,6 +58,17 @@ public class AddressServiceTest {
             addressService.getById(address.getAddressId());
         });
     }
+//que deberia implementar la projection pa que funque
+/*    @Test
+    public void getOnlyAddressByIdTest_ReturnAddressProjection(){
+        Mockito.when(addressRepositoryMock.findById(address.getAddressId())).thenReturn(Optional.of(address));
+        Mockito.when(addressRepositoryMock.findById2(address.getAddressId())).thenReturn(addressProjection);
+
+        AddressProjection result = addressService.getOnlyAddressById(address.getAddressId());
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(addressProjection, result);
+    }*/
 
     @Test
     public void getPageTest(){
