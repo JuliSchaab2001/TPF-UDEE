@@ -1,7 +1,5 @@
 package com.utn.TPFUDEE.Services;
 
-import com.utn.TPFUDEE.Models.Address;
-import com.utn.TPFUDEE.Models.MeterType;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Repositories.UserRepository;
 import org.junit.jupiter.api.Assertions;
@@ -58,6 +56,25 @@ public class UserServiceTest {
     }
 
     @Test
+    public void getByUserNameAndPasswordTest_ReturnUser(){
+        Mockito.when(userRepositoryMock.getUserByUserNameAndPassword(user.getUserName(), user.getPassword())).thenReturn(user);
+
+        User result = userService.getUserByUserNameAndPassword(user.getUserName(), user.getPassword());
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(user, result);
+    }
+//Falta retornar user not found
+/*    @Test
+    public void getByUserNameAndPasswordTest_UserNotFound(){
+        Mockito.when(userRepositoryMock.getUserByUserNameAndPassword(user.getUserName(), user.getPassword())).thenReturn(null);
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            userService.getUserByUserNameAndPassword(user.getUserName(), user.getPassword());
+        });
+    }*/
+
+    @Test
     public void getPageTest(){
         Pageable pageable = PageRequest.of(0, 1);
         List<User> list = new ArrayList<>();
@@ -71,7 +88,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getPage_UserNotFound(){
+    public void getPageTest_UserNotFound(){
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(userRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 
@@ -89,6 +106,23 @@ public class UserServiceTest {
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(user, result);
+    }
+
+    @Test
+    public void addTest_UserExist(){
+        Mockito.when(userRepositoryMock.findByUserName(user.getUserName())).thenReturn(user);
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            userService.add(user);
+        });
+    }
+
+    @Test
+    public void deleteTest(){
+        Mockito.when(userRepositoryMock.findById(user.getUserId())).thenReturn(Optional.of(user));
+
+        Integer result = userService.deleteById(user.getUserId());
+        Assertions.assertNotNull(result);
     }
 
 }

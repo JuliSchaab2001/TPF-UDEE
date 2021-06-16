@@ -1,7 +1,5 @@
 package com.utn.TPFUDEE.Services;
 
-import com.utn.TPFUDEE.Models.Address;
-import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Models.MeterType;
 import com.utn.TPFUDEE.Repositories.MeterTypeRepository;
 import org.junit.jupiter.api.Assertions;
@@ -71,7 +69,7 @@ public class MeterTypeServiceTest {
     }
 
     @Test
-    public void getPage_MeterTypeNotFound(){
+    public void getPageTest_MeterTypeNotFound(){
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(meterTypeRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 
@@ -100,5 +98,12 @@ public class MeterTypeServiceTest {
         });
     }
 
+    @Test
+    public void deleteTest(){
+        Mockito.when(meterTypeRepositoryMock.findById(meterType.getMeterTypeId())).thenReturn(Optional.of(meterType));
+
+        Integer result = meterTypeService.deleteById(meterType.getMeterTypeId());
+        Assertions.assertNotNull(result);
+    }
 
 }

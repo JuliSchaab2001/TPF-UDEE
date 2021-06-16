@@ -43,11 +43,13 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found"));
     }
 
-    public void deleteById(Integer id){
+    public Integer deleteById(Integer id){
         this.getById(id);
         userRepository.deleteById(id);
+        return id;
     }
 
+    //Falta retorno de not found
     public User getUserByUserNameAndPassword(String userName, String password) {
         return userRepository.getUserByUserNameAndPassword(userName, password);
     }

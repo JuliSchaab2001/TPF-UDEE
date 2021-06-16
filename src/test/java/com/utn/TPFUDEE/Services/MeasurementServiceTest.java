@@ -1,8 +1,6 @@
 package com.utn.TPFUDEE.Services;
 
-import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Models.Measurement;
-import com.utn.TPFUDEE.Repositories.AddressRepository;
 import com.utn.TPFUDEE.Repositories.MeasurementRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -88,6 +86,14 @@ public class MeasurementServiceTest {
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(measurement, result);
+    }
+
+    @Test
+    public void deleteTest(){
+        Mockito.when(measurementRepositoryMock.findById(measurement.getMeasurementId())).thenReturn(Optional.of(measurement));
+
+        Integer result = measurementService.deleteById(measurement.getMeasurementId());
+        Assertions.assertNotNull(result);
     }
 
 

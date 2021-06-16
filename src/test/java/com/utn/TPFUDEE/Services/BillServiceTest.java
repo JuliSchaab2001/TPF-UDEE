@@ -1,6 +1,5 @@
 package com.utn.TPFUDEE.Services;
 
-import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Repositories.BillRepository;
 import org.junit.jupiter.api.Assertions;
@@ -69,7 +68,7 @@ public class BillServiceTest {
     }
 
     @Test
-    public void getPage_BillNotFound(){
+    public void getPageTest_BillNotFound(){
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(billRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 
@@ -78,5 +77,12 @@ public class BillServiceTest {
         });
     }
 
+    @Test
+    public void deleteTest(){
+        Mockito.when(billRepositoryMock.findById(bill.getBillId())).thenReturn(Optional.of(bill));
+
+        Integer result = billService.deleteById(bill.getBillId());
+        Assertions.assertNotNull(result);
+    }
 
 }

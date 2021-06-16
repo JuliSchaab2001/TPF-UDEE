@@ -40,9 +40,10 @@ public class MeterService {
         return meterRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Meter Not Found"));
     }
 
-    public void deleteById(Integer id){
+    public Integer deleteById(Integer id){
         this.getById(id);
         meterRepository.deleteById(id);
+        return id;
     }
 
     public Meter getBySerialNumber(String serialNumber){

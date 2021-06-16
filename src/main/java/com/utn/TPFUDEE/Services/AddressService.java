@@ -46,9 +46,10 @@ public class AddressService {
         return addressRepository.findById2(id);
     }
 
-    public void deleteById(Integer id){
+    public Integer deleteById(Integer id){
         this.getById(id);
         addressRepository.deleteById(id);
+        return id;
     }
 
     public Address update(Address address) {

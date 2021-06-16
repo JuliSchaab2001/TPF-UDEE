@@ -56,9 +56,10 @@ public class MeasurementService {
         return measurementRepository.findById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Measurement Not Found"));
     }
 
-    public void deleteById(Integer id){
+    public Integer deleteById(Integer id){
         this.getById(id);
         measurementRepository.deleteById(id);
+        return id;
     }
 
     public MoneyAndKwProjection getAddressConsumes(Integer id, String from, String to){

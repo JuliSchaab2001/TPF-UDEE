@@ -42,9 +42,10 @@ public class ClientService {
         return clientRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client Not Found"));
     }
 
-    public void deleteById(Integer id){
+    public Integer deleteById(Integer id){
         this.getById(id);
         clientRepository.deleteById(id);
+        return id;
     }
 
     public List<ClientProjection> getTopTenMostConsumers() {

@@ -1,7 +1,6 @@
 package com.utn.TPFUDEE.Services;
 
-import com.utn.TPFUDEE.Models.Address;
-import com.utn.TPFUDEE.Models.Measurement;
+
 import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Repositories.MeterRepository;
 import org.junit.jupiter.api.Assertions;
@@ -37,11 +36,21 @@ public class MeterServiceTest {
     }
 
     @Test
-    public void getById_ReturnMeter(){
+    public void getByIdTest_ReturnMeter(){
         Integer id = 1;
         Mockito.when(meterRepositoryMock.findById(id)).thenReturn(Optional.of(meter));
 
         Meter result = meterService.getById(id);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(meter, result);
+    }
+
+    @Test
+    public void getBySerialNumberTest_ReturnMeter(){
+        Mockito.when(meterRepositoryMock.findBySerialNumber(meter.getSerialNumber())).thenReturn(meter);
+
+        Meter result = meterService.getBySerialNumber(meter.getSerialNumber());
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(meter, result);
@@ -70,7 +79,7 @@ public class MeterServiceTest {
     }
 
     @Test
-    public void getPage_MeterNotFound(){
+    public void getPageTest_MeterNotFound(){
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(meterRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 
@@ -119,5 +128,11 @@ public class MeterServiceTest {
         });
     }
 
+    @Test
+    public void deleteTest(){
+        Mockito.when(meterRepositoryMock.findById(meter.getMeterId())).thenReturn(Optional.of(meter));
 
+        Integer result = meterService.deleteById(meter.getMeterId());
+        Assertions.assertNotNull(result);
+    }
 }

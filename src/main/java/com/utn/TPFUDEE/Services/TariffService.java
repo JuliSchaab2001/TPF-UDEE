@@ -42,9 +42,10 @@ public class TariffService {
         return tariffRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tariff Not Found"));
     }
 
-    public void deleteById(Integer id){
+    public Integer deleteById(Integer id){
         this.getById(id);
         tariffRepository.deleteById(id);
+        return id;
     }
 
     public Tariff update(Tariff tariff){

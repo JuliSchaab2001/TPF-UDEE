@@ -69,7 +69,7 @@ public class AddressServiceTest {
     }
 
     @Test
-    public void getPage_AddressNotFound(){
+    public void getPageTest_AddressNotFound(){
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(addressRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 
@@ -117,4 +117,13 @@ public class AddressServiceTest {
             addressService.getById(address.getAddressId());
         });
     }
+
+    @Test
+    public void deleteTest(){
+        Mockito.when(addressRepositoryMock.findById(address.getAddressId())).thenReturn(Optional.of(address));
+
+        Integer result = addressService.deleteById(address.getAddressId());
+        Assertions.assertNotNull(result);
+    }
+
 }

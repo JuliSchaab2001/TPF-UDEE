@@ -1,8 +1,7 @@
 package com.utn.TPFUDEE.Services;
 
-import com.utn.TPFUDEE.Models.Address;
-import com.utn.TPFUDEE.Models.Bill;
 import com.utn.TPFUDEE.Models.Client;
+import com.utn.TPFUDEE.Models.Projections.ClientProjection;
 import com.utn.TPFUDEE.Repositories.ClientRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -74,7 +73,7 @@ public class ClientServiceTest {
     }
 
     @Test
-    public void getPage_ClientNotFound(){
+    public void getPageTest_ClientNotFound(){
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(clientRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 
@@ -101,6 +100,25 @@ public class ClientServiceTest {
         Assertions.assertThrows(ResponseStatusException.class, () ->{
             clientService.add(client);
         });
+    }
+
+    @Test
+    public void deleteTest(){
+        Mockito.when(clientRepositoryMock.findById(client.getDni())).thenReturn(Optional.of(client));
+
+        Integer result = clientService.deleteById(client.getDni());
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    public void getTopTenMostConsumersTest_ReturnClientList(){
+        List<ClientProjection> list = new ArrayList<>();
+        Mockito.when(clientRepositoryMock.getTopTenMostConsumers()).thenReturn(list);
+
+        List<ClientProjection> result = clientService.getTopTenMostConsumers();
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(list, result);
     }
 
 }

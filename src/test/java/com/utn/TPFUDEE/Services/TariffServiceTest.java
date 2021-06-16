@@ -1,7 +1,5 @@
 package com.utn.TPFUDEE.Services;
 
-import com.utn.TPFUDEE.Models.Address;
-import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Models.Tariff;
 import com.utn.TPFUDEE.Repositories.TariffRepository;
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -70,7 +67,7 @@ public class TariffServiceTest {
     }
 
     @Test
-    public void getPage_TariffNotFound(){
+    public void getPageTest_TariffNotFound(){
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(tariffRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 
@@ -88,6 +85,15 @@ public class TariffServiceTest {
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(tariff, result);
+    }
+
+    @Test
+    public void addTest_TariffExist(){
+        Mockito.when(tariffRepositoryMock.findByType(tariff.getType())).thenReturn(tariff);
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            tariffService.add(tariff);
+        });
     }
 
     @Test
@@ -110,4 +116,11 @@ public class TariffServiceTest {
         });
     }
 
+    @Test
+    public void deleteTest(){
+        Mockito.when(tariffRepositoryMock.findById(tariff.getTariffId())).thenReturn(Optional.of(tariff));
+
+        Integer result = tariffService.deleteById(tariff.getTariffId());
+        Assertions.assertNotNull(result);
+    }
 }
