@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -45,11 +44,11 @@ public class ClientService {
         return clientRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client Not Found"));
     }
 
-    public void deleteById(Integer id){
+    public Integer deleteById(Integer id){
         this.getById(id);
         clientRepository.deleteById(id);
+        return id;
     }
-
 
     public List<ClientProjection> getTopTenMostConsumers(LocalDate from, LocalDate to) {
         return clientRepository.getTopTenMostConsumers(from.atTime(LocalTime.MIN),to.atTime(LocalTime.MAX));

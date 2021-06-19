@@ -31,7 +31,7 @@ public class TariffService {
 
     public Tariff add(Tariff tariff){
 
-        if((tariffRepository.findByType(tariff.getType()))!= null){
+        if(tariffRepository.findByType(tariff.getType())!= null){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Tariff already Exist");
         } else{
             return tariffRepository.save(tariff);
@@ -42,9 +42,10 @@ public class TariffService {
         return tariffRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tariff Not Found"));
     }
 
-    public void deleteById(Integer id){
+    public Integer deleteById(Integer id){
         this.getById(id);
         tariffRepository.deleteById(id);
+        return id;
     }
 
     public Tariff update(Tariff tariff){

@@ -5,7 +5,7 @@ import com.utn.TPFUDEE.Models.DTO.UserDTO;
 import com.utn.TPFUDEE.Models.Projections.BillProjection;
 import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
 import com.utn.TPFUDEE.Models.Projections.MoneyAndKwProjection;
-import com.utn.TPFUDEE.Models.Projections.addressProjection;
+import com.utn.TPFUDEE.Models.Projections.AddressProjection;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Services.AddressService;
 import com.utn.TPFUDEE.Services.BillService;
@@ -43,7 +43,7 @@ public class AddressController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<addressProjection> getById(Authentication authentication ,@PathVariable Integer id){
+    public ResponseEntity<AddressProjection> getById(Authentication authentication, @PathVariable Integer id){
         if(!this.validate(id, authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
         return ResponseEntity.status(HttpStatus.OK).header("nombre", "Cuerpo").body( addressService.getOnlyAddressById(id));
@@ -72,7 +72,7 @@ public class AddressController {
     }
 
     @GetMapping("/{id}/measurement")
-    public ResponseEntity<List<MeasurementProjection>> getAddressMeasurement(Authentication authentication ,
+    public ResponseEntity<List<MeasurementProjection>> getAddressMeasurement(Authentication authentication,
                                                                              @PathVariable Integer id,
                                                                              @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String from,
                                                                              @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String to,
@@ -80,15 +80,13 @@ public class AddressController {
         if(!this.validate(id, authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
         return ResponseEntity.status(HttpStatus.OK).header("Todo ok").body(measurementService.getAllByDate(id, from, to, pageable).getContent());
-
-
     }
 
     @GetMapping("/{id}/bill")
-    public ResponseEntity<List<BillProjection>> getBillsByDates(Authentication authentication ,
+    public ResponseEntity<List<BillProjection>> getBillsByDates(Authentication authentication,
                                                                 @PathVariable Integer id,
-                                                                @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String from,
-                                                                @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String to,
+                                                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-DD") String from,
+                                                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-DD") String to,
                                                                 @RequestParam Pageable pageable) {
         if(!this.validate(id, authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
@@ -98,15 +96,15 @@ public class AddressController {
     @GetMapping("/{id}/consume")
     public ResponseEntity<MoneyAndKwProjection> getAddressConsumes(Authentication authentication ,
                                                                    @PathVariable Integer id,
-                                                                   @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String from,
-                                                                   @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String to){
+                                                                   @RequestParam @DateTimeFormat(pattern = "yyyy-MM-DD") String from,
+                                                                   @RequestParam @DateTimeFormat(pattern = "yyyy-MM-DD") String to){
         if(!this.validate(id, authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
         return ResponseEntity.status(HttpStatus.OK).header("Poner header").body(measurementService.getAddressConsumes(id, from, to));
     }
 
     @GetMapping("/{id}/billUnPaid")
-    public ResponseEntity<List<BillProjection>> getAddressBillUnPaid(Authentication authentication ,@PathVariable Integer id, @RequestParam Pageable pageable){
+    public ResponseEntity<List<BillProjection>> getAddressBillUnPaid(Authentication authentication, @PathVariable Integer id, @RequestParam Pageable pageable){
         if(!this.validate(id, authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
         return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByAddress(id, pageable).getContent());
