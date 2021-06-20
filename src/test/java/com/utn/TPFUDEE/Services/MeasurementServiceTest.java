@@ -1,11 +1,13 @@
 package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Models.Measurement;
+import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
 import com.utn.TPFUDEE.Repositories.MeasurementRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +28,8 @@ public class MeasurementServiceTest {
     private MeasurementService measurementService;
     private MeasurementRepository measurementRepositoryMock;
     private Measurement measurement;
+    @Mock
+    private MeasurementProjection measurementProjection;
 
 
     @BeforeAll
@@ -95,6 +100,18 @@ public class MeasurementServiceTest {
         Integer result = measurementService.deleteById(measurement.getMeasurementId());
         Assertions.assertNotNull(result);
     }
-
+//Arreglar
+//    @Test
+//    public void getAllByDateTest(){
+//        Pageable pageable = PageRequest.of(0, 1);
+//        List<MeasurementProjection> list = new ArrayList<>();
+//        list.add(measurementProjection);
+//        Page<MeasurementProjection> measurementProjectionPage = new PageImpl<>(list, pageable, pageable.getPageSize());
+//        Mockito.when(measurementRepositoryMock.findByMeterAndDateBetween(measurementProjection.getId(),null, null,pageable)).thenReturn(measurementProjectionPage);
+//
+//        Page<MeasurementProjection> result = measurementService.getAllByDate(measurementProjection.getId(),"null", "null",pageable);
+//
+//        Assertions.assertNotNull(result);
+//    }
 
 }

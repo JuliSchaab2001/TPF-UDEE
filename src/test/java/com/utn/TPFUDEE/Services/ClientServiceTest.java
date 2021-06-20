@@ -15,10 +15,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.time.LocalDate.now;
 import static org.mockito.Mockito.mock;
 
 
@@ -113,9 +115,9 @@ public class ClientServiceTest {
     @Test
     public void getTopTenMostConsumersTest_ReturnClientList(){
         List<ClientProjection> list = new ArrayList<>();
-        Mockito.when(clientRepositoryMock.getTopTenMostConsumers()).thenReturn(list);
+        Mockito.when(clientRepositoryMock.getTopTenMostConsumers(LocalDateTime.now(), LocalDateTime.now())).thenReturn(list);
 
-        List<ClientProjection> result = clientService.getTopTenMostConsumers();
+        List<ClientProjection> result = clientService.getTopTenMostConsumers(now(), now());
 
         Assertions.assertNotNull(result);
         Assertions.assertEquals(list, result);
