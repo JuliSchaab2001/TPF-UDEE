@@ -12,17 +12,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+
+
 
 @Service
 public class MeasurementService {
+
 
     private MeasurementRepository measurementRepository;
     private AddressService addressService;
 
     @Autowired
-    public MeasurementService(MeasurementRepository measurementRepository) {
+    public MeasurementService(MeasurementRepository measurementRepository, AddressService addressService) {
         this.measurementRepository = measurementRepository;
+        this.addressService = addressService;
     }
+
+
 
     public Page<Measurement> getAll(Pageable pageable) {
         Page<Measurement> measurementList= measurementRepository.findAll(pageable);
@@ -42,7 +49,7 @@ public class MeasurementService {
         Meter meter = addressService.getById(id).getMeter();
         Page<MeasurementProjection> projectionList= null;
         if(meter != null)
-            projectionList = measurementRepository.findByMeterAndDateBetween(meter.getMeterId(), from, to, pageable);
+            projectionList = measurementRepository.findByMeterIdAndDateBetween(meter.getMeterId(), from, to, pageable);
         else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "invalid Address");
         if(!projectionList.isEmpty()){
@@ -62,10 +69,10 @@ public class MeasurementService {
         measurementRepository.deleteById(id);
     }
 
-    public MoneyAndKwProjection getAddressConsumes(Integer id, String from, String to){
+    public MoneyAndKwProjection getAddressConsumes(Integer id, LocalDate from, LocalDate to){
         Meter meter = addressService.getById(id).getMeter();
         if(meter!=null)
-            return measurementRepository.getAddressConsumes(id,from,to);
+            return measurementRepository.getAddressConsumes(id,from.atTime(00,00,0),to.atTime(00,00,00));
         else
             throw  new ResponseStatusException(HttpStatus.NOT_FOUND, "Address Not Found");
     }

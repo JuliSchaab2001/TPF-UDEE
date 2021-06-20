@@ -8,13 +8,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
+import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+
+@Repository
 public interface MeasurementRepository extends JpaRepository<Measurement, Integer> {
     Page<Measurement> findAll(Pageable pageable);
 
-    //@Query(value =  "Select measurements_id as id, kw, date FROM measurements WHERE measurements_id = ?1 AND date BETWEEN ?2 AND ?3 ", nativeQuery = true)
-    Page<MeasurementProjection> findByMeterAndDateBetween(Integer id, String from, String to, Pageable pageable);
+    @Query(
+            value = "SELECT M FROM Measurement M WHERE M.meter.meterId = ?1 and M.date BETWEEN ?2 and ?3"
+    )
+    Page<MeasurementProjection> findByMeterIdAndDateBetween(Integer id, String from, String to, Pageable pageable);//Tengo problemas con los formatos de las fechas
 
-    @Procedure(name = "Name del procedimiento(:id, :from, :to,)") //Germo aca te tenes que lucir padre
-    MoneyAndKwProjection getAddressConsumes(Integer id, String from, String to);
+    @Query(value = "call get_consumes(?1,?2,?3);", nativeQuery = true)
+    MoneyAndKwProjection getAddressConsumes(Integer id, LocalDateTime from, LocalDateTime to);
 }

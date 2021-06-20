@@ -1,7 +1,7 @@
 CREATE DEFINER=`root`@`localhost` PROCEDURE `top_ten_v1`(IN p_from DATETIME, IN p_to DATETIME)
 BEGIN
 	SELECT
-    c.dni, c.name, c.last_name, COUNT(me.kw)  as consumo_total
+    c.dni, c.name, c.last_name as lastName, COUNT(me.kw)  as consumo_total
 FROM
     measurements me
         INNER JOIN

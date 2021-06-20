@@ -11,7 +11,7 @@ import com.utn.TPFUDEE.Services.UserService;
 import com.utn.TPFUDEE.Utils.EntityURLBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,21 +59,23 @@ public class ClientController {
         clientService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
-
+    //anda
     @GetMapping("/{id}/billUnPaid")
-    public ResponseEntity<List<BillProjection>> getClientBillUnPaid(Authentication authentication, @PathVariable Integer id, @RequestParam Pageable pageable){
+    public ResponseEntity<List<BillProjection>> getClientBillUnPaid(Authentication authentication, @PathVariable Integer id,
+                                                                    @RequestParam(defaultValue = "0") Integer page,
+                                                                    @RequestParam(defaultValue = "10") Integer size){
         if(!this.validate(id, authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
-        return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByClient(id, pageable).getContent());
+        return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByClient(id, PageRequest.of(page, size)).getContent());
     }
-
+    //anda
     @GetMapping("/topTen/")
     public ResponseEntity<List<ClientProjection>> getTopTenMostConsumers(Authentication authentication,
-                                                                         @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String from,
-                                                                         @RequestParam @DateTimeFormat(pattern = "yyyyy-MM-DD") String to){
+                                                                         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-DD") String from,
+                                                                         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-DD") String to){
         if(!this.validateRol(authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
-        return ResponseEntity.status(HttpStatus.OK).header("Nice").body(clientService.getTopTenMostConsumers((LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyyy-MM-DD"))), (LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyyy-MM-DD")))));
+        return ResponseEntity.status(HttpStatus.OK).header("Nice").body(clientService.getTopTenMostConsumers((LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd"))), (LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd")))));
     }
 
     private boolean validate(Integer dni, Authentication authentication){

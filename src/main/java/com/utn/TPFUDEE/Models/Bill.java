@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,24 +24,24 @@ public class Bill {
 
     @Column(name = "initial_measurement")
     @NotNull
-    private Integer initialMeasurement;
+    private Double initialMeasurement;
 
     @Column(name = "final_measurement")
     @NotNull
-    private Integer finalMeasurement;
+    private Double finalMeasurement;
 
     @Column(name = "initial_date")
     @NotNull
-    private LocalDateTime initialDate;
+    private String initialDate;
 
     @Column(name = "final_date")
     @NotNull
-    private LocalDateTime finalDate;
+    private String finalDate;
 
 
     @Column(name = "expiration_date")
     @NotNull
-    private LocalDateTime expirationDate;
+    private String expirationDate;
 
     @Column(name = "consumed_kw")
     @NotNull

@@ -11,6 +11,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.*;
 import static com.utn.TPFUDEE.Utils.Constants.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,8 +44,9 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> getAll(@RequestParam Pageable pageable){
-        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(userService.getAll(pageable).getContent());
+    public ResponseEntity<List<User>> getAll( @RequestParam(defaultValue = "0") Integer page,
+                                              @RequestParam(defaultValue = "10") Integer size){
+        return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(userService.getAll(PageRequest.of(page,size)).getContent());
     }
 
     @GetMapping("/{id}")

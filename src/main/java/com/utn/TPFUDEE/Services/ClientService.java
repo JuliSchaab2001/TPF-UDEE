@@ -52,6 +52,6 @@ public class ClientService {
 
 
     public List<ClientProjection> getTopTenMostConsumers(LocalDate from, LocalDate to) {
-        return clientRepository.getTopTenMostConsumers(from.atTime(LocalTime.MIN),to.atTime(LocalTime.MAX));
+        return clientRepository.getTopTenMostConsumers(from.atTime(00,00,00),to.atTime(00,00,00));
     }
 }

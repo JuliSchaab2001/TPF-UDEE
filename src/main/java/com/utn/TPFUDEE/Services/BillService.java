@@ -14,8 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 @Service
 public class BillService {
@@ -27,9 +26,14 @@ public class BillService {
 
 
     @Autowired
-    public BillService(BillRepository billRepository) {
+    public BillService(BillRepository billRepository, AddressService addressService, ClientService clientService, MeterService meterService) {
         this.billRepository = billRepository;
+        this.addressService = addressService;
+        this.clientService = clientService;
+        this.meterService = meterService;
     }
+
+
 
     public Page<Bill> getAll(Pageable pageable){
         Page<Bill> billList= billRepository.findAll(pageable);
@@ -53,32 +57,28 @@ public class BillService {
         Meter meter =  addressService.getById(id).getMeter();
         Page<BillProjection> billProjections = null;
         if(meter != null)
-            billProjections = billRepository.getBillByMeterAndIsPaid(meter.getMeterId(),0,pageable);
+            billProjections = billRepository.getBillByMeterAndIsPaid(meter.getMeterId(),false,pageable);
         else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "invalid Address");
         if(!billProjections.isEmpty())
             return billProjections;
         else
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No hay facturas Inpagas");
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "No hay facturas Impagas");
 
     }
 
     public Page<BillProjection> getUnPaidBillsByClient(Integer id, Pageable pageable) {
         Client client = clientService.getById(id);
-        List<Integer> meterIds = new ArrayList<>();
         if(client == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Client Not Found");
         }else{
-            for(Address address: client.getAddressList()){
-                meterIds.add(address.getMeter().getMeterId());
-            }
-            return billRepository.getBillByMeterInAndIsPaid(meterIds,0, pageable);
+            return billRepository.getBillByMeterInAndIsPaid(id,false, pageable);
         }
 
     }
 
-    public Page<BillProjection> getBillsByDates(Integer id, String from, String to, Pageable pageable){
-        return billRepository.getBillByBillIdAndFinalDateBetween(id, from, to, pageable);
+    public Page<BillProjection> getBillsByDates(Integer id, LocalDate from, LocalDate to, Pageable pageable){
+        return billRepository.getBillByBillIdAndFinalDateBetween(id, from.atTime(00,00,00),to.atTime(00,00,00), pageable);
     }
 
     @Scheduled(cron="0 0 0 1 1/1 *", zone = "America/Argentina")

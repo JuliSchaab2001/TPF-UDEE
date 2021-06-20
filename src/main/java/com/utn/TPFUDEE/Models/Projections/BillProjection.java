@@ -1,16 +1,15 @@
 package com.utn.TPFUDEE.Models.Projections;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public interface BillProjection {
-    Integer getId();
-    Integer getInitialMeasurement();
-    Integer getfinalMeasurement();
+    Integer getBillId();
+    Double getInitialMeasurement();
+    Double getFinalMeasurement();
     String getInitialDate();
     String getFinalDate();
-    Integer getKw();
+    String getExpirationDate();
+    Double getkwConsumed();
     Double getTotal();
-    String getTarrifType();
-    String getName();
-    String getLastName();
-    String getStreet();
-    Integer getNumber();
 }
