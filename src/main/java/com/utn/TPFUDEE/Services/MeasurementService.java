@@ -41,8 +41,7 @@ public class MeasurementService {
     }
 
     public Measurement add(Measurement measurement){
-
-           return measurementRepository.save(measurement);
+        return measurementRepository.save(measurement);
     }
 
     public Page<MeasurementProjection> getAllByDate(Integer id, String from, String to, Pageable pageable){
@@ -64,9 +63,10 @@ public class MeasurementService {
         return measurementRepository.findById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Measurement Not Found"));
     }
 
-    public void deleteById(Integer id){
+    public Integer deleteById(Integer id){
         this.getById(id);
         measurementRepository.deleteById(id);
+        return id;
     }
 
     public MoneyAndKwProjection getAddressConsumes(Integer id, LocalDate from, LocalDate to){

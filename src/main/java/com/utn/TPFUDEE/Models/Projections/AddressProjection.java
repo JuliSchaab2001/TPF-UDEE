@@ -1,7 +1,7 @@
 package com.utn.TPFUDEE.Models.Projections;
 
 
-public interface addressProjection {
+public interface AddressProjection {
      Integer getId();
      String getStreet();
      Integer getNumber();
