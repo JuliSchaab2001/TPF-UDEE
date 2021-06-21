@@ -3,28 +3,35 @@ BEGIN
     #---Var-----------------
     DECLARE vAddress_id int;
     DECLARE vMeter_id int;
-    DECLARE vInitialDate date;
-    DECLARE vFinalDate date;
-    DECLARE vBillId int;
-    DECLARE vInitialMeasurement int;
-    DECLARE vFinalMeasurement int;
-    DECLARE vConsumedKw int;
-    DECLARE vTotal double;
-    DECLARE vTariff double DEFAULT 100.0;
+
+    #---Transaction--------
+    DECLARE vError BOOLEAN DEFAULT FALSE;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET vError = TRUE;
+
     #---Cursor--------------
     DECLARE vFinished int DEFAULT 0;
     DECLARE cur_meters CURSOR FOR SELECT meter_id, address_id from meters;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET vFinished = 1;
     #-----------------------
 
+    SET autocommit = 0;
+    START TRANSACTION;
+
     OPEN cur_meters;
     FETCH cur_meters INTO vMeter_id, vAddress_id;
-     WHILE (vFinished=0) DO
-     #{
+    WHILE (vFinished=0) DO
+
         CALL facturar_2(vMeter_id);
 
         FETCH cur_meters INTO vMeter_id,vAddress_id;
-    #}
+
     END while;
     CLOSE cur_meters;
+    IF vError THEN
+        ROLLBACK;
+    ELSE
+        COMMIT;
+    END IF;
+
+    SET autocommit = 1;
 END

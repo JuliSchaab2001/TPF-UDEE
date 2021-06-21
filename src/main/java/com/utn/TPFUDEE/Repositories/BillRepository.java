@@ -69,6 +69,6 @@ public interface BillRepository extends JpaRepository<Bill,Integer> {
     )
     Page<BillProjection> getBillByBillIdAndFinalDateBetween(Integer id, LocalDateTime from, LocalDateTime to, Pageable pageable);
 
-    @Query(value = "facturar_1();", nativeQuery = true)
-    void bill_all();
+    /*@Query(value = "facturar_1();", nativeQuery = true)
+    void bill_all();*/
 }

@@ -1,0 +1,32 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ajustar_1`(IN p_meter_id INT, IN p_old_price DOUBLE, IN p_new_price DOUBLE)
+BEGIN
+	DECLARE vTotalPrice INT DEFAULT 0;
+    DECLARE vFinished int DEFAULT 0;
+	DECLARE vError BOOLEAN DEFAULT FALSE;
+    DECLARE vPrice Double default 0;
+    DECLARE vNewMeasurementPrice DOUBLE default 0;
+    DECLARE vMeasuerementId INT default 0;
+    DECLARE cur_measurements CURSOR FOR SELECT price, measurement_id from measurements WHERE meter_id = p_meter_id and bill_id ;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET vFinished = 1;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET vError = TRUE;
+
+    OPEN cur_measurements;
+    FETCH cur_measurements INTO vPrice, vMeasuerementId;
+		WHILE (vFinished=0) DO
+		SET vNewMeasurementPrice = ((p_new_price * vPrice) / p_old_price);
+        SET vTotalPrice = vTotalPrice + (vNewPrice - vPrice);
+        UPDATE measurements SET price = vNewMeasurementPrice WHERE measurement_id = vMeasuerementId;
+		FETCH cur_measurements INTO vPrice, vMeasuerementId;
+    END while;
+    CLOSE cur_measurements;
+
+    INSERT INTO bills (meter_id, initial_date, final_date, expiration_date,initial_measurement, final_measurement, consumed_kw, total, is_paid)
+    VALUES (p_meter_id, CURDATE(), CURDATE(), DATE_ADD(curdate(), INTERVAL 15 DAY), 0,0,0,vTotalPrice, 0);
+    IF vError THEN
+        ROLLBACK;
+    ELSE
+        COMMIT;
+    END IF;
+
+
+END

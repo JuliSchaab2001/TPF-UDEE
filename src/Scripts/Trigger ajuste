@@ -1,0 +1,22 @@
+DELIMITER $$
+CREATE TRIGGER tub_adjustment_bill BEFORE UPDATE
+ON tariffs
+FOR EACH ROW
+BEGIN
+    DECLARE vMeterId INT;
+
+    DECLARE vFinished int DEFAULT 0;
+    DECLARE cur_addresses CURSOR FOR SELECT m.meter_id from addresses a INNER JOIN meters m ON a.address_id = m.address_id WHERE tariff_id = new.tariff_id;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET vFinished = 1;
+
+    OPEN cur_addresses;
+    FETCH cur_addresses INTO vMeterId;
+		WHILE (vFinished=0) DO
+
+			CALL ajustar_1(vMeterId, old.price, new.price);
+
+		FETCH cur_addresses INTO vMeterId;
+    END while;
+    CLOSE cur_addresses;
+END;
+DELIMITER ;

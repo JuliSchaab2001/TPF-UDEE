@@ -1,0 +1,9 @@
+SET GLOBAL event_scheduler = ON;
+DELIMITER $$
+CREATE EVENT event_bill_generate
+ON SCHEDULE EVERY "1" MONTH
+STARTS "2021-07-01 00:00:00"
+DO
+BEGIN
+    CALL facturar_1();
+END;

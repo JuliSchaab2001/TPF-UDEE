@@ -1,10 +1,8 @@
 CREATE DEFINER=`root`@`localhost` PROCEDURE `facturar_2`(IN p_meter_id INT)
 BEGIN
-	#-------------------------------------
-    DECLARE VbillId int;
+	#---Var-----------------
     DECLARE vInitialDate date default null;
     DECLARE vFinalDate date default null;
-    DECLARE vExpirationDate date default null;
     DECLARE vInitialMeasurement double default null;
     DECLARE vFinalMeasurement double default null;
     DECLARE vLastMeasurement double default (SELECT kw FROM measurements WHERE meter_id = p_meter_id and bill_id is not null order by date desc limit 1);
@@ -16,9 +14,19 @@ BEGIN
     DECLARE vFechaCursor date;
     DECLARE vTariffPrice double default(SELECT price FROM Tariffs t INNER JOIN Addresses a ON t.tariff_id = a.tariff_id INNER JOIN meters m ON a.address_id = m.address_id where m.meter_id = p_meter_id);
     DECLARE vKwCursor double default 0;
+	DECLARE vError BOOLEAN DEFAULT FALSE;
+
+
+
+
+    #---Cursor--------------
     DECLARE vFinished int DEFAULT 0;
     DECLARE cur_measurements CURSOR FOR SELECT date ,kw, measurements_id from measurements where meter_id = p_meter_id and bill_id is null order by date asc;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET vFinished = 1;
+    DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET vError = TRUE;
+
+    SET autocommit = 0;
+    START TRANSACTION;
 
     INSERT INTO bills (meter_id,initial_date,final_date,expiration_date,initial_measurement,final_measurement,consumed_kw,total,is_paid)
     VALUES (p_meter_id, "2021-01-01", "2021-01-01","2021-01-01", 0,0,0,0,0);
@@ -28,7 +36,7 @@ BEGIN
     FETCH cur_measurements INTO vFechaCursor, vKwCursor, vMeasurementId;
 	SET vInitialDate = vFechaCursor;
 	SET vInitialMeasurement = vKwCursor;
-   WHILE (vFinished=0) DO
+    WHILE (vFinished=0) DO
 
 
 		#CALCULO EL GASTO REAL DE LA MEDICION
@@ -52,5 +60,12 @@ BEGIN
     where bill_id = last_insert_id();
     CLOSE cur_measurements;
 
+    IF vError THEN
+        ROLLBACK;
+    ELSE
+        COMMIT;
+    END IF;
+
+    SET autocommit = 1;
 
 END
