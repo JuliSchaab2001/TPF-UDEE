@@ -56,9 +56,7 @@ public class ClientServiceTest {
     public void getByIdTest_ClientNotFound(){
         Mockito.when(clientRepositoryMock.findById(client.getDni())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            clientService.getById(client.getDni());
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> clientService.getById(client.getDni()));
     }
 
     @Test
@@ -79,9 +77,7 @@ public class ClientServiceTest {
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(clientRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            clientService.getAll(pageable);
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> clientService.getAll(pageable));
     }
 
     @Test
@@ -99,9 +95,7 @@ public class ClientServiceTest {
     public void addTest_ClientExist(){
         Mockito.when(clientRepositoryMock.findById(client.getDni())).thenReturn(Optional.of(client));
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            clientService.add(client);
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> clientService.add(client));
     }
 
     @Test

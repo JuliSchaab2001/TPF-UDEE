@@ -19,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -70,9 +69,7 @@ public class BillServiceTest {
     public void getByIdTest_BillNotFound(){
         Mockito.when(billRepositoryMock.findById(bill.getBillId())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            billService.getById(bill.getBillId());
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> billService.getById(bill.getBillId()));
     }
 
     @Test
@@ -93,9 +90,7 @@ public class BillServiceTest {
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(billRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            billService.getAll(pageable);
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> billService.getAll(pageable));
     }
 
     @Test
@@ -121,26 +116,20 @@ public class BillServiceTest {
         Address address = new Address(1, "null", 1, null, null, null);
         Mockito.when(addressService.getById(1)).thenReturn(address);
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            billService.getUnPaidBillsByAddress(meter.getMeterId(), pageable);
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> billService.getUnPaidBillsByAddress(meter.getMeterId(), pageable));
     }
 
     @Test
     public void getAllByDate_NoContent(){
         Pageable pageable = PageRequest.of(0, 1);
-        String date = LocalDate.now().toString();
         Address address = new Address(1, "null", 1, null, null, meter);
         Mockito.when(addressService.getById(1)).thenReturn(address);
         Mockito.when(billRepositoryMock.getBillByMeterAndIsPaid(meter.getMeterId(), false, pageable)).thenReturn(Page.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            billService.getUnPaidBillsByAddress(1, pageable);
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> billService.getUnPaidBillsByAddress(1, pageable));
     }
     @Test
     public void getUnpaidBillsByClientPageTest(){
-        Integer id = 1;
         Pageable pageable = PageRequest.of(0, 1);
         List<BillProjection> list = new ArrayList<>();
         list.add(billProjection);
@@ -159,9 +148,7 @@ public class BillServiceTest {
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(clientService.getById(1)).thenReturn(null);
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            billService.getUnPaidBillsByClient(1, pageable);
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> billService.getUnPaidBillsByClient(1, pageable));
     }
 
     @Test
@@ -171,7 +158,7 @@ public class BillServiceTest {
         List<BillProjection> list = new ArrayList<>();
         list.add(billProjection);
         Page<BillProjection> billProjectionPage = new PageImpl<>(list, pageable, pageable.getPageSize());
-        Mockito.when(billRepositoryMock.getBillByBillIdAndFinalDateBetween(bill.getBillId(), date.atTime(00,00,00), date.atTime(00,00,00), pageable)).thenReturn(billProjectionPage);
+        Mockito.when(billRepositoryMock.getBillByBillIdAndFinalDateBetween(bill.getBillId(), date.atTime(0, 0, 0), date.atTime(0, 0, 0), pageable)).thenReturn(billProjectionPage);
 
         Page<BillProjection> result = billService.getBillsByDates(bill.getBillId(), date, date, pageable);
 

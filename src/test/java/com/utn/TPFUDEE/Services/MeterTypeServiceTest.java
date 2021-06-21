@@ -50,9 +50,7 @@ public class MeterTypeServiceTest {
     public void getByIdTest_MeterTypeNotFound(){
         Mockito.when(meterTypeRepositoryMock.findById(meterType.getMeterTypeId())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            meterTypeService.getById(meterType.getMeterTypeId());
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> meterTypeService.getById(meterType.getMeterTypeId()));
     }
 
     @Test
@@ -73,9 +71,7 @@ public class MeterTypeServiceTest {
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(meterTypeRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            meterTypeService.getAll(pageable);
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> meterTypeService.getAll(pageable));
     }
 
     @Test
@@ -93,9 +89,7 @@ public class MeterTypeServiceTest {
     public void addTest_MeterTypeExist(){
         Mockito.when(meterTypeRepositoryMock.findByModelAndBrand(meterType.getModel(), meterType.getBrand())).thenReturn(meterType);
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            meterTypeService.add(meterType);
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> meterTypeService.add(meterType));
     }
 
     @Test

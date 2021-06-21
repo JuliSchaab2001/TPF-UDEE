@@ -4,7 +4,6 @@ import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Models.Measurement;
 import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
-import com.utn.TPFUDEE.Repositories.AddressRepository;
 import com.utn.TPFUDEE.Repositories.MeasurementRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -61,9 +60,7 @@ public class MeasurementServiceTest {
     public void getByIdTest_MeasurementNotFound(){
         Mockito.when(measurementRepositoryMock.findById(measurement.getMeasurementId())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            measurementService.getById(measurement.getMeasurementId());
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> measurementService.getById(measurement.getMeasurementId()));
     }
 
     @Test
@@ -84,9 +81,7 @@ public class MeasurementServiceTest {
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(measurementRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            measurementService.getAll(pageable);
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> measurementService.getAll(pageable));
     }
 
     @Test
@@ -114,9 +109,7 @@ public class MeasurementServiceTest {
         String date = LocalDate.now().toString();
         Mockito.when(addressService.getById(1)).thenReturn(address);
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            measurementService.getAllByDate(1, date, date, pageable);
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> measurementService.getAllByDate(1, date, date, pageable));
     }
 
     @Test
@@ -127,9 +120,7 @@ public class MeasurementServiceTest {
         Mockito.when(addressService.getById(1)).thenReturn(address);
         Mockito.when(measurementRepositoryMock.findByMeterIdAndDateBetween(meter.getMeterId(), date, date, pageable)).thenReturn(Page.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            measurementService.getAllByDate(1, date, date, pageable);
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> measurementService.getAllByDate(1, date, date, pageable));
     }
 
     @Test

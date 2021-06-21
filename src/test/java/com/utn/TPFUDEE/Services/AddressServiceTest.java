@@ -1,13 +1,11 @@
 package com.utn.TPFUDEE.Services;
 
 import com.utn.TPFUDEE.Models.Address;
-import com.utn.TPFUDEE.Models.Projections.AddressProjection;
 import com.utn.TPFUDEE.Repositories.AddressRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -27,9 +25,6 @@ public class AddressServiceTest {
     private AddressService addressService;
     private AddressRepository addressRepositoryMock;
     private Address address;
-    @Mock
-    private AddressProjection addressProjection;
-
 
     @BeforeAll
     public void setUp(){
@@ -54,9 +49,7 @@ public class AddressServiceTest {
     public void getByIdTest_AddressNotFound(){
         Mockito.when(addressRepositoryMock.findById(address.getAddressId())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            addressService.getById(address.getAddressId());
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> addressService.getById(address.getAddressId()));
     }
 //que deberia implementar la projection pa que funque
 /*    @Test
@@ -88,9 +81,7 @@ public class AddressServiceTest {
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(addressRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            addressService.getAll(pageable);
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> addressService.getAll(pageable));
     }
 
     @Test
@@ -108,9 +99,7 @@ public class AddressServiceTest {
     public void addTest_AddressExist(){
         Mockito.when(addressRepositoryMock.findByStreetAndNumber(address.getStreet(), address.getNumber())).thenReturn(address);
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            addressService.add(address);
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> addressService.add(address));
     }
 
     @Test
@@ -128,9 +117,7 @@ public class AddressServiceTest {
     public void updateTest_AddressNotFound(){
         Mockito.when(addressRepositoryMock.findById(address.getAddressId())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            addressService.getById(address.getAddressId());
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> addressService.getById(address.getAddressId()));
     }
 
     @Test

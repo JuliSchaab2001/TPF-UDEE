@@ -48,9 +48,7 @@ public class TariffServiceTest {
     public void getByIdTest_TariffNotFound(){
         Mockito.when(tariffRepositoryMock.findById(tariff.getTariffId())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            tariffService.getById(tariff.getTariffId());
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> tariffService.getById(tariff.getTariffId()));
     }
 
     @Test
@@ -71,9 +69,7 @@ public class TariffServiceTest {
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(tariffRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            tariffService.getAll(pageable);
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> tariffService.getAll(pageable));
     }
 
     @Test
@@ -91,9 +87,7 @@ public class TariffServiceTest {
     public void addTest_TariffExist(){
         Mockito.when(tariffRepositoryMock.findByType(tariff.getType())).thenReturn(tariff);
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            tariffService.add(tariff);
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> tariffService.add(tariff));
     }
 
     @Test
@@ -111,9 +105,7 @@ public class TariffServiceTest {
     public void updateTest_TariffNotFound(){
         Mockito.when(tariffRepositoryMock.findById(tariff.getTariffId())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(ResponseStatusException.class, () ->{
-            tariffService.getById(tariff.getTariffId());
-        });
+        Assertions.assertThrows(ResponseStatusException.class, () -> tariffService.getById(tariff.getTariffId()));
     }
 
     @Test
