@@ -29,8 +29,6 @@ public class MeasurementService {
         this.addressService = addressService;
     }
 
-
-
     public Page<Measurement> getAll(Pageable pageable) {
         Page<Measurement> measurementList= measurementRepository.findAll(pageable);
         if(measurementList.isEmpty()){
@@ -46,7 +44,7 @@ public class MeasurementService {
 
     public Page<MeasurementProjection> getAllByDate(Integer id, String from, String to, Pageable pageable){
         Meter meter = addressService.getById(id).getMeter();
-        Page<MeasurementProjection> projectionList= null;
+        Page<MeasurementProjection> projectionList;
         if(meter != null)
             projectionList = measurementRepository.findByMeterIdAndDateBetween(meter.getMeterId(), from, to, pageable);
         else

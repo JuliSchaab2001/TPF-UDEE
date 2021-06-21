@@ -88,7 +88,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getPageTest_UserNotFound(){
+    public void getPageTest_NoContent(){
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(userRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 

@@ -69,7 +69,7 @@ public class MeterTypeServiceTest {
     }
 
     @Test
-    public void getPageTest_MeterTypeNotFound(){
+    public void getPageTest_NoContent(){
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(meterTypeRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 

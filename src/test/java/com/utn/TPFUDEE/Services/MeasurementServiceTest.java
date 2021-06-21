@@ -1,7 +1,10 @@
 package com.utn.TPFUDEE.Services;
 
+import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Models.Measurement;
+import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
+import com.utn.TPFUDEE.Repositories.AddressRepository;
 import com.utn.TPFUDEE.Repositories.MeasurementRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -26,17 +29,21 @@ import static org.mockito.Mockito.mock;
 public class MeasurementServiceTest {
 
     private MeasurementService measurementService;
+    private AddressService addressService;
     private MeasurementRepository measurementRepositoryMock;
     private Measurement measurement;
+    private Meter meter;
     @Mock
     private MeasurementProjection measurementProjection;
-
 
     @BeforeAll
     public void setUp(){
         measurementRepositoryMock = mock(MeasurementRepository.class);
-        measurementService = new MeasurementService(measurementRepositoryMock);
+        addressService = mock(AddressService.class);
+        measurementService = new MeasurementService(measurementRepositoryMock, addressService);
         measurement = new Measurement(1, null, null, null, null, null);
+        meter = new Meter(1, "aaaa1111", "aaaa", null, null, null, null);
+
     }
 
     @Test
@@ -73,12 +80,55 @@ public class MeasurementServiceTest {
     }
 
     @Test
-    public void getPage_MeasurementNotFound(){
+    public void getPage_NoContent(){
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(measurementRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 
         Assertions.assertThrows(ResponseStatusException.class, () ->{
             measurementService.getAll(pageable);
+        });
+    }
+
+    @Test
+    public void getAllByDateTest_ReturnPage(){
+        Integer id = 1;
+        Address address = new Address(id, "null", 1, null, null, meter);
+        String date = LocalDate.now().toString();
+        Pageable pageable = PageRequest.of(0, 10);
+        List<MeasurementProjection> list = new ArrayList<>();
+        list.add(measurementProjection);
+        Page<MeasurementProjection> measurementProjectionPage = new PageImpl<>(list, pageable, pageable.getPageSize());
+        Mockito.when(addressService.getById(id)).thenReturn(address);
+        Mockito.when(measurementRepositoryMock.findByMeterIdAndDateBetween(meter.getMeterId(), date, date, pageable)).thenReturn(measurementProjectionPage);
+
+        Page<MeasurementProjection> result = measurementService.getAllByDate(meter.getMeterId(), date, date, pageable);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(measurementProjection, result.getContent().get(0));
+    }
+
+    @Test
+    public void getAllByDate_NotFound(){
+        Pageable pageable = PageRequest.of(0, 1);
+        Address address = new Address(1, "null", 1, null, null, null);
+        String date = LocalDate.now().toString();
+        Mockito.when(addressService.getById(1)).thenReturn(address);
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            measurementService.getAllByDate(1, date, date, pageable);
+        });
+    }
+
+    @Test
+    public void getAllByDate_NoContent(){
+        Pageable pageable = PageRequest.of(0, 1);
+        String date = LocalDate.now().toString();
+        Address address = new Address(1, "null", 1, null, null, meter);
+        Mockito.when(addressService.getById(1)).thenReturn(address);
+        Mockito.when(measurementRepositoryMock.findByMeterIdAndDateBetween(meter.getMeterId(), date, date, pageable)).thenReturn(Page.empty());
+
+        Assertions.assertThrows(ResponseStatusException.class, () ->{
+            measurementService.getAllByDate(1, date, date, pageable);
         });
     }
 
@@ -100,18 +150,5 @@ public class MeasurementServiceTest {
         Integer result = measurementService.deleteById(measurement.getMeasurementId());
         Assertions.assertNotNull(result);
     }
-//Arreglar
-//    @Test
-//    public void getAllByDateTest(){
-//        Pageable pageable = PageRequest.of(0, 1);
-//        List<MeasurementProjection> list = new ArrayList<>();
-//        list.add(measurementProjection);
-//        Page<MeasurementProjection> measurementProjectionPage = new PageImpl<>(list, pageable, pageable.getPageSize());
-//        Mockito.when(measurementRepositoryMock.findByMeterAndDateBetween(measurementProjection.getId(),null, null,pageable)).thenReturn(measurementProjectionPage);
-//
-//        Page<MeasurementProjection> result = measurementService.getAllByDate(measurementProjection.getId(),"null", "null",pageable);
-//
-//        Assertions.assertNotNull(result);
-//    }
 
 }

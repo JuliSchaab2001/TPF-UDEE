@@ -67,7 +67,7 @@ public class TariffServiceTest {
     }
 
     @Test
-    public void getPageTest_TariffNotFound(){
+    public void getPageTest_NoContent(){
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(tariffRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 

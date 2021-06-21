@@ -75,7 +75,7 @@ public class ClientServiceTest {
     }
 
     @Test
-    public void getPageTest_ClientNotFound(){
+    public void getPageTest_NoContent(){
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(clientRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 

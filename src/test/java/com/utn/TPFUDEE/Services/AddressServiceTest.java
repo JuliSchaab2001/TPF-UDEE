@@ -84,7 +84,7 @@ public class AddressServiceTest {
     }
 
     @Test
-    public void getPageTest_AddressNotFound(){
+    public void getPageTest_NoContent(){
         Pageable pageable = PageRequest.of(0, 1);
         Mockito.when(addressRepositoryMock.findAll(pageable)).thenReturn(Page.empty());
 

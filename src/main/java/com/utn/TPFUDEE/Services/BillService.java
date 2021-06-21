@@ -75,7 +75,6 @@ public class BillService {
         }else{
             return billRepository.getBillByMeterInAndIsPaid(id,false, pageable);
         }
-
     }
 
     public Page<BillProjection> getBillsByDates(Integer id, LocalDate from, LocalDate to, Pageable pageable){
