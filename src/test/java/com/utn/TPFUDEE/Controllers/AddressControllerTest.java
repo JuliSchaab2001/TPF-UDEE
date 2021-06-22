@@ -1,13 +1,9 @@
 package com.utn.TPFUDEE.Controllers;
-
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Models.DTO.UserDTO;
 import com.utn.TPFUDEE.Models.Projections.AddressProjection;
 import com.utn.TPFUDEE.Models.User;
-import com.utn.TPFUDEE.Repositories.AddressRepository;
-import com.utn.TPFUDEE.Repositories.UserRepository;
 import com.utn.TPFUDEE.Services.AddressService;
 import com.utn.TPFUDEE.Services.BillService;
 import com.utn.TPFUDEE.Services.MeasurementService;
@@ -48,7 +44,7 @@ public class AddressControllerTest {
     User user;
 
 
-    @BeforeAll
+    /*@BeforeAll
     public void setUp(){
         auth = mock(Authentication.class);
         addressService = mock(AddressService.class);
@@ -162,5 +158,5 @@ public class AddressControllerTest {
         User user = new User(1, null, null, false, null);
         Mockito.when(auth.getPrincipal()).thenReturn(UserDTO.builder().userId(user.getUserId()).build());
         Mockito.when(userServiceMock.getById(user.getUserId())).thenReturn(user);
-    }
+    }*/
 }
