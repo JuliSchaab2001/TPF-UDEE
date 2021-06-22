@@ -46,12 +46,14 @@ public class AddressService {
         return addressRepository.findById2(id);
     }
 
+    //Deberia llamar al repositorio, no a this.getById()
     public Integer deleteById(Integer id){
         this.getById(id);
         addressRepository.deleteById(id);
         return id;
     }
 
+    //Deberia llamar al repositorio, no a this.getById()
     public Address update(Address address) {
         if(this.getById(address.getAddressId()) != null)
             return addressRepository.save(address);

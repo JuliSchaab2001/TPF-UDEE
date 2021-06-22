@@ -43,6 +43,7 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found"));
     }
 
+    //Deberia llamar al repositorio, no a this.getById()
     public Integer deleteById(Integer id){
         this.getById(id);
         userRepository.deleteById(id);

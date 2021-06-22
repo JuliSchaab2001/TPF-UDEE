@@ -41,13 +41,13 @@ public class TariffService {
     public Tariff getById(Integer id) {
         return tariffRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tariff Not Found"));
     }
-
+    //Deberia llamar al repositorio, no a this.getById()
     public Integer deleteById(Integer id){
         this.getById(id);
         tariffRepository.deleteById(id);
         return id;
     }
-
+    //Deberia llamar al repositorio, no a this.getById()
     public Tariff update(Tariff tariff){
         if(this.getById(tariff.getTariffId()) != null)
             return tariffRepository.save(tariff);

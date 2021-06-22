@@ -61,6 +61,7 @@ public class MeasurementService {
         return measurementRepository.findById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Measurement Not Found"));
     }
 
+    //Deberia llamar al repositorio, no a this.getById()
     public Integer deleteById(Integer id){
         this.getById(id);
         measurementRepository.deleteById(id);

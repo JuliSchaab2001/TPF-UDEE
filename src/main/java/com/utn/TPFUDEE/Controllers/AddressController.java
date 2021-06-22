@@ -29,7 +29,7 @@ import java.util.List;
 @RequestMapping("/address")
 public class AddressController {
 
-    private static final String ADDRESS_PATH = "address";
+    public static final String ADDRESS_PATH = "address";
 
     private AddressService addressService;
     private MeasurementService measurementService;
@@ -48,7 +48,7 @@ public class AddressController {
     public ResponseEntity<AddressProjection> getById(Authentication authentication, @PathVariable Integer id){
         if(!this.validate(id, authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
-        return ResponseEntity.status(HttpStatus.OK).header("nombre", "Cuerpo").body( addressService.getOnlyAddressById(id));
+        return ResponseEntity.status(HttpStatus.OK).header("nombre", "Cuerpo").body(addressService.getOnlyAddressById(id));
     }
 
     @PostMapping("/")
@@ -63,7 +63,7 @@ public class AddressController {
         if(!this.validateRol(authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
         addressService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
+        return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden").build();
     }
 
     @PutMapping("/")
@@ -73,7 +73,6 @@ public class AddressController {
         return ResponseEntity.status(HttpStatus.OK).location(EntityURLBuilder.buildURL(ADDRESS_PATH,addressService.update(address).getAddressId())).build();
     }
 
-    //anda
     @GetMapping("/{id}/measurement")
     public ResponseEntity<List<MeasurementProjection>> getAddressMeasurement(Authentication authentication,
                                                                              @PathVariable Integer id,
@@ -87,7 +86,6 @@ public class AddressController {
         return ResponseEntity.status(HttpStatus.OK).header("Todo ok").body(measurementService.getAllByDate(id, from, to/*(LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd"))), (LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd")))*/, PageRequest.of(page, size)).getContent());
     }
 
-    //anda
     @GetMapping("/{id}/bill")
     public ResponseEntity<List<BillProjection>> getBillsByDates(Authentication authentication,
                                                                 @PathVariable Integer id,
@@ -101,7 +99,6 @@ public class AddressController {
         return ResponseEntity.status(HttpStatus.OK).header("Tuty ok").body(billService.getBillsByDates(id, (LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd"))), (LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd"))), PageRequest.of(page, size)).getContent());
     }
 
-    //anda
     @GetMapping("/{id}/consume")
     public ResponseEntity<MoneyAndKwProjection> getAddressConsumes(Authentication authentication ,
                                                                    @PathVariable Integer id,
@@ -112,14 +109,13 @@ public class AddressController {
         return ResponseEntity.status(HttpStatus.OK).header("Poner header").body(measurementService.getAddressConsumes(id,(LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd"))), (LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd")))));
     }
 
-    //anda
     @GetMapping("/{id}/billUnPaid")
     public ResponseEntity<List<BillProjection>> getAddressBillUnPaid(Authentication authentication ,@PathVariable Integer id,
                                                                      @RequestParam(defaultValue = "0") Integer page,
                                                                      @RequestParam(defaultValue = "10") Integer size){
         if(!this.validate(id, authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
-        return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByAddress(id, PageRequest.of(page,size)).getContent());
+        return ResponseEntity.status(HttpStatus.OK).header("Todo en orden").body(billService.getUnPaidBillsByAddress(id, PageRequest.of(page,size)).getContent());
     }
 
     private boolean validate(Integer addressId, Authentication authentication){

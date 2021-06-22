@@ -48,6 +48,7 @@ public class BillService {
         return billRepository.findById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Bill Not Found"));
     }
 
+    //Deberia llamar al repositorio, no a this.getById()
     public Integer deleteById(Integer id){
         this.getById(id);
         billRepository.deleteById(id);

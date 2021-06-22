@@ -40,6 +40,7 @@ public class MeterService {
         return meterRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Meter Not Found"));
     }
 
+    //Deberia llamar al repositorio, no a this.getById()
     public Integer deleteById(Integer id){
         this.getById(id);
         meterRepository.deleteById(id);
@@ -50,6 +51,7 @@ public class MeterService {
         return meterRepository.findBySerialNumber(serialNumber);
     }
 
+    //Deberia llamar al repositorio, no a this.getById()
     public Meter update(Meter meter) {
         if(this.getById(meter.getMeterId()) != null)
             return meterRepository.save(meter);

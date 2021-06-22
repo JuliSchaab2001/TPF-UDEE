@@ -41,6 +41,7 @@ public class MeterTypeService {
         return meterTypeRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "MeterType Not Found"));
     }
 
+    //Deberia llamar al repositorio, no a this.getById()
     public Integer deleteById(Integer id){
         this.getById(id);
         meterTypeRepository.deleteById(id);
