@@ -83,7 +83,7 @@ public class AddressController {
 
         if(!this.validate(id, authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
-        return ResponseEntity.status(HttpStatus.OK).header("Todo ok").body(measurementService.getAllByDate(id, from, to/*(LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd"))), (LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd")))*/, PageRequest.of(page, size)).getContent());
+        return ResponseEntity.status(HttpStatus.OK).header("Todo ok").body(measurementService.getAllByDate(id, from, to, PageRequest.of(page, size)).getContent());
     }
 
     @GetMapping("/{id}/bill")

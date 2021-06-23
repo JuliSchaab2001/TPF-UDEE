@@ -2,19 +2,27 @@ package com.utn.TPFUDEE.Controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.utn.TPFUDEE.Models.User;
+import com.utn.TPFUDEE.Repositories.UserRepository;
 import com.utn.TPFUDEE.Services.UserService;
 import com.utn.TPFUDEE.Utils.EntityURLBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.mock;
 
@@ -48,6 +56,19 @@ public class UserControllerTest {
 
             Assertions.assertEquals(HttpStatus.CREATED.value(), result.getStatusCodeValue());
         }
+    }
+
+    @Test
+    public void getAllTest_StatusOk(){
+        Pageable pageable = PageRequest.of(0, 1);
+        List<User> list = new ArrayList<>();
+        list.add(user);
+        Page<User> userPage = new PageImpl<>(list, pageable, pageable.getPageSize());
+        Mockito.when(userService.getAll(pageable)).thenReturn(userPage);
+
+        ResponseEntity<List<User>> result = userController.getAll(0, 1);
+
+        Assertions.assertNotNull(result);
     }
 
     @Test

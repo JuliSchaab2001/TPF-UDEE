@@ -2,6 +2,7 @@ package com.utn.TPFUDEE.Controllers;
 
 import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Models.DTO.UserDTO;
+import com.utn.TPFUDEE.Models.Projections.ClientProjection;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Services.*;
 import com.utn.TPFUDEE.Utils.EntityURLBuilder;
@@ -18,6 +19,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.mock;
 
@@ -60,7 +64,7 @@ public class ClientControllerTest {
     @Test
     public void getByIdTest_StatusOk(){
         Integer id = 1;
-        this.validate_IsEmployee();
+        validate_IsEmployee();
         Mockito.when(clientService.getById(id)).thenReturn(client);
 
         ResponseEntity result = clientController.getById(auth, id);
@@ -91,6 +95,27 @@ public class ClientControllerTest {
         validateRol_IsClient();
 
         Assertions.assertThrows(ResponseStatusException.class, () -> clientController.deleteById(auth, 1));
+    }
+
+    @Test
+    public void getTopTenMostConsumersTest_StatusOk(){
+        List<ClientProjection> list = new ArrayList<>();
+        LocalDate date = LocalDate.now();
+        validate_IsEmployee();
+        Mockito.when(clientService.getTopTenMostConsumers(date, date)).thenReturn(list);
+
+        ResponseEntity<List<ClientProjection>> result = clientController.getTopTenMostConsumers(auth, date.toString(), date.toString());
+
+        Assertions.assertEquals(list, result.getBody());
+        Assertions.assertEquals(HttpStatus.OK.value(), result.getStatusCodeValue());
+    }
+
+    @Test
+    public void getTopTenMostConsumersTest_StatusForbidden(){
+        validate_IsClient();
+        LocalDate date = LocalDate.now();
+
+        Assertions.assertThrows(ResponseStatusException.class, () -> clientController.getTopTenMostConsumers(auth, date.toString(), date.toString()));
     }
 
     private void validate_IsEmployee(){

@@ -2,8 +2,13 @@ package com.utn.TPFUDEE.Controllers;
 import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Models.DTO.UserDTO;
+import com.utn.TPFUDEE.Models.Measurement;
 import com.utn.TPFUDEE.Models.Projections.AddressProjection;
+import com.utn.TPFUDEE.Models.Projections.BillProjection;
+import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
+import com.utn.TPFUDEE.Models.Projections.MoneyAndKwProjection;
 import com.utn.TPFUDEE.Models.User;
+import com.utn.TPFUDEE.Repositories.MeasurementRepository;
 import com.utn.TPFUDEE.Services.AddressService;
 import com.utn.TPFUDEE.Services.BillService;
 import com.utn.TPFUDEE.Services.MeasurementService;
@@ -16,12 +21,19 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -31,14 +43,18 @@ public class AddressControllerTest {
     private Authentication auth;
     private AddressController addressController;
     private AddressService addressService;
-    @Mock
     private MeasurementService measurementService;
-    @Mock
     private BillService billService;
     private UserService userServiceMock;
     private Address address;
     @Mock
     AddressProjection addressProjection;
+    @Mock
+    MoneyAndKwProjection moneyAndKwProjection;
+    @Mock
+    MeasurementProjection measurementProjection;
+    @Mock
+    BillProjection billProjection;
     Client client;
     User user;
 
@@ -47,12 +63,13 @@ public class AddressControllerTest {
     public void setUp(){
         auth = mock(Authentication.class);
         addressService = mock(AddressService.class);
+        billService = mock(BillService.class);
         userServiceMock = mock(UserService.class);
+        measurementService = mock(MeasurementService.class);
         addressController = new AddressController(addressService, measurementService, billService, userServiceMock);
         user = new User(1, null, null, true, client);
         client = new Client(1, null, null, null, null, user);
         address = new Address (1, null, null, null, client, null);
-
     }
 
     @Test
@@ -93,6 +110,75 @@ public class AddressControllerTest {
         validate_IsClient();
 
         Assertions.assertThrows(ResponseStatusException.class, () -> addressController.getById(auth, address.getAddressId()));
+    }
+
+    @Test
+    public void getAddressConsumesTest_StatusOk(){
+        Integer id = 1;
+        LocalDate date = LocalDate.now();
+        validate_IsEmployee();
+        Mockito.when(measurementService.getAddressConsumes(id, date, date)).thenReturn(moneyAndKwProjection);
+
+        ResponseEntity<MoneyAndKwProjection> result = addressController.getAddressConsumes(auth, id, date.toString(), date.toString());
+
+        Assertions.assertEquals(moneyAndKwProjection, result.getBody());
+        Assertions.assertEquals(HttpStatus.OK.value(), result.getStatusCodeValue());
+    }
+
+    @Test
+    public void getAddressConsumesTest_StatusForbidden(){
+        validate_IsClient();
+        String date = "2020-10-01";
+
+        Assertions.assertThrows(ResponseStatusException.class, () -> addressController.getAddressConsumes(auth, address.getAddressId(), date, date));
+    }
+
+    @Test
+    public void getAddressBillUnpaidTest_StatusOk(){
+        Integer id = 1;
+        Pageable pageable = PageRequest.of(0, 1);
+        List<BillProjection> list = new ArrayList<>();
+        list.add(billProjection);
+        Page<BillProjection> billProjectionPage = new PageImpl<>(list, pageable, pageable.getPageSize());
+        validate_IsEmployee();
+        Mockito.when(billService.getUnPaidBillsByAddress(id, pageable)).thenReturn(billProjectionPage);
+
+        ResponseEntity<List<BillProjection>> result = addressController.getAddressBillUnPaid(auth, id,0, 1);
+
+        Assertions.assertEquals(HttpStatus.OK.value(), result.getStatusCodeValue());
+    }
+
+    @Test
+    public void getAddressBillUnpaidTest_StatusForbidden(){
+        validate_IsClient();
+        String date = "2020-10-01";
+
+        Assertions.assertThrows(ResponseStatusException.class, () -> addressController.getAddressBillUnPaid(auth, address.getAddressId(), 0, 1));
+    }
+
+    @Test
+    public void getAddressMeasurementTest_StatusOk(){
+        Integer id = 1;
+        String SDate = "2020-10-01";
+        Pageable pageable = PageRequest.of(0, 1);
+        List<MeasurementProjection> list = new ArrayList<>();
+        list.add(measurementProjection);
+        Page<MeasurementProjection> measurementProjectionPage = new PageImpl<>(list, pageable, pageable.getPageSize());
+        validate_IsEmployee();
+
+        Mockito.when(measurementService.getAllByDate(id, SDate, SDate, pageable)).thenReturn(measurementProjectionPage);
+
+        ResponseEntity<List<MeasurementProjection>> result = addressController.getAddressMeasurement(auth, id, SDate, SDate, 0, 1);
+
+        Assertions.assertEquals(HttpStatus.OK.value(), result.getStatusCodeValue());
+    }
+
+    @Test
+    public void getAddressMeasurementTest_StatusForbidden(){
+        validate_IsClient();
+        String date = "2020-10-01";
+
+        Assertions.assertThrows(ResponseStatusException.class, () -> addressController.getAddressMeasurement(auth, address.getAddressId(), date, date, 0, 10));
     }
 
     @Test
