@@ -130,6 +130,15 @@
 							<goal>check</goal>
 						</goals>
 						<configuration>
+							<excludes>
+								<exclude>**/com/utn/TPFUDEE/Config/*</exclude>
+								<exclude>**/com/utn/TPFUDEE/Converters/*</exclude>
+								<exclude>**/com/utn/TPFUDEE/Models/**</exclude>
+								<exclude>**/com/utn/TPFUDEE/Filters/*</exclude>
+								<exclude>**/com/utn/TPFUDEE/Utils/*</exclude>
+<!--								<exclude>**/com/utn/TPFUDEE/Exceptions/*</exclude>-->
+								<exclude>**/com/utn/TPFUDEE/*</exclude>
+							</excludes>
 							<rules>
 								<rule>
 									<element>BUNDLE</element>

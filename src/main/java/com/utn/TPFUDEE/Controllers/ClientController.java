@@ -27,7 +27,7 @@ import java.util.List;
 @RequestMapping("/client")
 public class ClientController {
 
-    private static final String CLIENT_PATH = "client";
+    public static final String CLIENT_PATH = "client";
 
     private ClientService clientService;
     private BillService billService;
@@ -59,7 +59,7 @@ public class ClientController {
         clientService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
-    //anda
+
     @GetMapping("/{id}/billUnPaid")
     public ResponseEntity<List<BillProjection>> getClientBillUnPaid(Authentication authentication, @PathVariable Integer id,
                                                                     @RequestParam(defaultValue = "0") Integer page,
@@ -68,7 +68,7 @@ public class ClientController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
         return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByClient(id, PageRequest.of(page, size)).getContent());
     }
-    //anda
+
     @GetMapping("/topTen/")
     public ResponseEntity<List<ClientProjection>> getTopTenMostConsumers(Authentication authentication,
                                                                          @RequestParam @DateTimeFormat(pattern = "yyyy-MM-DD") String from,

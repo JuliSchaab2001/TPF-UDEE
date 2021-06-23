@@ -1,9 +1,10 @@
 package com.utn.TPFUDEE.Controllers;
 
 import com.utn.TPFUDEE.Models.DTO.UserDTO;
-import com.utn.TPFUDEE.Models.Tariff;
+import com.utn.TPFUDEE.Models.Meter;
 import com.utn.TPFUDEE.Models.User;
-import com.utn.TPFUDEE.Services.*;
+import com.utn.TPFUDEE.Services.MeterService;
+import com.utn.TPFUDEE.Services.UserService;
 import com.utn.TPFUDEE.Utils.EntityURLBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,35 +22,34 @@ import java.net.URI;
 import static org.mockito.Mockito.mock;
 
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
-public class TariffControllerTest {
+public class MeterControllerTest {
 
     private Authentication auth;
-    private TariffController tariffController;
-    private TariffService tariffService;
+    private MeterController meterController;
+    private MeterService meterService;
     private UserService userServiceMock;
-    private Tariff tariff;
+    private Meter meter;
     User user;
-
 
     @BeforeAll
     public void setUp(){
         auth = mock(Authentication.class);
-        tariffService = mock(TariffService.class);
+        meterService = mock(MeterService.class);
         userServiceMock = mock(UserService.class);
-        tariffController = new TariffController(tariffService, userServiceMock);
+        meterController = new MeterController(meterService, userServiceMock);
         user = new User(1, null, null, true, null);
-        tariff = new Tariff(1, null, null, null);
+        meter = new Meter(1, null, null, null, null, null, null);
     }
 
     @Test
     public void addTest_StatusCreated(){
-        Mockito.when(tariffService.add(tariff)).thenReturn(tariff);
+        Mockito.when(meterService.add(meter)).thenReturn(meter);
         validateRol_IsEmployee();
 
         try(MockedStatic<EntityURLBuilder> entityURLBuilderMockedStatic = Mockito.mockStatic(EntityURLBuilder.class)){
-            entityURLBuilderMockedStatic.when(() -> EntityURLBuilder.buildURL(AddressController.ADDRESS_PATH, tariff.getTariffId())).thenReturn(URI.create("a"));
+            entityURLBuilderMockedStatic.when(() -> EntityURLBuilder.buildURL(MeterController.METER_PATH, meter.getMeterId())).thenReturn(URI.create("a"));
 
-            ResponseEntity result = tariffController.add(auth, tariff);
+            ResponseEntity result = meterController.add(auth, meter);
 
             Assertions.assertEquals(HttpStatus.CREATED.value(), result.getStatusCodeValue());
         }
@@ -59,15 +59,15 @@ public class TariffControllerTest {
     public void addTest_StatusForbidden(){
         validateRol_IsClient();
 
-        Assertions.assertThrows(ResponseStatusException.class, () -> tariffController.add(auth, tariff));
+        Assertions.assertThrows(ResponseStatusException.class, () -> meterController.add(auth, meter));
     }
 
     @Test
     public void deleteByIdTest_StatusCreated(){
-        Mockito.when(tariffService.deleteById(tariff.getTariffId())).thenReturn(tariff.getTariffId());
+        Mockito.when(meterService.deleteById(meter.getMeterId())).thenReturn(meter.getMeterId());
         validateRol_IsEmployee();
 
-        ResponseEntity result = tariffController.deleteById(auth, tariff.getTariffId());
+        ResponseEntity result = meterController.deleteById(auth, meter.getMeterId());
 
         Assertions.assertEquals(HttpStatus.OK.value(), result.getStatusCodeValue());
     }
@@ -76,18 +76,18 @@ public class TariffControllerTest {
     public void deleteByIdTest_StatusForbidden(){
         validateRol_IsClient();
 
-        Assertions.assertThrows(ResponseStatusException.class, () -> tariffController.deleteById(auth, 1));
+        Assertions.assertThrows(ResponseStatusException.class, () -> meterController.deleteById(auth, 1));
     }
 
     @Test
     public void updateTest_StatusOk(){
-        Mockito.when(tariffService.update(tariff)).thenReturn(tariff);
+        Mockito.when(meterService.update(meter)).thenReturn(meter);
         validateRol_IsEmployee();
 
         try(MockedStatic<EntityURLBuilder> entityURLBuilderMockedStatic = Mockito.mockStatic(EntityURLBuilder.class)){
-            entityURLBuilderMockedStatic.when(() -> EntityURLBuilder.buildURL(AddressController.ADDRESS_PATH, tariff.getTariffId())).thenReturn(URI.create("a"));
+            entityURLBuilderMockedStatic.when(() -> EntityURLBuilder.buildURL(MeterController.METER_PATH, meter.getMeterId())).thenReturn(URI.create("a"));
 
-            ResponseEntity result = tariffController.update(auth, tariff);
+            ResponseEntity result = meterController.update(auth, meter);
 
             Assertions.assertEquals(HttpStatus.OK.value(), result.getStatusCodeValue());
         }
@@ -97,13 +97,14 @@ public class TariffControllerTest {
     public void updateTest_StatusForbidden(){
         validateRol_IsClient();
 
-        Assertions.assertThrows(ResponseStatusException.class, () -> tariffController.update(auth, tariff));
+        Assertions.assertThrows(ResponseStatusException.class, () -> meterController.update(auth, meter));
     }
 
     private void validateRol_IsEmployee(){
         Mockito.when(auth.getPrincipal()).thenReturn(UserDTO.builder().userId(user.getUserId()).build());
         Mockito.when(userServiceMock.getById(user.getUserId())).thenReturn(user);
     }
+
     private void validateRol_IsClient(){
         User user = new User(1, null, null, false, null);
         Mockito.when(auth.getPrincipal()).thenReturn(UserDTO.builder().userId(user.getUserId()).build());

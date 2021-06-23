@@ -37,20 +37,18 @@ public class AddressControllerTest {
     private BillService billService;
     private UserService userServiceMock;
     private Address address;
-    private ResponseStatusException exception;
     @Mock
     AddressProjection addressProjection;
     Client client;
     User user;
 
 
-    /*@BeforeAll
+    @BeforeAll
     public void setUp(){
         auth = mock(Authentication.class);
         addressService = mock(AddressService.class);
         userServiceMock = mock(UserService.class);
         addressController = new AddressController(addressService, measurementService, billService, userServiceMock);
-        exception = null;
         user = new User(1, null, null, true, client);
         client = new Client(1, null, null, null, null, user);
         address = new Address (1, null, null, null, client, null);
@@ -158,5 +156,5 @@ public class AddressControllerTest {
         User user = new User(1, null, null, false, null);
         Mockito.when(auth.getPrincipal()).thenReturn(UserDTO.builder().userId(user.getUserId()).build());
         Mockito.when(userServiceMock.getById(user.getUserId())).thenReturn(user);
-    }*/
+    }
 }

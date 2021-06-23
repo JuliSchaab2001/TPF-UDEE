@@ -18,7 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/tariff")
 public class TariffController {
 
-    private static final String TARIFF_PATH = "tariff";
+    public static final String TARIFF_PATH = "tariff";
 
     private TariffService tariffService;
     private UserService userService;

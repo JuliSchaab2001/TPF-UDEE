@@ -17,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/meter")
 public class MeterController {
 
-    private static final String METER_PATH = "meter";
+    public static final String METER_PATH = "meter";
 
     private MeterService meterService;
     private UserService userService;

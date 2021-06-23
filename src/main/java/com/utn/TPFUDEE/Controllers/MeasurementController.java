@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/measurement")
 public class MeasurementController {
 
-    private static final String MEASUREMENT_PATH = "measurement";
+    public static final String MEASUREMENT_PATH = "measurement";
 
     private MeasurementService measurementService;
     private MeterService meterService;
@@ -29,7 +29,7 @@ public class MeasurementController {
 
     @PostMapping("/")
     public ResponseEntity add(@RequestBody MeasurementDTO measurement) {
-        System.out.println(measurement.toString());
+        //System.out.println(measurement.toString());
         Meter meter= meterService.getBySerialNumber(measurement.getSerialNumber());
 
         if(meter != null && meter.getPassword().equals(measurement.getPassword())) {
