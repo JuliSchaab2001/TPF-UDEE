@@ -106,7 +106,7 @@
 						<exclude>**/com/utn/TPFUDEE/Models/**</exclude>
 						<exclude>**/com/utn/TPFUDEE/Filters/*</exclude>
 						<exclude>**/com/utn/TPFUDEE/Utils/*</exclude>
-						<exclude>**/com/utn/TPFUDEE/Exceptions/*</exclude>
+						<!--<exclude>**/com/utn/TPFUDEE/Exceptions/*</exclude>-->
 						<exclude>**/com/utn/TPFUDEE/*</exclude>
 					</excludes>
 				</configuration>
@@ -136,7 +136,7 @@
 								<exclude>**/com/utn/TPFUDEE/Models/**</exclude>
 								<exclude>**/com/utn/TPFUDEE/Filters/*</exclude>
 								<exclude>**/com/utn/TPFUDEE/Utils/*</exclude>
-								<exclude>**/com/utn/TPFUDEE/Exceptions/*</exclude>
+								<!--<exclude>**/com/utn/TPFUDEE/Exceptions/*</exclude>-->
 								<exclude>**/com/utn/TPFUDEE/*</exclude>
 							</excludes>
 							<rules>

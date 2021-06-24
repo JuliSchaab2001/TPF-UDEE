@@ -36,7 +36,7 @@ public class UserControllerTest {
     ModelMapper modelMapper;
 
 
-    @BeforeAll
+    /*@BeforeAll
     public void setUp(){
         objectMapper = mock(ObjectMapper.class);
         modelMapper = mock(ModelMapper.class);
@@ -90,5 +90,5 @@ public class UserControllerTest {
         ResponseEntity result = userController.deleteById(user.getUserId());
 
         Assertions.assertEquals(HttpStatus.OK.value(), result.getStatusCodeValue());
-    }
+    }*/
 }

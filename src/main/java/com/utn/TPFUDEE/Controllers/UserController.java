@@ -14,9 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
 import static com.utn.TPFUDEE.Utils.Constants.*;
 
 import java.util.ArrayList;
@@ -42,23 +45,28 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<User>> getAll( @RequestParam(defaultValue = "0") Integer page,
+    public ResponseEntity<List<User>> getAll( Authentication authentication,
+                                              @RequestParam(defaultValue = "0") Integer page,
                                               @RequestParam(defaultValue = "10") Integer size){
+        this.validateRol(authentication);
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body(userService.getAll(PageRequest.of(page,size)).getContent());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getById(@PathVariable Integer id){
+    public ResponseEntity<User> getById(Authentication authentication, @PathVariable Integer id){
+        this.validateRol(authentication);
         return ResponseEntity.status(HttpStatus.OK).header("Nombre", "Cuerpo").body( userService.getById(id));
     }
 
     @PostMapping("/")
-    public ResponseEntity add(@RequestBody User user){
+    public ResponseEntity add(Authentication authentication, @RequestBody User user){
+        this.validateRol(authentication);
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(USER_PATH,userService.add(user).getUserId())).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteById(@PathVariable Integer id){
+    public ResponseEntity deleteById(Authentication authentication, @PathVariable Integer id){
+        this.validateRol(authentication);
         userService.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
     }
@@ -96,6 +104,14 @@ public class UserController {
             return "dummy";
         }
     }
+
+    private void validateRol(Authentication authentication){
+        User user = userService.getById(((UserDTO)authentication.getPrincipal()).getUserId());
+        if (user.isEmployee()){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
+        }
+    }
+
 
 
 }
