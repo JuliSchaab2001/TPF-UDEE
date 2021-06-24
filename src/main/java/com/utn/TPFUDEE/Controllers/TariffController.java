@@ -29,6 +29,8 @@ public class TariffController {
         this.userService = userService;
     }
 
+    // Deberiamos hacer las validaciones como en el UserController
+
     @PostMapping("/")
     public ResponseEntity add(Authentication authentication, @RequestBody Tariff tariff){
         if(!this.validateRol(authentication))

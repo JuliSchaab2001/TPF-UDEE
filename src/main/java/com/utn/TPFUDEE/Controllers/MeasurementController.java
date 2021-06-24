@@ -27,6 +27,8 @@ public class MeasurementController {
         this.meterService = meterService;
     }
 
+    // Deberiamos hacer las validaciones como en el UserController
+
     @PostMapping("/")
     public ResponseEntity add(@RequestBody MeasurementDTO measurement) {
         //System.out.println(measurement.toString());

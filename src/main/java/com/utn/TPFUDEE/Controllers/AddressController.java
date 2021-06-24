@@ -44,6 +44,8 @@ public class AddressController {
         this.userService = userService;
     }
 
+    // Deberiamos hacer las validaciones como en el UserController
+
     @GetMapping("/{id}")
     public ResponseEntity<AddressProjection> getById(Authentication authentication, @PathVariable Integer id){
         if(!this.validate(id, authentication))

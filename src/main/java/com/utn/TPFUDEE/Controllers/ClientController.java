@@ -40,6 +40,8 @@ public class ClientController {
         this.userService = userService;
     }
 
+    // Deberiamos hacer las validaciones como en el UserController
+
     @GetMapping("/{id}")
     public ResponseEntity<Client> getById(Authentication authentication,@PathVariable Integer id){
         if(!this.validate(id, authentication))

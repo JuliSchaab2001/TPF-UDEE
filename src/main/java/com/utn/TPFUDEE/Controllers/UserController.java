@@ -105,6 +105,8 @@ public class UserController {
         }
     }
 
+    //Deberiamos tirar la exception en el validation en todos los controllers
+
     private void validateRol(Authentication authentication){
         User user = userService.getById(((UserDTO)authentication.getPrincipal()).getUserId());
         if (!user.isEmployee()){

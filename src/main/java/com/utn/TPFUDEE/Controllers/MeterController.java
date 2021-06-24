@@ -28,6 +28,8 @@ public class MeterController {
         this.userService = userService;
     }
 
+    // Deberiamos hacer las validaciones como en el UserController
+
     @PostMapping("/")
     public ResponseEntity add(Authentication authentication, @RequestBody Meter meter){
         if(!this.validateRol(authentication))
