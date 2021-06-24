@@ -57,7 +57,7 @@ public class ClientController {
         if(!this.validateRol(authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
         clientService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden man").build();
+        return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden").build();
     }
 
     @GetMapping("/{id}/billUnPaid")
@@ -66,7 +66,7 @@ public class ClientController {
                                                                     @RequestParam(defaultValue = "10") Integer size){
         if(!this.validate(id, authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
-        return ResponseEntity.status(HttpStatus.OK).header("Todo en orden man").body(billService.getUnPaidBillsByClient(id, PageRequest.of(page, size)).getContent());
+        return ResponseEntity.status(HttpStatus.OK).header("Todo en orden").body(billService.getUnPaidBillsByClient(id, PageRequest.of(page, size)).getContent());
     }
 
     @GetMapping("/topTen/")

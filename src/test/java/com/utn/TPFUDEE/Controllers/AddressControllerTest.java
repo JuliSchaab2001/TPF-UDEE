@@ -151,9 +151,31 @@ public class AddressControllerTest {
     @Test
     public void getAddressBillUnpaidTest_StatusForbidden(){
         validate_IsClient();
-        String date = "2020-10-01";
 
         Assertions.assertThrows(ResponseStatusException.class, () -> addressController.getAddressBillUnPaid(auth, address.getAddressId(), 0, 1));
+    }
+
+    @Test
+    public void getBillByDatesTest_StatusOk(){
+        Integer id = 1;
+        Pageable pageable = PageRequest.of(0, 1);
+        List<BillProjection> list = new ArrayList<>();
+        list.add(billProjection);
+        Page<BillProjection> billProjectionPage = new PageImpl<>(list, pageable, pageable.getPageSize());
+        validate_IsEmployee();
+        Mockito.when(billService.getBillsByDates(id, LocalDate.now(), LocalDate.now(), pageable)).thenReturn(billProjectionPage);
+
+        ResponseEntity<List<BillProjection>> result = addressController.getBillsByDates(auth, id, LocalDate.now().toString(), LocalDate.now().toString(),0, 1);
+
+        Assertions.assertEquals(HttpStatus.OK.value(), result.getStatusCodeValue());
+    }
+
+    @Test
+    public void getBillByDatesTest_StatusForbidden(){
+        validate_IsClient();
+        String date = "2020-10-01";
+
+        Assertions.assertThrows(ResponseStatusException.class, () -> addressController.getBillsByDates(auth, address.getAddressId(), LocalDate.now().toString(), LocalDate.now().toString(), 0, 1));
     }
 
     @Test

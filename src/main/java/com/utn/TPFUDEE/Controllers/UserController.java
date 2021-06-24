@@ -107,7 +107,7 @@ public class UserController {
 
     private void validateRol(Authentication authentication){
         User user = userService.getById(((UserDTO)authentication.getPrincipal()).getUserId());
-        if (user.isEmployee()){
+        if (!user.isEmployee()){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
         }
     }

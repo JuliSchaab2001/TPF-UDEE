@@ -2,6 +2,7 @@ package com.utn.TPFUDEE.Controllers;
 
 import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Models.DTO.UserDTO;
+import com.utn.TPFUDEE.Models.Projections.BillProjection;
 import com.utn.TPFUDEE.Models.Projections.ClientProjection;
 import com.utn.TPFUDEE.Models.User;
 import com.utn.TPFUDEE.Services.*;
@@ -13,6 +14,10 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -31,8 +36,9 @@ public class ClientControllerTest {
     private Authentication auth;
     private ClientController clientController;
     private ClientService clientService;
-    @Mock
     private BillService billService;
+    @Mock
+    BillProjection billProjection;
     private UserService userServiceMock;
     private Client client;
     User user;
@@ -43,6 +49,7 @@ public class ClientControllerTest {
         auth = mock(Authentication.class);
         clientService = mock(ClientService.class);
         userServiceMock = mock(UserService.class);
+        billService = mock(BillService.class);
         clientController = new ClientController(clientService, billService, userServiceMock);
         user = new User(1, null, null, true, client);
         client = new Client(1, null, null, null, null, user);
@@ -118,6 +125,28 @@ public class ClientControllerTest {
         Assertions.assertThrows(ResponseStatusException.class, () -> clientController.getTopTenMostConsumers(auth, date.toString(), date.toString()));
     }
 
+    @Test
+    public void getClientBillUnpaidTest_StatusOk(){
+        Integer id = 1;
+        Pageable pageable = PageRequest.of(0, 1);
+        List<BillProjection> list = new ArrayList<>();
+        list.add(billProjection);
+        Page<BillProjection> billProjectionPage = new PageImpl<>(list, pageable, pageable.getPageSize());
+        validate_IsEmployee();
+        Mockito.when(billService.getUnPaidBillsByClient(id, pageable)).thenReturn(billProjectionPage);
+
+        ResponseEntity<List<BillProjection>> result = clientController.getClientBillUnPaid(auth, id,0, 1);
+
+        Assertions.assertEquals(HttpStatus.OK.value(), result.getStatusCodeValue());
+    }
+
+    @Test
+    public void getClientBillUnpaidTest_StatusForbidden(){
+        validate_IsClient();
+
+        Assertions.assertThrows(ResponseStatusException.class, () -> clientController.getClientBillUnPaid(auth, 4, 0, 1));
+    }
+
     private void validate_IsEmployee(){
         Mockito.when(auth.getPrincipal()).thenReturn(UserDTO.builder().userId(user.getUserId()).build());
         Mockito.when(userServiceMock.getById(user.getUserId())).thenReturn(user);
@@ -129,7 +158,6 @@ public class ClientControllerTest {
         Mockito.when(auth.getPrincipal()).thenReturn(UserDTO.builder().userId(user.getUserId()).build());
         Mockito.when(userServiceMock.getById(user.getUserId())).thenReturn(user);
         Mockito.when(clientService.getById(id)).thenReturn(client);
-
     }
 
     private void validateRol_IsEmployee(){
