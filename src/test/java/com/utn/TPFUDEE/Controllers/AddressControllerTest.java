@@ -59,7 +59,7 @@ public class AddressControllerTest {
     User user;
 
 
-    @BeforeAll
+   /*@BeforeAll
     public void setUp(){
         auth = mock(Authentication.class);
         addressService = mock(AddressService.class);
@@ -264,5 +264,5 @@ public class AddressControllerTest {
         User user = new User(1, null, null, false, null);
         Mockito.when(auth.getPrincipal()).thenReturn(UserDTO.builder().userId(user.getUserId()).build());
         Mockito.when(userServiceMock.getById(user.getUserId())).thenReturn(user);
-    }
+    }*/
 }

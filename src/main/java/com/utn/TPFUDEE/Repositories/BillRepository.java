@@ -65,9 +65,10 @@ public interface BillRepository extends JpaRepository<Bill,Integer> {
     @Query(
         value = "SELECT B FROM Bill B " +
                 "INNER JOIN Meter M ON B.meter.meterId = M.meterId " +
-                "INNER JOIN Address A ON A.addressId = M.address.addressId "
+                "INNER JOIN Address A ON A.addressId = M.address.addressId " +
+                "WHERE A.addressId = ?1 and B.initialDate BETWEEN ?2 and ?3 "
     )
-    Page<BillProjection> getBillByBillIdAndFinalDateBetween(Integer id, LocalDateTime from, LocalDateTime to, Pageable pageable);
+    Page<BillProjection> getBillByBillIdAndFinalDateBetween(Integer id, String from,String to, Pageable pageable);
 
     /*@Query(value = "facturar_1();", nativeQuery = true)
     void bill_all();*/

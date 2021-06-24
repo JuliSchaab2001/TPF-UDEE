@@ -83,7 +83,7 @@ public class AddressController {
                                                                              @RequestParam(defaultValue = "0") Integer page,
                                                                              @RequestParam(defaultValue = "10") Integer size){
 
-        if(!this.validate(id, authentication))
+        if(!this.validateRol(authentication))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "UNAUTHORIZED USER");
         return ResponseEntity.status(HttpStatus.OK).header("Todo ok").body(measurementService.getAllByDate(id, from, to, PageRequest.of(page, size)).getContent());
     }

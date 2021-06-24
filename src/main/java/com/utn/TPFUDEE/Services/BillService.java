@@ -79,7 +79,7 @@ public class BillService {
     }
 
     public Page<BillProjection> getBillsByDates(Integer id, LocalDate from, LocalDate to, Pageable pageable){
-        return billRepository.getBillByBillIdAndFinalDateBetween(id, from.atTime(00,00,00),to.atTime(00,00,00), pageable);
+        return billRepository.getBillByBillIdAndFinalDateBetween(id, (from.atTime(00,00,00)).toString(),(to.atTime(00,00,00)).toString(), pageable);
     }
 
     /*@Scheduled(cron="0 0 0 1 1/1 *", zone = "America/Argentina")
