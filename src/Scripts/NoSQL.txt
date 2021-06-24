@@ -1,0 +1,78 @@
+Tariff = object() {
+    id : integer,
+    type : string,
+    price : double
+}
+
+User = object() {
+    id : integer,
+    user_name : string,
+    password : string,
+    is_employee: boolean 
+}
+
+Client = object() {
+    dni : integer,
+    name : string,
+    last_name : string,
+    mail : string,
+    user : object(User)
+}
+
+Model_Brand = object() {
+    id : integer,
+    model : string,
+    brand : string
+}
+
+Meter = object() {
+    id : integer,
+    password : string,
+    serial_number : string,
+    model_brand : object(Model_Brand)
+}
+
+Address = object() {
+    id : integer,
+    street : string,
+    number : integer,
+    tariff : object(Tariff),
+    client : object(Client),
+    meter : object(Meter)
+}
+
+Measurement = object() {
+    id : integer,
+    address : object(Address),
+    date : date,
+    kw : float,
+    measurement_price : float,
+    bill : object(Bill)
+}
+
+Bill = object() {
+    id : integer,
+    meter : object(Meter),
+    initial_measurement : object(Measurement),
+    final_measurement : object(Measurement),
+    consumed_kw : double,
+    expiration_date : date,
+    total : double,
+    is_paid : boolean
+}
+
+bills = collection(Bills) [
+    address : object(Address)
+]
+
+addresses = collection(Address) [
+    bills : collection(Bills)
+]
+
+clients = collection(Client) [
+    bills : collection(Bills)
+]
+
+measurements = collection(Measurement) [
+    address = object(Address)
+]
