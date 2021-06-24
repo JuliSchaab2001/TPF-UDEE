@@ -61,6 +61,7 @@ public class UserController {
     @PostMapping("/")
     public ResponseEntity add(Authentication authentication, @RequestBody User user){
         this.validateRol(authentication);
+        System.out.println(user.toString());
         return ResponseEntity.status(HttpStatus.CREATED).location(EntityURLBuilder.buildURL(USER_PATH,userService.add(user).getUserId())).build();
     }
 

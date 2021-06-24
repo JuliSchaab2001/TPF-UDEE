@@ -62,7 +62,7 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.OK).header("Aca", "Salio todo en orden").build();
     }
 
-    @GetMapping("/{id}/billUnPaid")
+    @GetMapping("/{id}/billUnPaid")//ARREGLAR
     public ResponseEntity<List<BillProjection>> getClientBillUnPaid(Authentication authentication, @PathVariable Integer id,
                                                                     @RequestParam(defaultValue = "0") Integer page,
                                                                     @RequestParam(defaultValue = "10") Integer size){
