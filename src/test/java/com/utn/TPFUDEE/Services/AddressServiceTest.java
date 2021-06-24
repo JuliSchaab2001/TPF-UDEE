@@ -51,17 +51,6 @@ public class AddressServiceTest {
 
         Assertions.assertThrows(ResponseStatusException.class, () -> addressService.getById(address.getAddressId()));
     }
-//que deberia implementar la projection pa que funque
-/*    @Test
-    public void getOnlyAddressByIdTest_ReturnAddressProjection(){
-        Mockito.when(addressRepositoryMock.findById(address.getAddressId())).thenReturn(Optional.of(address));
-        Mockito.when(addressRepositoryMock.findById2(address.getAddressId())).thenReturn(addressProjection);
-
-        AddressProjection result = addressService.getOnlyAddressById(address.getAddressId());
-
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(addressProjection, result);
-    }*/
 
     @Test
     public void getPageTest(){

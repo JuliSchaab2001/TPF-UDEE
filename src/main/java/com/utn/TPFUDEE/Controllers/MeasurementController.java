@@ -27,11 +27,8 @@ public class MeasurementController {
         this.meterService = meterService;
     }
 
-    // Deberiamos hacer las validaciones como en el UserController
-
     @PostMapping("/")
     public ResponseEntity add(@RequestBody MeasurementDTO measurement) {
-        //System.out.println(measurement.toString());
         Meter meter= meterService.getBySerialNumber(measurement.getSerialNumber());
 
         if(meter != null && meter.getPassword().equals(measurement.getPassword())) {

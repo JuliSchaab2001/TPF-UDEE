@@ -41,7 +41,7 @@ public class BillServiceTest {
     private Meter meter;
 
 
-    /*@BeforeAll
+    @BeforeAll
     public void setUp(){
         billRepositoryMock = mock(BillRepository.class);
         clientService = mock(ClientService.class);
@@ -158,7 +158,7 @@ public class BillServiceTest {
         List<BillProjection> list = new ArrayList<>();
         list.add(billProjection);
         Page<BillProjection> billProjectionPage = new PageImpl<>(list, pageable, pageable.getPageSize());
-        Mockito.when(billRepositoryMock.getBillByBillIdAndFinalDateBetween(bill.getBillId(), date.atTime(0, 0, 0), date.atTime(0, 0, 0), pageable)).thenReturn(billProjectionPage);
+        Mockito.when(billRepositoryMock.getBillByBillIdAndFinalDateBetween(bill.getBillId(), date.atTime(0, 0, 0).toString(), date.atTime(0, 0, 0).toString(), pageable)).thenReturn(billProjectionPage);
 
         Page<BillProjection> result = billService.getBillsByDates(bill.getBillId(), date, date, pageable);
 
@@ -173,5 +173,5 @@ public class BillServiceTest {
         Integer result = billService.deleteById(bill.getBillId());
         Assertions.assertNotNull(result);
     }
-*/
+
 }

@@ -2,13 +2,11 @@ package com.utn.TPFUDEE.Controllers;
 import com.utn.TPFUDEE.Models.Address;
 import com.utn.TPFUDEE.Models.Client;
 import com.utn.TPFUDEE.Models.DTO.UserDTO;
-import com.utn.TPFUDEE.Models.Measurement;
 import com.utn.TPFUDEE.Models.Projections.AddressProjection;
 import com.utn.TPFUDEE.Models.Projections.BillProjection;
 import com.utn.TPFUDEE.Models.Projections.MeasurementProjection;
 import com.utn.TPFUDEE.Models.Projections.MoneyAndKwProjection;
 import com.utn.TPFUDEE.Models.User;
-import com.utn.TPFUDEE.Repositories.MeasurementRepository;
 import com.utn.TPFUDEE.Services.AddressService;
 import com.utn.TPFUDEE.Services.BillService;
 import com.utn.TPFUDEE.Services.MeasurementService;
@@ -59,7 +57,7 @@ public class AddressControllerTest {
     User user;
 
 
-   /*@BeforeAll
+   @BeforeAll
     public void setUp(){
         auth = mock(Authentication.class);
         addressService = mock(AddressService.class);
@@ -173,7 +171,6 @@ public class AddressControllerTest {
     @Test
     public void getBillByDatesTest_StatusForbidden(){
         validate_IsClient();
-        String date = "2020-10-01";
 
         Assertions.assertThrows(ResponseStatusException.class, () -> addressController.getBillsByDates(auth, address.getAddressId(), LocalDate.now().toString(), LocalDate.now().toString(), 0, 1));
     }
@@ -186,7 +183,7 @@ public class AddressControllerTest {
         List<MeasurementProjection> list = new ArrayList<>();
         list.add(measurementProjection);
         Page<MeasurementProjection> measurementProjectionPage = new PageImpl<>(list, pageable, pageable.getPageSize());
-        validate_IsEmployee();
+        validateRol_IsEmployee();
 
         Mockito.when(measurementService.getAllByDate(id, SDate, SDate, pageable)).thenReturn(measurementProjectionPage);
 
@@ -197,7 +194,7 @@ public class AddressControllerTest {
 
     @Test
     public void getAddressMeasurementTest_StatusForbidden(){
-        validate_IsClient();
+        validateRol_IsClient();
         String date = "2020-10-01";
 
         Assertions.assertThrows(ResponseStatusException.class, () -> addressController.getAddressMeasurement(auth, address.getAddressId(), date, date, 0, 10));
@@ -264,5 +261,5 @@ public class AddressControllerTest {
         User user = new User(1, null, null, false, null);
         Mockito.when(auth.getPrincipal()).thenReturn(UserDTO.builder().userId(user.getUserId()).build());
         Mockito.when(userServiceMock.getById(user.getUserId())).thenReturn(user);
-    }*/
+    }
 }
